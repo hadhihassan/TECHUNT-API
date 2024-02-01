@@ -1,4 +1,4 @@
-const winston = require("winston")
+import winston from "winston"
 
 const logger = winston.createLogger({
     transports: [
@@ -6,9 +6,9 @@ const logger = winston.createLogger({
         new winston.transports.File({
             filename: "combined.log",
             maxsize: 1048576,
-            maxFiles : 5
+            maxFiles: 5
         })
 
     ]
 })
-module.exports = logger
+export default logger

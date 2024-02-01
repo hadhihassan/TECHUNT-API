@@ -1,41 +1,21 @@
-const express = require("express")
-const app = express();
-require('dotenv').config();
-const corsConfig = require("./src/config/cors")
-const dbConnect = require('./db')
-const cookieParser = require("cookie-parser")
+import http from "http"
+import { createServer } from "./src/infrastructure/config/app.js";
+import dbConnect from './src/infrastructure/config/db.js'
+import 'dotenv/config';
 
+const PORT = process.env.PORT || 3000
 
-app.use(corsConfig)
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cookieParser());
-
-
-
-const clientRoute = require('./src/routes/client')
-app.use('/', clientRoute)
-
-// const adminRouet = require('./src/routes/admin')
-// app.use('/admin', adminRouet)
-
-// const talentRouet = require('./src/routes/talent');
-// app.use('/talent', talentRouet)
-
-
-
+const app = createServer()
 dbConnect()
+    .then(() => {
+        if (app) {
 
-app.listen(process.env.PORT, () => {
-    console.log(`http://localhost:${process.env.PORT}`)
-})
+            // Create an HTTP server with the Express app
+            const server = http.createServer(app);
+            server.listen(PORT, () => console.log(`listening to PORT ${PORT}`))
 
-
-app.use((err, res, req, next) => {
-    console.log(err);
-    res.status(500).json({
-        status: "failed",
-        message: "Something went wrong!"
-    });
-})
-module.exports = app
+        } else {
+            throw Error('app is undefined')
+        }
+    })
+    .catch((err) => console.log('error while connecting to database\n', err))

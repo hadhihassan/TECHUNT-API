@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose"
+
 
 const { Schema, ObjectId } = mongoose;
 
@@ -26,4 +27,4 @@ const TalentSchema = new Schema({
 
 const Talent = mongoose.model('Talent', TalentSchema);
 
-module.exports = Talent;;
+export default Talent;;

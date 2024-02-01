@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose"
+
 
 const { Schema, ObjectId } = mongoose;
 
@@ -21,5 +22,5 @@ const ClientSchema = new Schema({
 
 const Client = mongoose.model('Client', ClientSchema);
 
-module.exports = Client;
+export default Client;
 

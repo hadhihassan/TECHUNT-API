@@ -1,22 +1,39 @@
+import { UserRepository } from '../infrastructure/database/client.database.js';
+import { Mailer } from '../providers/EmailService.js';
 
-
-const sendEmailVerificationIntractor = async (database, email) => {
-    const isExist = await database.findByEmail(email)
-    if (isExist.isExist) {
-        return {status : false, message: "Email already existing " }
+export class ClientUseCase {
+    constructor() {
+        this.userRepository = new UserRepository(); // Assuming UserRepository is a class that needs to be instantiated
+        this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
     }
-    return {status : true, message: "Email note exisiting " }
 
-}
-const checkToken = async (database, token) => {
-    const result = await database.findByToken(token)
-    console.log(result)
-    if (result.isExist) {
-        return {status : true, message: "Token note exis.. " }
+    async isEmailExist(email) {
+        console.log("usecase isEmailExist fun");
+        try {
+            const existing = await this.userRepository.findByEmail(email);
+            return existing;
+        } catch (error) {
+            console.log(error.message);
+        }
     }
-    return {status : false, message: "Token already exis.. " }
 
+    async isTokenExist(token) {
+        try {
+            const existing = await this.userRepository.findByToken(token);
+            return existing;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async sendTimeoutLinkEmailVerification(email) {
+        try {
+            const sent = await this.mailer.sendMaill(email);
+            console.log("mailsended here then data",sent,email)
+            return sent;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 }
-module.exports = {
-    sendEmailVerificationIntractor,checkToken
-}
+
