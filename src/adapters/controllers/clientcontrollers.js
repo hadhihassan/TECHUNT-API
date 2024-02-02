@@ -1,5 +1,4 @@
-// clientController.js
-import { ClientUseCase } from '../useCases/client.intaractor.js';
+import { ClientUseCase } from '../../useCases/client.intaractor.js';
 
 export class ClientController {
     constructor(clientUseCase) {
@@ -9,16 +8,20 @@ export class ClientController {
 
     async verifyEmail(req, res) {
         try {
-            const email = Object.keys(req.body)[0]
-            console.log("ClientController verifyEmail function");
+            console.log(req.body)
+            console.log(req.headers.authtoken,"this is headers")
+            const { type } = req.body
+            const { email } = req.body
             const isExist = await this.clientUseCase.isEmailExist(email);
-            console.log("Email is",email)
-            if (!isExist.isExist) {
-                console.log(isExist.isExist,email);
-                let sended = await this.clientUseCase.sendTimeoutLinkEmailVerification(email);
-                res.status(201).json({data : "successfully sended"})
+            console.log(isExist);
+            if (!isExist) {
+                await this.clientUseCase.sendTimeoutLinkEmailVerification(email);
+                const saved = await this.clientUseCase.saveEmail(email)
+                console.log(saved, "THE JWT")
+                return res.status(201).json(saved)
             }
-            return res.status(403).json({message : "email Alredy exsting"})
+
+            return res.status(403).json({ message: "email Alredy exsting" })
         } catch (error) {
             console.log(error.message);
         }
@@ -32,10 +35,11 @@ export class ClientController {
             if (!isExist.isExist) {
                 return res.status(403).json({ status: false });
             }
-
             return res.status(201).json({ status: true, message: "Token exists successfully." });
         } catch (error) {
             console.log(error.message);
         }
     }
+
+
 }

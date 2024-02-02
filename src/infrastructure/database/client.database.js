@@ -1,23 +1,43 @@
-import Client from "../../entites/models/Client.model.js";
+import client from "../../entites/models/Client.model.js";
 import Token from "../../entites/models/token.js";
 
 
-export class UserRepository {
-    async findByEmail (email){
-        const user = await Client.findOne({ email });
-        console.log("database is herer", user);
-        if (user) {
-            return { isExist: true, data: user }
+export class ClientRepository {
+    async findByEmail(email) {
+        console.log("*****this is Clint ******")
+        const user = await client.findOne({ Email: email });
+        console.log("email ===>", user)
+        if (user === null) {
+            console.log("note existing ");
+            return false
         }
-        return { isExist: false }
+        return true
     }
-    async findByToken (token){
+
+    async findById(id){
+        return await client.findById(id)
+    }
+    async findByToken(token) {
         const findToken = await Token.findOne({ token });
-        console.log("database token is herer", token);
         if (findToken) {
             return { isExist: true, data: findToken }
         }
         return { isExist: false, data: findToken }
     }
+
+    async addEmail(email) {
+        try {
+            const emailClient = new client({
+                Email: email
+            });
+            await emailClient.save();
+            console.log(emailClient, "save email fun");
+            return emailClient;
+        } catch (error) {
+            throw new Error("Saving email got an error");  // Corrected error handling
+            console.log(error);
+        }
+    }
+
 }
 

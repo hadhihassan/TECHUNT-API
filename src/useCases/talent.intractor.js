@@ -1,19 +1,20 @@
-import { ClientRepository } from '../infrastructure/database/client.Database.js';
+import { TalentRepository } from '../infrastructure/database/talent.Database.js';
 import { Mailer } from '../providers/EmailService.js';
 import { JwtToken } from '../providers/jwtToken.js';
 
 
 
-export class ClientUseCase {
+export class TalentUseCase {
     constructor() {
-        this.clientRepository = new ClientRepository(); // Assuming UserRepository is a class that needs to be instantiated
+        this.talentRepository = new TalentRepository(); // Assuming UserRepository is a class that needs to be instantiated
         this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
         this.jwtToken = new JwtToken()
     }
 
     async isEmailExist(email) {
         try {
-            return await this.clientRepository.findByEmail(email);
+            const existing = await this.talentRepository.findByEmail(email);
+            return existing;
         } catch (error) {
             console.log(error.message);
         }
@@ -21,7 +22,7 @@ export class ClientUseCase {
 
     async isTokenExist(token) {
         try {
-            const existing = await this.clientRepository.findByToken(token);
+            const existing = await this.talentRepository.findByToken(token);
             if (existing.isExist) {
 
             }
@@ -34,6 +35,7 @@ export class ClientUseCase {
     async sendTimeoutLinkEmailVerification(email) {
         try {
             const sent = await this.mailer.sendMaill(email);
+            console.log("mailsended here then data", sent, email)
             return sent;
         } catch (error) {
             console.log(error.message);
@@ -42,9 +44,9 @@ export class ClientUseCase {
 
     async saveEmail(email) {
         try {
-            const client = await this.clientRepository.addEmail(email)
-            const clientAuthToken = await this.jwtToken.generateJwtToken(client._id)
-            return { ...JSON.parse(JSON.stringify(client)), clientAuthToken ,role:"CLIENT"}
+            const talent = await this.talentRepository.saveEmail(email)
+            const talentAuthToken = this.jwtToken.generateJwtToken(talent._id)
+            return { ...JSON.parse(JSON.stringify(talent)), talentAuthToken ,role:"TALENT"}
         } catch (error) {
             console.log(error.message)
         }
