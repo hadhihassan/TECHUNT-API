@@ -2,6 +2,7 @@ import http from "http"
 import { createServer } from "./src/infrastructure/config/app.js";
 import dbConnect from './src/infrastructure/config/db.js'
 import 'dotenv/config';
+import { JWT_TOKEN_EXP } from "./src/constants/constant.js";
 
 const PORT = process.env.PORT || 3000
 
