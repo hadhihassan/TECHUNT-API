@@ -1,5 +1,7 @@
+import { STATUS_CODES } from '../constants/httpStatusCode.js';
 import { TalentRepository } from '../infrastructure/database/talent.Database.js';
 import { Mailer } from '../providers/EmailService.js';
+import { Encrypth } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 
 
@@ -8,7 +10,8 @@ export class TalentUseCase {
     constructor() {
         this.talentRepository = new TalentRepository(); // Assuming UserRepository is a class that needs to be instantiated
         this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
-        this.jwtToken = new JwtToken()
+        this.jwtToken = new JwtToken();
+        this.encrypt = new Encrypth()
     }
 
     async isEmailExist(email) {
@@ -24,9 +27,9 @@ export class TalentUseCase {
         try {
             const existing = await this.talentRepository.findByToken(token);
             if (existing.isExist) {
-
+                return true
             }
-            return existing;
+            return false;
         } catch (error) {
             console.log(error.message);
         }
@@ -35,20 +38,53 @@ export class TalentUseCase {
     async sendTimeoutLinkEmailVerification(email) {
         try {
             const sent = await this.mailer.sendMaill(email);
-            console.log("mailsended here then data", sent, email)
             return sent;
         } catch (error) {
             console.log(error.message);
         }
     }
 
-    async saveEmail(email) {
+    async saveSignupData(email, scurePassword) {
         try {
-            const talent = await this.talentRepository.saveEmail(email)
-            const talentAuthToken = this.jwtToken.generateJwtToken(talent._id)
-            return { ...JSON.parse(JSON.stringify(talent)), talentAuthToken ,role:"TALENT"}
+            const talent = await this.talentRepository.addTalentSingupData(email, scurePassword)
+            const token = await this.jwtToken.generateJwtToken(talent._id)
+            console.log({ talent, token }, "token")
+            return { talent, token, role: "TALENT" }
         } catch (error) {
             console.log(error.message)
+            
+        }
+    }
+    async saveConatctDeatils(formData, id) {
+        return await this.talentRepository.addConatctDeatils(formData, id)
+    }
+
+    async saveProfilePic(filaName, id) {
+        return await this.talentRepository.saveProfilePic(filaName, id)
+    }
+    async verifyLogin(email, password) {
+        const talentData = await this.talentRepository.findByEmail(email)
+        if (talentData) {
+            const passwordMatch = await this.encrypt.comparePasswords(password, talentData.Password)
+            if (passwordMatch) {
+                return {
+                    status: STATUS_CODES.OK,
+                    message: "Sucessfully logged.",
+                    data: talentData
+                }
+            } else {
+                return {
+                    status: STATUS_CODES.UNAUTHORIZED,
+                    message: "password is incorrect.",
+                    data: null
+                }
+            }
+        } else {
+            return {
+                status: STATUS_CODES.UNAUTHORIZED,
+                message: "Email is incorrect.",
+                data: null
+            }
         }
     }
 }

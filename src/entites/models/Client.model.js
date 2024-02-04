@@ -4,20 +4,25 @@ import mongoose from "mongoose"
 const { Schema, ObjectId } = mongoose;
 
 const ClientSchema = new Schema({
-  Username: { type: String,  },
-  Password: { type: String,  },
-  Email: { type: String,  },
-  Number: { type: String,  },
-  JobPost_id: { type: Schema.Types.ObjectId},
+  Last_name: { type: String, },
+  First_name: { type: String, },
+  Password: { type: String, },
+  Email: { type: String, },
+  Number: { type: String, },
+  JobPost_id: { type: Schema.Types.ObjectId },
   Profile: {
-     Completed_contract: { type: Number },
-     Description: { type: String },
-     Name: { type: String },
-     NumberOfHired: { type: Number },
-     Pending_contract: { type: Number },
-     Total_contract: { type: Number },
+    profile_Dp: { type: String },
+    Completed_contract: { type: Number },
+    Description: { type: String },
+    Name: { type: String },
+    NumberOfHired: { type: Number },
+    Pending_contract: { type: Number },
+    Total_contract: { type: Number },
   },
-  Address_id: { type: Schema.Types.ObjectId },
+  Address: { type: String, },
+  PinCode: { type: String, },
+  City: { type: String, },
+  Country: { type: String, },
 });
 
 const Client = mongoose.model('Client', ClientSchema);

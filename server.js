@@ -1,22 +1,20 @@
-import http from "http"
-import { createServer } from "./src/infrastructure/config/app.js";
-import dbConnect from './src/infrastructure/config/db.js'
+// server.js
+import http from 'http';
+import createServer from './src/infrastructure/config/app.js';
+import dbConnect from './src/infrastructure/config/db.js';
 import 'dotenv/config';
-import { JWT_TOKEN_EXP } from "./src/constants/constant.js";
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-const app = createServer()
+const app = createServer();
 dbConnect()
-    .then(() => {
-        if (app) {
-
-            // Create an HTTP server with the Express app
-            const server = http.createServer(app);
-            server.listen(PORT, () => console.log(`listening to PORT ${PORT}`))
-
-        } else {
-            throw Error('app is undefined')
-        }
-    })
-    .catch((err) => console.log('error while connecting to database\n', err))
+  .then(() => {
+    if (app) {
+      // Create an HTTP server with the Express app
+      const server = http.createServer(app);
+      server.listen(PORT, () => console.log(`listening to PORT ${PORT}`));
+    } else {
+      throw new Error('app is undefined');
+    }
+  })
+  .catch((err) => console.error('error while connecting to database\n', err));
