@@ -50,6 +50,7 @@ export class ClientRepository {
                 City: formData.city,
                 Number: formData.number,
                 Country: formData.country,
+                'Profile.Description':formData.description
             },
                 { new: true }
             )

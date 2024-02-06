@@ -30,7 +30,7 @@ const createServer = () => {
       saveUninitialized: false,
     })
   );
-//   app.use(morgan('combined'));
+  app.use(morgan());
   app.use('/CLIENT', client_Route);
   app.use('/', verification);
   app.use('/TALENT', talent_Routes);

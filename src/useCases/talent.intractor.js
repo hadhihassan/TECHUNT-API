@@ -87,5 +87,13 @@ export class TalentUseCase {
             }
         }
     }
+
+    async saveJobData(data, id){
+        return await this.talentRepository.addJobData(data, id)
+    }
+
+    async getProfilelData(id){
+        return await this.talentRepository.findById(id)
+    }
 }
 

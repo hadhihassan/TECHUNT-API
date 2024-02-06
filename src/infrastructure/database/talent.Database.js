@@ -12,7 +12,7 @@ export class TalentRepository {
         }
         return { status: true, data: user }
     }
-    async findById(id){
+    async findById(id) {
         return await talent.findById(id)
     }
 
@@ -48,6 +48,8 @@ export class TalentRepository {
                 City: formData.city,
                 number: formData.Number,
                 Country: formData.country,
+                'Profile.Description': formData.description
+
             },
                 { new: true }
             )
@@ -69,5 +71,20 @@ export class TalentRepository {
             throw new Error('Failed to save profile picture');
         }
     }
+    async addJobData(data, id) {
+        try {
+            const objectId = new mongoose.Types.ObjectId(id);
+            return await talent.findByIdAndUpdate(objectId, {
+                "Profile.Title": data.title,
+                "Profile.Skills": data.skills,
+                "Profile.Work_Experiance": data.experiance
+            },
+                { new: true }
+            )
+        } catch (error) {
+            consoel.lo(error.message)
+        }
+    }
+    
 }
 
