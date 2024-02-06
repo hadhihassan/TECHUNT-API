@@ -18,10 +18,10 @@ export class TalentController {
             const isExist = await this.talentUseCase.isEmailExist(email);
             if (!isExist.status) {
                 const securePassword = await this.encrypt.encrypthPassword(password)
-                console.log(securePassword,"the password")
+                console.log(securePassword, "the password")
                 await this.talentUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.talentUseCase.saveSignupData(email, securePassword)
-                console.log(saved,"orginal data")
+                console.log(saved, "orginal data")
                 return res.status(201).json(saved)
             }
             return res.status(403).json({ message: "email Alredy exsting" })
@@ -85,6 +85,24 @@ export class TalentController {
             console.log(error.message)
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR)
         }
+    }
+
+    async saveJobBasedData(req, res) {
+        const id = req.session.clientId
+        const result = await this.talentUseCase.saveJobData(req.body, id)
+        console.log(id,result)
+        return res.status(STATUS_CODES.OK).json(result)
+    }
+
+    async getTalentProfile(req, res) {
+        const id = req.session.clientId
+        const result = await this.talentUseCase.getProfilelData(id)
+        if (result === null) {
+            return res.status(STATUS_CODES.NOT_FOUND).json({ status: false, message: "Can't fetch the profile data.. " })
+        } else {
+            return res.status(STATUS_CODES.OK).json(result)
+        }
+
     }
 
 }

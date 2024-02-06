@@ -10,5 +10,6 @@ client_Routes.get("/client/verify/:token", checkToken, (req, res) => Ccontroller
 client_Routes.post("/add-contact/", checkToken, (req, res) => Ccontroller.addConatcDetails(req, res));
 client_Routes.post("/upload-profile-pic/",checkToken, upload.single("image"), (req, res) => Ccontroller.uploadProfileImg(req, res));
 client_Routes.post("/login/",checkToken, (req, res) => Ccontroller.Clientlogin(req, res));
+client_Routes.get("/get-profile-Data/",checkToken, (req, res) => Ccontroller.Clientlogin(req, res));
 
 export default client_Routes;
