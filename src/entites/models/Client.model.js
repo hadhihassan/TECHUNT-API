@@ -23,6 +23,10 @@ const ClientSchema = new Schema({
   PinCode: { type: String, },
   City: { type: String, },
   Country: { type: String, },
+  lastSeen: { type: Date }
+
+}, {
+  timestamps: true
 });
 
 const Client = mongoose.model('Client', ClientSchema);

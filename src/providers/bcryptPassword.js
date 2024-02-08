@@ -10,6 +10,14 @@ export class Encrypth {
     }
     //To compare two password .
     async comparePasswords(password, hashedPassword) {
-        return await bcrypt.compare(password, hashedPassword)
+        try {
+            console.log(password, hashedPassword); // Print the result for debugging
+            const result = await bcrypt.compare(password, hashedPassword);
+            return result;
+        } catch (error) {
+            console.error(error); // Handle any errors
+            throw error; // Rethrow the error for the caller to handle
+        }
     }
+    
 }

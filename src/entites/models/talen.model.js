@@ -12,7 +12,7 @@ const TalentSchema = new Schema({
     Profile: {
         profile_Dp: { type: String },
         Description: { type: String },
-        Title: { type: [String] },
+        Title: { type: String },
         Skills: { type: [String] },
         Work_Experiance: { type: [String] },
     },
@@ -20,6 +20,10 @@ const TalentSchema = new Schema({
     PinCode: { type: String, },
     City: { type: String, },
     Country: { type: String, },
+    lastSeen: { type: Date }
+
+}, {
+    timestamps: true
 });
 
 const Talent = mongoose.model('Talent', TalentSchema);

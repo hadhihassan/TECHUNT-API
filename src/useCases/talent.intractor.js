@@ -48,7 +48,6 @@ export class TalentUseCase {
         try {
             const talent = await this.talentRepository.addTalentSingupData(email, scurePassword)
             const token = await this.jwtToken.generateJwtToken(talent._id)
-            console.log({ talent, token }, "token")
             return { talent, token, role: "TALENT" }
         } catch (error) {
             console.log(error.message)
@@ -87,13 +86,23 @@ export class TalentUseCase {
             }
         }
     }
-
     async saveJobData(data, id){
         return await this.talentRepository.addJobData(data, id)
     }
-
     async getProfilelData(id){
         return await this.talentRepository.findById(id)
+    }
+    async editProfileSectionOne(data, id){
+        return await this.talentRepository.updateprofile(data, id)
+    }
+    async editSkills(data, id){
+        return await this.talentRepository.updateSkills(data, id)
+    }
+    async editExperiance(data, id){
+        return await this.talentRepository.updateExperiance(data, id)
+    }
+    async editConatctDeatils(data, id){
+        return await this.talentRepository.editConatct(data, id)
     }
 }
 

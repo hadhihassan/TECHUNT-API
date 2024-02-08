@@ -5,9 +5,7 @@ import Token from "../../entites/models/token.js";
 
 export class ClientRepository {
     async findByEmail(email) {
-        console.log("*****this is Clint ******")
         const user = await client.findOne({ Email: email });
-        console.log("*****DATA=>\N", user)
         if (user === null) {
             return { status: false, data: user }
         }
@@ -50,7 +48,7 @@ export class ClientRepository {
                 City: formData.city,
                 Number: formData.number,
                 Country: formData.country,
-                'Profile.Description':formData.description
+                'Profile.Description': formData.description
             },
                 { new: true }
             )
@@ -70,6 +68,55 @@ export class ClientRepository {
             throw new Error('Failed to save profile picture');
         }
     }
-
+    async updateprofile(data, id) {
+        try {
+            const result = await client.findByIdAndUpdate(id, {
+                "Profile.Description": data.description,
+                "Profile.Title": data.title,
+                "Last_name": data.first_name,
+                "First_name": data.last_name,
+            })
+            if (result) {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    data: "Error occurs when updaing profile data"
+                }
+            } else {
+                return {
+                    status: STATUS_CODES.OK,
+                    data: result
+                }
+            }
+        } catch (error) {
+            console.log(error.message);
+            return {
+                status: STATUS_CODES.INTERNAL_SERVER_ERROR,
+                data: "Error"
+            }
+        }
+    }
+    async editConatct(data, id) {
+        try {
+            const result = await client.findByIdAndUpdate(id, {
+                $set: data // Use $set to specify the fields to update
+            });
+            if (result) {
+                return {
+                    status: STATUS_CODES.OK,
+                    data: "updating contact data is success"
+                }
+            }
+            return {
+                status: STATUS_CODES.NO_CONTENT,
+                data: "Error occurs when updating contact data "
+            }
+        } catch (error) {
+            console.log(error.message)
+            return {
+                status: STATUS_CODES.INTERNAL_SERVER_ERROR,
+                data: "Error"
+            }
+        }
+    }
 }
 

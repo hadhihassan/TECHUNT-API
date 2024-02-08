@@ -43,48 +43,55 @@ export class ClientUseCase {
         }
     }
 
-    async saveSignupData(email,encryptedPassword) {
+    async saveSignupData(email, encryptedPassword) {
         try {
-            const client = await this.clientRepository.addClientSingupData(email,encryptedPassword)
+            const client = await this.clientRepository.addClientSingupData(email, encryptedPassword)
             const token = await this.jwtToken.generateJwtToken(client._id)
-            
-            return  { client, token, role: "CLIENT" }
+            return { client, token, role: "CLIENT" }
         } catch (error) {
             console.log(error.message)
         }
     }
-    async saveConatctDeatils(formData, id){
+    async saveConatctDeatils(formData, id) {
         return await this.clientRepository.addConatctDeatils(formData, id)
     }
-    async saveProfilePic(filaName, id){
+    async saveProfilePic(filaName, id) {
         return await this.clientRepository.saveProfilePic(filaName, id)
     }
-    async verifyLogin(email, password){
+    async verifyLogin(email, password) {
         const clientData = await this.clientRepository.findByEmail(email)
-        console.log(clientData,"Recevied")
-        if(clientData.status){
+        if (clientData.status) {
             const passwordMatch = await this.encrypt.comparePasswords(password, clientData.data.Password)
-            console.log("password match ",passwordMatch);
-            if(passwordMatch){
-                return{
-                    status:STATUS_CODES.OK,
-                    message : "Sucessfully logged.",
-                    data:clientData
+            console.log("password match ", passwordMatch);
+            if (passwordMatch) {
+                return {
+                    status: STATUS_CODES.OK,
+                    message: "Sucessfully logged.",
+                    data: clientData
                 }
-            }else{
-                return{
-                    status:STATUS_CODES.UNAUTHORIZED,
-                    message : "password is incorrect.",
-                    data:null
+            } else {
+                return {
+                    status: STATUS_CODES.UNAUTHORIZED,
+                    message: "password is incorrect.",
+                    data: null
                 }
             }
-        }else{
-            return{
-                status:STATUS_CODES.UNAUTHORIZED,
-                message : "Email is incorrect.",
-                data:null
+        } else {
+            return {
+                status: STATUS_CODES.UNAUTHORIZED,
+                message: "Email is incorrect.",
+                data: null
             }
         }
+    }
+    async getProfilelData(id) {
+        return await this.clientRepository.findById(id)
+    }
+    async editProfileSectionOne(data, id) {
+        return await this.clientRepository.updateprofile(data, id)
+    }
+    async editConatctDeatils(data, id) {
+        return await this.clientRepository.editConatct(data, id)
     }
 }
 

@@ -11,10 +11,10 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
+import '../config/googleAuth2.js'
+import passport from 'passport';
 const createServer = () => {
   const app = express();
 
@@ -30,11 +30,16 @@ const createServer = () => {
       saveUninitialized: false,
     })
   );
+
+
   app.use(morgan());
   app.use('/CLIENT', client_Route);
   app.use('/', verification);
   app.use('/TALENT', talent_Routes);
 
+    app.use(passport.initialize())
+    app.use(passport.session())
+  
   return app;
 };
 
