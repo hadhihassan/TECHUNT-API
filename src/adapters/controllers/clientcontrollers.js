@@ -8,8 +8,6 @@ export class ClientController {
         this.clientUseCase = new ClientUseCase();
         this.encrypt = new Encrypth()
     }
-
-
     async verifyEmail(req, res) {
         try {
             const { type } = req.body
@@ -21,25 +19,17 @@ export class ClientController {
                 await this.clientUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.clientUseCase.saveSignupData(email, securePassword)
                 return res.status(STATUS_CODES.OK).json(saved)
-            }else{
+            } else {
                 return res.status(STATUS_CODES.CONFLICT).json({ message: "Email Alredy exsting" })
             }
         } catch (error) {
             console.log(error.message);
         }
     }
-    async verifyClient(req,res){
-        try {
-            console.log(req.body);
-        } catch (error) {
-            console.log(error);
-        }
-    }
     async verifyEmailToken(req, res) {
         try {
             const { token } = req.params;
             const isExist = await this.clientUseCase.isTokenExist(token);
-
             if (!isExist) {
                 return res.status(STATUS_CODES.FORBIDDEN).json({ status: false });
             }
@@ -49,25 +39,22 @@ export class ClientController {
             console.log(error.message);
         }
     }
-
     async addConatcDetails(req, res) {
         try {
             const formData = req.body
-            console.log(formData, req.session.id);
-            const response = await this.clientUseCase.saveConatctDeatils(formData, req.session.clientId)
+            const response = await this.clientUseCase.saveConatctDeatils(formData, req.clientId)
             if (response) {
                 return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Conatct deatisl saved" })
             }
         } catch (error) {
             console.log(error);
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
-
         }
     }
     async uploadProfileImg(req, res) {
         try {
             const fileName = req.file?.filename
-            const id = req.session.clientId
+            const id = req.clientId
             await this.clientUseCase.saveProfilePic(fileName, id)
             return res.status(STATUS_CODES.CREATED)
         } catch (error) {
@@ -75,17 +62,34 @@ export class ClientController {
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
         }
     }
-    async Clientlogin(req,res){
+    async Clientlogin(req, res) {
         try {
             const { email, password } = req.body
-            console.log(req.body)
             const result = await this.clientUseCase.verifyLogin(email, password)
-            console.log("is logged")
             return res.status(result.status).json(result)
         } catch (error) {
             console.log(error.message)
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR)
         }
+    }
+    async getClientProfile(req, res) {
+        const id = req.clientId
+        const result = await this.clientUseCase.getProfilelData(id)
+        if (result === null) {
+            return res.status(STATUS_CODES.NOT_FOUND).json({ status: false, message: "Can't fetch the profile data.. " })
+        } else {
+            return res.status(STATUS_CODES.OK).json(result)
+        }
+    }
+    async editProfile(req, res) {
+        const id = req.clientId
+        const editResult = await this.clientUseCase.editProfileSectionOne(req.body,id)
+        return res.status(editResult.status).json(editResult.data)
+    }
+    async updateConatctDeatils(req,res) {
+        const id = req.clientId;
+        const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
+        return res.status(editResult.status).json(editResult.data)
     }
 
 

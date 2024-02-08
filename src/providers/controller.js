@@ -6,10 +6,11 @@ import { Mailer } from "./EmailService.js";
 //Talent / Freelancer
 import { TalentRepository } from "../infrastructure/database/talent.Database.js";
 import { TalentUseCase } from "../useCases/talent.intractor.js";
-import { TalentController } from "../adapters/controllers/talentControllers.js"; 
+import { TalentController } from "../adapters/controllers/talentControllers.js";
 import { Encrypth } from "./bcryptPassword.js";
 
-
+import { VerificationController } from "../adapters/controllers/verificationContoller.js"
+import { VerificationUseCase } from "../useCases/verification.intaractor.js";
 
 
 
@@ -23,5 +24,6 @@ const talentRepositary = new TalentRepository()
 const tUseCase = new TalentUseCase(talentRepositary, mailSend, encrypt)
 export const Tcontroller = new TalentController(tUseCase, encrypt)
 
-
+const verifyUseCase = new VerificationUseCase(clientRepository, talentRepositary, mailSend, encrypt)
+export const Vcontoller = new VerificationController(verifyUseCase)
 
