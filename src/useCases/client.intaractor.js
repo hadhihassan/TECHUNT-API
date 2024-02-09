@@ -93,5 +93,11 @@ export class ClientUseCase {
     async editConatctDeatils(data, id) {
         return await this.clientRepository.editConatct(data, id)
     }
+    async getAllClient(){
+        return await this.clientRepository.getAllClientData()
+    }
+    async blockClient(email, block){
+        return await this.clientRepository.block(email, block)
+    }
 }
 

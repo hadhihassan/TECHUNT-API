@@ -104,5 +104,11 @@ export class TalentUseCase {
     async editConatctDeatils(data, id){
         return await this.talentRepository.editConatct(data, id)
     }
+    async getAllTalent(){
+        return await this.talentRepository.getAllTalentData()
+    }
+    async blockTalent(email, block){
+        return await this.talentRepository.block(email, block)
+    }
 }
 

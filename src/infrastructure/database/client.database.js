@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import client from "../../entites/models/Client.model.js";
 import Token from "../../entites/models/token.js";
+import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 
 
 export class ClientRepository {
@@ -118,5 +119,38 @@ export class ClientRepository {
             }
         }
     }
+    async getAllClientData(){
+        return await client.find()
+    }
+    async block(email, block) {
+        try {
+            let isBlocked
+            // Assuming you have a MongoDB client instance named 'client'
+            if (block) {
+                 isBlocked = await client.findOneAndUpdate(
+                    { Email: email }, // Filter object to find the document
+                    { $set: { isBlock: false } } // Update object to set the 'isBlock' field
+                );
+            } else {
+                 isBlocked = await client.updateOne(
+                    { Email: email }, // Filter object to find the document
+                    { $set: { isBlock: true } } // Update object to set the 'isBlock' field
+                );
+            }
+    
+            if (isBlocked.modifiedCount === 1) {
+                console.log(`User with email ${email} has been ${block ? 'blocked' : 'unblocked'}`);
+                return true; // Successfully updated
+            } else {
+                console.log(`User with email ${email} not found`);
+                return false; // Document not found
+            }
+        } catch (error) {
+            console.error('Error occurred while updating user block status:', error);
+            return false; // Error occurred
+        }
+    }
+    
+    
 }
 

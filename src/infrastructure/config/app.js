@@ -15,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import '../config/googleAuth2.js'
 import passport from 'passport';
+import admin_Router from '../routes/admin.js';
 const createServer = () => {
   const app = express();
 
@@ -22,7 +23,7 @@ const createServer = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
   app.use(cookieParser());
-  app.use(corsConfig);
+  app.use(corsConfig());
   app.use(
     session({
       secret: 'your_secret_key', // Replace with a strong and secret key
@@ -32,14 +33,13 @@ const createServer = () => {
   );
 
 
-  app.use(morgan());
   app.use('/CLIENT', client_Route);
   app.use('/', verification);
   app.use('/TALENT', talent_Routes);
+  app.use('/admin', admin_Router);
 
-    app.use(passport.initialize())
-    app.use(passport.session())
-  
+
+
   return app;
 };
 
