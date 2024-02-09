@@ -32,12 +32,9 @@ export class VerificationUseCase {
     }
 
     async authenticateUser(userData, password, role) {
-        console.log(userData, password, role);
         const passwordMatch = await this.encrypt.comparePasswords(password, userData.Password);
-        console.log(passwordMatch);
         if (passwordMatch) {
             const token = await this.jwtToken.generateJwtToken(userData._id)
-            console.log(token,"this is an  token jwt =>")
             return {
                 status: STATUS_CODES.OK,
                 message: "Successfully logged in.",

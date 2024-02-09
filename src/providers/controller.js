@@ -8,6 +8,10 @@ import { TalentRepository } from "../infrastructure/database/talent.Database.js"
 import { TalentUseCase } from "../useCases/talent.intractor.js";
 import { TalentController } from "../adapters/controllers/talentControllers.js";
 import { Encrypth } from "./bcryptPassword.js";
+//Admin
+import { AdminContollers } from "../adapters/controllers/adminControllers.js"; 
+import { AdminUseCase } from "../useCases/admin.intaractor.js";
+import { AdminRepository } from "../infrastructure/database/admin.Database.js";
 
 import { VerificationController } from "../adapters/controllers/verificationContoller.js"
 import { VerificationUseCase } from "../useCases/verification.intaractor.js";
@@ -27,3 +31,6 @@ export const Tcontroller = new TalentController(tUseCase, encrypt)
 const verifyUseCase = new VerificationUseCase(clientRepository, talentRepositary, mailSend, encrypt)
 export const Vcontoller = new VerificationController(verifyUseCase)
 
+const adminRepository = new AdminRepository
+const adminUseCase = new AdminUseCase(adminRepository, encrypt)
+export const Acontroller = new AdminContollers(adminUseCase, cuseCase, tUseCase)

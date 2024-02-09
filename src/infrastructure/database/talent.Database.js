@@ -190,6 +190,39 @@ export class TalentRepository {
             }
         }
     }
+    async getAllTalentData() {
+        return await talent.find()
+    }
+    async block(email, block) {
+        try {
+            let isBlocked
+            // Assuming you have a MongoDB client instance named 'client'
+            if (block) {
+                isBlocked = await talent.updateOne(
+                    { Email: email }, // Filter object to find the document
+                    { $set: { isBlock: false } } // Update object to set the 'isBlock' field
+                );
+            } else {
+                isBlocked = await talent.updateOne(
+                    { Email: email }, // Filter object to find the document
+                    { $set: { isBlock: true } } // Update object to set the 'isBlock' field
+                );
+            }
+
+
+
+            if (isBlocked.modifiedCount === 1) {
+                console.log(`User with email ${email} has been ${block ? 'blocked' : 'unblocked'}`);
+                return true; // Successfully updated
+            } else {
+                console.log(`User with email ${email} not found`);
+                return false; // Document not found
+            }
+        } catch (error) {
+            console.error('Error occurred while updating user block status:', error);
+            return false; // Error occurred
+        }
+    }
 
 }
 

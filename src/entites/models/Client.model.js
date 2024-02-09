@@ -23,7 +23,8 @@ const ClientSchema = new Schema({
   PinCode: { type: String, },
   City: { type: String, },
   Country: { type: String, },
-  lastSeen: { type: Date }
+  lastSeen: { type: Date },
+  isBlock:{type:Boolean}
 
 }, {
   timestamps: true

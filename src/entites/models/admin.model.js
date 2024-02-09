@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 const { Schema, ObjectId } = mongoose;
 
 const AdminSchema = new Schema({
-  Name: { type: String },
+  userName: { type: String },
   Password: { type: String },
 });
 
