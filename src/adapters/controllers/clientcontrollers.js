@@ -1,6 +1,10 @@
 import { STATUS_CODES } from '../../constants/httpStatusCode.js';
 import { ClientUseCase } from '../../useCases/client.intaractor.js';
 import { Encrypth } from '../../providers/bcryptPassword.js';
+
+
+
+
 export class ClientController {
     constructor(clientUseCase, encrypt) {
         this.clientUseCase = new ClientUseCase();
@@ -12,10 +16,12 @@ export class ClientController {
             const { email } = req.body
             const { password } = req.body
             const isExist = await this.clientUseCase.isEmailExist(email);
+            console.log(isExist)
             if (!isExist.status) {
                 const securePassword = await this.encrypt.encrypthPassword(password)
                 await this.clientUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.clientUseCase.saveSignupData(email, securePassword)
+                console.log(saved)
                 return res.status(STATUS_CODES.OK).json(saved)
             } else {
                 return res.status(STATUS_CODES.CONFLICT).json({ message: "Email Alredy exsting" })
@@ -28,6 +34,7 @@ export class ClientController {
         try {
             const { token } = req.params;
             const isExist = await this.clientUseCase.isTokenExist(token);
+            console.log(isExist)
             if (!isExist) {
                 return res.status(STATUS_CODES.FORBIDDEN).json({ status: false });
             }
@@ -60,19 +67,10 @@ export class ClientController {
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
         }
     }
-    async Clientlogin(req, res) {
-        try {
-            const { email, password } = req.body
-            const result = await this.clientUseCase.verifyLogin(email, password)
-            return res.status(result.status).json(result)
-        } catch (error) {
-            console.log(error.message)
-            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR)
-        }
-    }
     async getClientProfile(req, res) {
         const id = req.clientId
         const result = await this.clientUseCase.getProfilelData(id)
+        console.log(id, "this is data \n", result)
         if (result === null) {
             return res.status(STATUS_CODES.NOT_FOUND).json({ status: false, message: "Can't fetch the profile data.. " })
         } else {
@@ -81,10 +79,10 @@ export class ClientController {
     }
     async editProfile(req, res) {
         const id = req.clientId
-        const editResult = await this.clientUseCase.editProfileSectionOne(req.body,id)
+        const editResult = await this.clientUseCase.editProfileSectionOne(req.body, id)
         return res.status(editResult.status).json(editResult.data)
     }
-    async updateConatctDeatils(req,res) {
+    async updateConatctDeatils(req, res) {
         const id = req.clientId;
         const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)

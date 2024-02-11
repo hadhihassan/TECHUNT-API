@@ -45,7 +45,7 @@ export class TalentRepository {
                 Address: formData.address,
                 PinCode: formData.PinCode,
                 City: formData.city,
-                number: formData.Number,
+                Number: formData.Number,
                 Country: formData.country,
                 'Profile.Description': formData.description
             },
@@ -98,8 +98,8 @@ export class TalentRepository {
             const result = await talent.findByIdAndUpdate(id, {
                 "Profile.Description": data.description,
                 "Profile.Title": data.title,
-                "Last_name": data.first_name,
-                "First_name": data.last_name,
+                "Last_name": data.last_name,
+                "First_name": data.first_name,
             })
             if (result) {
                 return {
@@ -121,7 +121,6 @@ export class TalentRepository {
         }
     }
     async updateSkills(data, id) {
-        console.log(data, id);
         try {
             const result = await talent.findByIdAndUpdate(id, {
                 "Profile.Skills": data
@@ -198,12 +197,12 @@ export class TalentRepository {
             let isBlocked
             // Assuming you have a MongoDB client instance named 'client'
             if (block) {
-                isBlocked = await talent.updateOne(
+                isBlocked = await talent.findOneAndUpdate(
                     { Email: email }, // Filter object to find the document
                     { $set: { isBlock: false } } // Update object to set the 'isBlock' field
                 );
             } else {
-                isBlocked = await talent.updateOne(
+                isBlocked = await talent.findOneAndUpdate(
                     { Email: email }, // Filter object to find the document
                     { $set: { isBlock: true } } // Update object to set the 'isBlock' field
                 );
@@ -211,11 +210,9 @@ export class TalentRepository {
 
 
 
-            if (isBlocked.modifiedCount === 1) {
-                console.log(`User with email ${email} has been ${block ? 'blocked' : 'unblocked'}`);
+            if (isBlocked) {
                 return true; // Successfully updated
             } else {
-                console.log(`User with email ${email} not found`);
                 return false; // Document not found
             }
         } catch (error) {

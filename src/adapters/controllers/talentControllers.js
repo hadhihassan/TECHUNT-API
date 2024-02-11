@@ -13,14 +13,15 @@ export class TalentController {
         try {
             const { email, type } = req.body
             const { password } = req.body
+            console.log(req.body)
             const isExist = await this.talentUseCase.isEmailExist(email);
             if (!isExist.status) {
                 const securePassword = await this.encrypt.encrypthPassword(password)
                 await this.talentUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.talentUseCase.saveSignupData(email, securePassword)
-                return res.status(201).json(saved)
+                return res.status(STATUS_CODES.OK).json(saved)
             }
-            return res.status(403).json({ message: "email Alredy exsting" })
+            return res.status(STATUS_CODES.CONFLICT).json({ message: "Email already exsting" })
         } catch (error) {
             console.log(error.message);
         }
@@ -57,16 +58,6 @@ export class TalentController {
         } catch (error) {
             console.error(error);
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
-        }
-    }
-    async TalentLogin(req, res) {
-        try {
-            const { email, password } = req.body
-            const result = await this.talentUseCase.verifyLogin(email, password)
-            return res.status(result.status).json(result)
-        } catch (error) {
-            console.log(error.message)
-            return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR)
         }
     }
     async saveJobBasedData(req, res) {

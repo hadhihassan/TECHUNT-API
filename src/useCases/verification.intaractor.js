@@ -17,7 +17,7 @@ export class VerificationUseCase {
     async verifyLogin(email, password) {
         const talentData = await this.talentRepository.findByEmail(email);
         if (talentData.status) {
-            return this.authenticateUser(talentData.data, password, 'TALENT');
+            return this.authenticateUser(talentData, password, 'TALENT');
         }
         const clientData = await this.clientRepository.findByEmail(email);
         if (clientData.status) {
@@ -32,9 +32,16 @@ export class VerificationUseCase {
     }
 
     async authenticateUser(userData, password, role) {
-        const passwordMatch = await this.encrypt.comparePasswords(password, userData.Password);
+        if(userData.data.isBlock){
+            return {
+                status: STATUS_CODES.UNAUTHORIZED,
+                message: "Sorry youre blocked",
+                isBlocked:true
+            };
+        }
+        const passwordMatch = await this.encrypt.comparePasswords(password, userData.data.Password);
         if (passwordMatch) {
-            const token = await this.jwtToken.generateJwtToken(userData._id)
+            const token = await this.jwtToken.generateJwtToken(userData.data._id)
             return {
                 status: STATUS_CODES.OK,
                 message: "Successfully logged in.",

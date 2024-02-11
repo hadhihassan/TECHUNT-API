@@ -21,7 +21,8 @@ const TalentSchema = new Schema({
     City: { type: String, },
     Country: { type: String, },
     lastSeen: { type: Date },
-    isBlock: { type: Boolean }
+    isBlock: { type: Boolean, default: false },
+    online: { type: Boolean }
 
 
 }, {
@@ -30,4 +31,4 @@ const TalentSchema = new Schema({
 
 const Talent = mongoose.model('Talent', TalentSchema);
 
-export default Talent;;
+export default Talent;

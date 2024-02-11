@@ -24,7 +24,9 @@ const ClientSchema = new Schema({
   City: { type: String, },
   Country: { type: String, },
   lastSeen: { type: Date },
-  isBlock:{type:Boolean}
+  isBlock: { type: Boolean, default: false },
+  online: { type: Boolean }
+
 
 }, {
   timestamps: true
