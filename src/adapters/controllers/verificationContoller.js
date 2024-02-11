@@ -8,6 +8,7 @@ export class VerificationController {
     async TalentLogin(req, res) {
         try {
             const { email, password } = req.body
+            console.log(req.body);
             const result = await this.verificationUseCase.verifyLogin(email, password)
             console.log(result);
             return res.status(result.status).json(result)

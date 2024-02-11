@@ -24,11 +24,13 @@ export class ClientUseCase {
 
     async isTokenExist(token) {
         try {
+            console.log(token,"this is token")
             const existing = await this.clientRepository.findByToken(token);
+            console.log(existing)
             if (existing.isExist) {
-                return false
+                return true
             }
-            return existing;
+            return false;
         } catch (error) {
             console.log(error.message);
         }
