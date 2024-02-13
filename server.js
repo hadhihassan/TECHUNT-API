@@ -22,6 +22,7 @@ dbConnect()
       io.on("connection", (socket) => {
         console.log("user connected", socket.id)
       })
+      
       server.listen(PORT, () => console.log(`listening to PORT ${PORT}`));
     } else {
       throw new Error('app is undefined');

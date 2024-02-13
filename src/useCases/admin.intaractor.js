@@ -64,12 +64,22 @@ export class AdminUseCase {
             users: null
         }
     }
-    async blockUesr(email, block) {
-        const forClient = await this.clientUseCase.blockClient(email, block)
-        if (forClient) {
-            return forClient
+    async blockUesr(email, block, role) {
+        console.log(role, "role is ")
+        if (role === "CLIENT") {
+            const forClient = await this.clientUseCase.blockClient(email, block)
+            if (forClient) {
+                return forClient
+            }
+        }else if(role === "TALENT"){
+            const forTalent = await this.talnetUseCase.blockTalent(email, block)
+            return forTalent
         }
-        const forTalent = await this.talnetUseCase.blockTalent(email, block)
-        return forTalent
+        // const forClient = await this.clientUseCase.blockClient(email, block)
+        // if (forClient) {
+        //     return forClient
+        // }
+        // const forTalent = await this.talnetUseCase.blockTalent(email, block)
+        // return forTalent
     }
 }

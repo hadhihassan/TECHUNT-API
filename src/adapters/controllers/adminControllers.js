@@ -13,13 +13,15 @@ export class AdminContollers {
         return res.status(result.status).json(result)
     }
     async getAllUsers(req, res) {
+        console.log("reqquest is here")
         let users = await this.adminUseCase.collectAllUserData()
+        console.log(users.talent)
         return res.status(users.status).json(users.users)
     }
     async blockUser(req, res) {
-        const { email,block } = req.body
+        const { email,block,role } = req.body
         console.log(email,block)
-        let result = await this.adminUseCase.blockUesr(email,block)
+        let result = await this.adminUseCase.blockUesr(email,block,role)
         if(result){
             return res.status(STATUS_CODES.OK).json(result)
         }

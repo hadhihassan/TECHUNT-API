@@ -10,5 +10,6 @@ export const STATUS_CODES = {
     "UNPROCESSABLE_ENTITY": 422,
     "INTERNAL_SERVER_ERROR": 500,
     "SERVICE_UNAVAILABLE": 503,
+    "UNDERSTOOD_BUT_NOT_VALID":422
     // Add more HTTP status codes as needed
 }
