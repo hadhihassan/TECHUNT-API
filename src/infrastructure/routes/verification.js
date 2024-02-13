@@ -9,4 +9,5 @@ const verification = Router();
 
 verification.post('/login/', (req, res) => Vcontoller.TalentLogin(req, res))
 // Export the verification router
+verification.post("/checkValidNumber/", (req, res) => Vcontoller.checkNumberisValid(req, res))
 export default verification;

@@ -43,9 +43,9 @@ export class TalentRepository {
                 Last_name: formData.lName,
                 First_name: formData.fName,
                 Address: formData.address,
-                PinCode: formData.PinCode,
+                PinCode: formData.pinCode,
                 City: formData.city,
-                Number: formData.Number,
+                Number: formData.number,
                 Country: formData.country,
                 'Profile.Description': formData.description
             },
@@ -220,6 +220,5 @@ export class TalentRepository {
             return false; // Error occurred
         }
     }
-
+  
 }
-

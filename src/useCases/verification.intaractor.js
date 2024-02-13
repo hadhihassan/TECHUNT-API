@@ -32,11 +32,11 @@ export class VerificationUseCase {
     }
 
     async authenticateUser(userData, password, role) {
-        if(userData.data.isBlock){
+        if (userData.data.isBlock) {
             return {
                 status: STATUS_CODES.UNAUTHORIZED,
                 message: "Sorry youre blocked",
-                isBlocked:true
+                isBlocked: true
             };
         }
         const passwordMatch = await this.encrypt.comparePasswords(password, userData.data.Password);
@@ -55,6 +55,57 @@ export class VerificationUseCase {
                 message: "Invalid email or password.",
                 data: null
             };
+        }
+    }
+    async checkValidity(number, role, id) {
+        if (role === "CLIENT") {
+            const valid = await this.clientRepository.findById(id)
+            console.log(valid)
+            if (valid === null) {
+                return {
+                    status: STATUS_CODES.NO_CONTENT,
+                    message: "Enter you valid number"
+                }
+            }
+            if (valid.Number === number) {
+                if (!valid.isNumberVerify) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        message: "Otp sended. Check you sms"
+                    }
+                }
+                return {
+                    status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
+                    message: "Your number is already verified"
+                }
+            }
+            return {
+                status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
+                message: "Enter you valid number"
+            }
+        }
+        const valid = await this.talentRepository.findById(id)
+        console.log(valid)
+        if (valid === null) {
+            return {
+                status: STATUS_CODES.OK,
+                message: "Enter you valid number"
+            }
+        }
+        if (valid.Number === number) {
+            if (!valid.isNumberVerify) {
+                return {
+                    status: STATUS_CODES.OK,
+                    message: "Otp sended. Check you sms"
+                }
+            } return {
+                status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
+                message: "Your number is already verified"
+            }
+        }
+        return {
+            status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
+            message: "Enter you valid number"
         }
     }
 }
