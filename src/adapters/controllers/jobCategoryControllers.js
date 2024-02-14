@@ -13,7 +13,14 @@ export class JobCategoryControllers {
         const datas = await this.jobCategoryUseCase.getAllCategories()
         return res.status(datas.status).json(datas)
     }
-    // async changeState(req,res){
-    //     const result = await this
-    // }
+    async changeState(req, res) {
+        const { status, id } = req.body
+        const result = await this.jobCategoryUseCase.softDelete(status, id)
+        return res.status(result.status).json(result)
+    }
+    async editJobCategory(req, res) {
+        const { data, id } = req.body
+        const result = await this.jobCategoryUseCase.updatejobCategory(data, id);
+        return res.status(result.status).json(result)
+    }
 }

@@ -5,6 +5,7 @@ import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 
 
 export class ClientRepository {
+    
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {

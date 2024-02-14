@@ -1,18 +1,28 @@
-import mongoose from "mongoose"
-import jobCategoryShema from '../../entites/models/jobCategory.model.js'
+import mongoose, { Schema } from "mongoose"
+import jobCategorySchema from '../../entites/models/jobCategory.model.js'
 
 
 export class JobCategoryRepository {
 
 
     async findByName(name) {
-        return  await jobCategoryShema.findOne({name});
+        return await jobCategorySchema.findOne({ name });
     }
-    async addNewJobCategory(data){
-        return new jobCategoryShema(data).save()
+    async addNewJobCategory(data) {
+        return new jobCategorySchema(data).save()
     }
-    async getAllCategory(){
-        return await jobCategoryShema.find()
+    async getAllCategory() {
+        return await jobCategorySchema.find()
+    }
+    async changeStatus(status, id) {
+        return await jobCategorySchema.findByIdAndUpdate(id, {
+            status
+        })
+    }
+    async update(data, id) {
+        return await jobCategorySchema.findByIdAndUpdate(id, {
+            data
+        })
     }
 
 }
