@@ -7,7 +7,7 @@ const JobCategorySchema = new Schema({
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 10
+        maxlength: 50
     },
     description: {
         type: String,
@@ -15,7 +15,7 @@ const JobCategorySchema = new Schema({
         minlength: 10,
         maxlength: 100,
     },
-    icons: {
+    image: {
         type: String, 
         required: true
     },
