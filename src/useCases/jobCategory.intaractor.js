@@ -8,8 +8,6 @@ export class JobCategoryUseCase {
     }
     async AddJobCategory(data) {
         try {
-            console.log(data)
-            console.log(data.name)
             const isExist = await this.jobCategoryRepository.findByName(data.name)
             if (isExist) {
                 return {
@@ -19,7 +17,6 @@ export class JobCategoryUseCase {
                 }
             }
             const result = await this.jobCategoryRepository.addNewJobCategory(data)
-            console.log(result)
             return {
                 status: STATUS_CODES.CREATED,
                 success: true,
@@ -32,13 +29,12 @@ export class JobCategoryUseCase {
     async getAllCategories() {
         try {
             const result = await this.jobCategoryRepository.getAllCategory()
-            console.log(result)
             if (result) {
                 return {
                     status: STATUS_CODES.OK,
                     success: true,
                     message: "success",
-                    data:result
+                    data: result
                 }
             }
             return {
@@ -48,6 +44,46 @@ export class JobCategoryUseCase {
             }
         } catch (error) {
             return get500Response(error)
+        }
+    }
+    async softDelete(status, id) {
+        try {
+            const result = await this.jobCategoryRepository.changeStatus(status, id);
+            if (result.isModified) {
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    message: "Successfully changed status",
+                    data: result
+                };
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+                message: "No modification detected",
+                data: result
+            };
+        } catch (error) {
+            return get500Response(error);
+        }
+    }
+    async updatejobCategory(data, id) {
+        try {
+            const result = await this.jobCategoryRepository.update(data,id)
+            console.log(result)
+            if (result.isModified) {
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    message: "Succeddfully updated",
+                }
+            } return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+                message: "No modification detected",
+            };
+        } catch (error) {
+            return get500Response(error);
         }
     }
 }

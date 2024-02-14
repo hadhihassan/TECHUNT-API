@@ -10,5 +10,7 @@ admin_Router.post("/admin-login/", (req, res) => Acontroller.verifyLogin(req, re
 
 admin_Router.post("/add-new-job-category/", upload.single("image"),(req, res) => jobCateControllers.addNewJobCategory(req, res))
             .get("/get-all-job-category/",(req,res) => jobCateControllers.getJobCategory(req,res))
+            .patch("/change-job-category-status/",(req,res) => jobCateControllers.changeState(req,res))
+            .put("/edit-job-category-status/",(req,res) => jobCateControllers.editJobCategory(req,res))
 
 export default admin_Router;
