@@ -11,5 +11,11 @@ export const STATUS_CODES = {
     "INTERNAL_SERVER_ERROR": 500,
     "SERVICE_UNAVAILABLE": 503,
     "UNDERSTOOD_BUT_NOT_VALID":422
-    // Add more HTTP status codes as needed
 }
+export const ERR_MESSAGE = {
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    403: 'Forbidden',
+    404: 'Not Found',
+    500: 'Internal Server Error'
+};
