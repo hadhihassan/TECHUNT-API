@@ -20,7 +20,9 @@ export class JobCategoryControllers {
     }
     async editJobCategory(req, res) {
         const { data, id } = req.body
+        console.log(req.body)
         const result = await this.jobCategoryUseCase.updatejobCategory(data, id);
+        console.log(result)
         return res.status(result.status).json(result)
     }
 }

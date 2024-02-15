@@ -69,8 +69,15 @@ export class JobCategoryUseCase {
     }
     async updatejobCategory(data, id) {
         try {
-            const result = await this.jobCategoryRepository.update(data,id)
-            console.log(result)
+            const isExisting = await this.jobCategoryRepository.findByName(data.name)
+            if (isExisting) {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message: "The job category name already existing",
+                    success: false
+                }
+            }
+            const result = await this.jobCategoryRepository.update(data, id)
             if (result.isModified) {
                 return {
                     status: STATUS_CODES.OK,
@@ -83,6 +90,7 @@ export class JobCategoryUseCase {
                 message: "No modification detected",
             };
         } catch (error) {
+            console.log(error.message)
             return get500Response(error);
         }
     }

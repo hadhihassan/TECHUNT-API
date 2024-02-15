@@ -20,9 +20,7 @@ export class JobCategoryRepository {
         })
     }
     async update(data, id) {
-        return await jobCategorySchema.findByIdAndUpdate(id, {
-            data
-        })
+        return await jobCategorySchema.findByIdAndUpdate(id, data, { new: true });
     }
 
 }

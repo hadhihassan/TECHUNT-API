@@ -1,7 +1,7 @@
 // controllers
 import { TalentController } from "../adapters/controllers/talentControllers.js";
 import { ClientController } from "../adapters/controllers/clientcontrollers.js";
-import { AdminContollers } from "../adapters/controllers/adminControllers.js"; 
+import { AdminContollers } from "../adapters/controllers/adminControllers.js";
 import { VerificationController } from "../adapters/controllers/verificationContoller.js"
 import { JobCategoryControllers } from "../adapters/controllers/jobCategoryControllers.js";
 //UseCases
@@ -46,3 +46,15 @@ export const Acontroller = new AdminContollers(adminUseCase, cuseCase, tUseCase)
 const jobCategoryRepository = new JobCategoryRepository()
 const jobCategoryUseCase = new JobCategoryUseCase(jobCategoryRepository)
 export const jobCateControllers = new JobCategoryControllers(jobCategoryUseCase)
+
+
+
+
+
+
+
+// middlewares
+import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.validation/jobCategory.middleware.js";
+export const checkJobExisiting = new CheckJobExisiting(jobCategoryRepository)
+
+
