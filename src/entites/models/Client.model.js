@@ -28,9 +28,6 @@ const ClientSchema = new Schema({
   online: { type: Boolean, default: false },
   isVerify: { type: Boolean, default: false },
   isNumberVerify: { type: Boolean, default: false }
-
-
-
 }, {
   timestamps: true
 });

@@ -11,7 +11,7 @@ export class AdminRepository {
         return { status: false, data: result }
     }
     async findById(id) {
-       return await admin.findById(id)
+        return await admin.findById(id)
     }
-    
+
 }

@@ -3,6 +3,7 @@ import { JwtToken } from '../providers/jwtToken.js';
 import { TalentRepository } from '../infrastructure/database/talent.Database.js';
 import { ClientRepository } from '../infrastructure/database/client.Database.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
+import { get500Response } from '../infrastructure/helperFunctions/response.js';
 
 
 
@@ -13,7 +14,6 @@ export class VerificationUseCase {
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypth()
     }
-
     async verifyLogin(email, password) {
         const talentData = await this.talentRepository.findByEmail(email);
         if (talentData.status) {
@@ -30,7 +30,6 @@ export class VerificationUseCase {
             data: null
         };
     }
-
     async authenticateUser(userData, password, role) {
         if (userData.data.isBlock) {
             return {
@@ -45,7 +44,7 @@ export class VerificationUseCase {
             return {
                 status: STATUS_CODES.OK,
                 message: "Successfully logged in.",
-                data: userData,
+                data: userData.data,
                 role: role,
                 token
             };
@@ -58,54 +57,51 @@ export class VerificationUseCase {
         }
     }
     async checkValidity(number, role, id) {
-        if (role === "CLIENT") {
-            const valid = await this.clientRepository.findById(id)
-            console.log(valid)
-            if (valid === null) {
+        if (role === "CLIENT1") {
+            const valid = await this.clientRepository.checkIsValidNumber(id, number)
+            if (!valid) {
                 return {
                     status: STATUS_CODES.NO_CONTENT,
                     message: "Enter you valid number"
                 }
             }
-            if (valid.Number === number) {
-                if (!valid.isNumberVerify) {
-                    return {
-                        status: STATUS_CODES.OK,
-                        message: "Otp sended. Check you sms"
-                    }
-                }
-                return {
-                    status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
-                    message: "Your number is already verified"
-                }
-            }
-            return {
-                status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
-                message: "Enter you valid number"
-            }
-        }
-        const valid = await this.talentRepository.findById(id)
-        console.log(valid)
-        if (valid === null) {
             return {
                 status: STATUS_CODES.OK,
-                message: "Enter you valid number"
+                success: true
             }
         }
-        if (valid.Number === number) {
-            if (!valid.isNumberVerify) {
-                return {
-                    status: STATUS_CODES.OK,
-                    message: "Otp sended. Check you sms"
-                }
-            } return {
+        const valid = await this.talentRepository.checkIsValidNumber(id, number)
+        if (!valid) {
+            return {
                 status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
-                message: "Your number is already verified"
+                message: "Enter you valid number"
             }
         }
         return {
-            status: STATUS_CODES.UNDERSTOOD_BUT_NOT_VALID,
-            message: "Enter you valid number"
+            status: STATUS_CODES.OK,
+            success: true
         }
     }
+    async updateNumberVerifiedStatus(id, role) {
+    try {
+        let result;
+        if (role === "CLIENT" || role === "TALENT") {
+            result = await this[`${role.toLowerCase()}Repository`].updateNumberVerified(id);
+        } else {
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                message: "Invalid role.",
+                success: false
+            };
+        }
+        return {
+            status: true,
+            message: "Successfully verified the number.",
+            success: true
+        };
+    } catch (error) {
+        console.error("Error updating number verification status:", error.message);
+        return get500Response(error);
+    }
+}
 }

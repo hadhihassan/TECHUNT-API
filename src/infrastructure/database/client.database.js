@@ -5,7 +5,7 @@ import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 
 
 export class ClientRepository {
-    
+
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {
@@ -13,7 +13,6 @@ export class ClientRepository {
         }
         return { status: true, data: user }
     }
-
     async findById(id) {
         return await client.findById(id)
     }
@@ -24,7 +23,6 @@ export class ClientRepository {
         }
         return { isExist: false, data: findToken }
     }
-
     async addClientSingupData(email, password) {
         try {
             const emailClient = new client({
@@ -149,8 +147,17 @@ export class ClientRepository {
             return false; // Error occurred
         }
     }
-  
-
-
+    async checkIsValidNumber(id , number){
+        const clientData = await client.findById(id);
+        console.log(clientData)
+        return number === clientData.Number;
+    }
+    async updateNumberVerified(id) {
+        return await client.findByIdAndUpdate(
+            id,
+            { $set: { isNumberVerify: true } },
+            { new: true }
+        );
+    }
 }
 
