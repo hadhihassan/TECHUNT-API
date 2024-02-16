@@ -69,7 +69,6 @@ export class TalentRepository {
             })
         } catch (error) {
             console.error(error.message);
-            throw new Error('Failed to save profile picture');
             return {
                 status: STATUS_CODES.INTERNAL_SERVER_ERROR,
                 data: "Error"
@@ -207,9 +206,6 @@ export class TalentRepository {
                     { $set: { isBlock: true } } // Update object to set the 'isBlock' field
                 );
             }
-
-
-
             if (isBlocked) {
                 return true; // Successfully updated
             } else {
@@ -220,5 +216,17 @@ export class TalentRepository {
             return false; // Error occurred
         }
     }
-  
+    async checkIsValidNumber(id , number){
+        const talentData = await talent.findById(id)
+        console.log(talentData)
+        return number === talentData.Number
+    }
+    async updateNumberVerified(id) {
+        return await talent.findByIdAndUpdate(
+            id,
+            { $set: { isNumberVerify: true } },
+            { new: true } 
+        );
+    }
+
 }

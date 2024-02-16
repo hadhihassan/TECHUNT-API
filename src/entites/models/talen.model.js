@@ -22,9 +22,9 @@ const TalentSchema = new Schema({
     Country: { type: String, },
     lastSeen: { type: Date },
     isBlock: { type: Boolean, default: false },
-    online: { type: Boolean ,default : false},
-    isVerify: { type: Boolean ,default : false},    
-    isNumberVerify: { type: Boolean ,default : false}
+    online: { type: Boolean, default: false },
+    isVerify: { type: Boolean, default: false },
+    isNumberVerify: { type: Boolean, default: false },
 
 
 }, {
