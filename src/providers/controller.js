@@ -4,26 +4,23 @@ import { ClientController } from "../adapters/controllers/clientcontrollers.js";
 import { AdminContollers } from "../adapters/controllers/adminControllers.js";
 import { VerificationController } from "../adapters/controllers/verificationContoller.js"
 import { JobCategoryControllers } from "../adapters/controllers/jobCategoryControllers.js";
+import { JobPostController } from "../adapters/controllers/jobPostControllers.js"; 
 //UseCases
 import { TalentUseCase } from "../useCases/talent.intractor.js";
 import { AdminUseCase } from "../useCases/admin.intaractor.js";
 import { VerificationUseCase } from "../useCases/verification.intaractor.js";
 import { JobCategoryUseCase } from "../useCases/jobCategory.intaractor.js";
 import { ClientUseCase } from "../useCases/client.intaractor.js";
+import { JobPostUseCase } from "../useCases/jobPost.intaractor.js"
 //Repository database
 import { TalentRepository } from "../infrastructure/database/talent.Database.js";
 import { AdminRepository } from "../infrastructure/database/admin.Database.js";
 import { JobCategoryRepository } from "../infrastructure/database/jobCategory.Database.js";
 import { ClientRepository } from "../infrastructure/database/client.Database.js";
-//helperes 
+import { JobPostRepository } from "../infrastructure/database/jobPost.Database.js";
+//services 
 import { Encrypth } from "./bcryptPassword.js";
 import { Mailer } from "./EmailService.js";
-
-
-
-
-
-
 
 const mailSend = new Mailer();
 const encrypt = new Encrypth()
@@ -47,11 +44,9 @@ const jobCategoryRepository = new JobCategoryRepository()
 const jobCategoryUseCase = new JobCategoryUseCase(jobCategoryRepository)
 export const jobCateControllers = new JobCategoryControllers(jobCategoryUseCase)
 
-
-
-
-
-
+const jobPostRepository = new JobPostRepository()
+const jobPostUseCase = new JobPostUseCase(jobPostRepository)
+export const jobPostControllers = new JobPostController(jobPostUseCase)
 
 // middlewares
 import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.validation/jobCategory.middleware.js";
