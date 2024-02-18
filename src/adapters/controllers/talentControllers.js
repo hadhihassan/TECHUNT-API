@@ -7,7 +7,6 @@ export class TalentController {
     constructor(talentUseCase, encrypt) {
         this.talentUseCase = new TalentUseCase();
         this.encrypt = new Encrypth()
-
     }
     async verifyEmail(req, res) {
         try {

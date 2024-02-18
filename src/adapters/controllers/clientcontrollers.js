@@ -2,9 +2,6 @@ import { STATUS_CODES } from '../../constants/httpStatusCode.js';
 import { ClientUseCase } from '../../useCases/client.intaractor.js';
 import { Encrypth } from '../../providers/bcryptPassword.js';
 
-
-
-
 export class ClientController {
     constructor(clientUseCase, encrypt) {
         this.clientUseCase = new ClientUseCase();
@@ -87,6 +84,4 @@ export class ClientController {
         const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-
-
 }
