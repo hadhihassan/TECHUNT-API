@@ -6,6 +6,8 @@ export class JobCategoryControllers {
     }
     async addNewJobCategory(req, res) {
         req.body.image = req.file?.filename
+        console.log(req.body)
+        console.log(req?.file?.filename)
         const result = await this.jobCategoryUseCase.AddJobCategory(req.body)
         return res.status(result.status).json(result)
     }
@@ -19,9 +21,10 @@ export class JobCategoryControllers {
         return res.status(result.status).json(result)
     }
     async editJobCategory(req, res) {
-        const { data, id } = req.body
+        req.body.image = req.file?.filename
         console.log(req.body)
-        const result = await this.jobCategoryUseCase.updatejobCategory(data, id);
+        console.log(req?.file?.filename)
+        const result = await this.jobCategoryUseCase.updatejobCategory(req.body,req.body.id );
         console.log(result)
         return res.status(result.status).json(result)
     }

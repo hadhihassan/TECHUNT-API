@@ -69,7 +69,7 @@ export class JobCategoryUseCase {
     }
     async updatejobCategory(data, id) {
         try {
-            const isExisting = await this.jobCategoryRepository.findByName(data.name)
+            const isExisting = await this.jobCategoryRepository.findByName(data.name,id)
             if (isExisting) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,

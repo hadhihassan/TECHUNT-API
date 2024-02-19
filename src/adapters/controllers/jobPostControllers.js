@@ -22,4 +22,10 @@ export class JobPostController {
         const result = await this.jobPostUseCase.UpdateJobPost(data,id)
         return res.status(result.status).json(result)
     }
+    async getJoboPost(req,res){
+        const id = req.body.id
+        console.log(id)
+        const result = await this.jobPostUseCase.getAllClientJobPosts( id)
+        return res.status(result.status).json(result)
+    }
 }
