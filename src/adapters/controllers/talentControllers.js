@@ -29,6 +29,7 @@ export class TalentController {
             try {
             const { token } = req.params;
             const isExist = await this.talentUseCase.isTokenExist(token);
+            console.log(isExist)
             if (!isExist) {
                 return res.status(403).json({ status: false });
             }

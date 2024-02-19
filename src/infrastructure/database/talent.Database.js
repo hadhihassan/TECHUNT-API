@@ -13,6 +13,7 @@ export class TalentRepository {
         return { status: true, data: user }
     }
     async findById(id) {
+        console.log("data base reacjed herer",id)
         return await talent.findById(id)
     }
 
