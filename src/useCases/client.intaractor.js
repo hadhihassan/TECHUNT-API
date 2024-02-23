@@ -35,6 +35,13 @@ export class ClientUseCase {
             console.log(error.message);
         }
     }
+    async UpdateEmailVerify(id) {
+        try {
+            const existing = await this.clientRepository.UpdateEmailVerifyTrue(id);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 
     async sendTimeoutLinkEmailVerification(email) {
         try {

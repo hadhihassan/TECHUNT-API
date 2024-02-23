@@ -10,7 +10,7 @@ const JobPostSchema = new Schema({
     Client_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        // unique: true
+        ref: 'Client',
     },
     Skills: [{
         type: String,

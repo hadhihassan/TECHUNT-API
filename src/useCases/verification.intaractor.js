@@ -5,8 +5,6 @@ import { ClientRepository } from '../infrastructure/database/client.Database.js'
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
 import { get500Response } from '../infrastructure/helperFunctions/response.js';
 
-
-
 export class VerificationUseCase {
     constructor() {
         this.talentRepository = new TalentRepository();
@@ -57,7 +55,7 @@ export class VerificationUseCase {
         }
     }
     async checkValidity(number, role, id) {
-        if (role === "CLIENT1") {
+        if (role === "CLIENT") {
             const valid = await this.clientRepository.checkIsValidNumber(id, number)
             if (!valid) {
                 return {
@@ -83,25 +81,27 @@ export class VerificationUseCase {
         }
     }
     async updateNumberVerifiedStatus(id, role) {
-    try {
-        let result;
-        if (role === "CLIENT" || role === "TALENT") {
-            result = await this[`${role.toLowerCase()}Repository`].updateNumberVerified(id);
-        } else {
+        try {
+            let result;
+            if (role === "CLIENT") {
+                result = await this.clientRepository.updateNumberVerified(id);
+            } else if (role === "TALENT") {
+                result = result = await this.talentRepository.updateNumberVerified(id);
+            } else {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message: "Invalid role.",
+                    success: false
+                };
+            }
             return {
-                status: STATUS_CODES.BAD_REQUEST,
-                message: "Invalid role.",
-                success: false
+                status: STATUS_CODES.OK,
+                message: "Successfully verified the number.",
+                success: true
             };
+        } catch (error) {
+            console.error("Error updating number verification status:", error.message);
+            return get500Response(error);
         }
-        return {
-            status: true,
-            message: "Successfully verified the number.",
-            success: true
-        };
-    } catch (error) {
-        console.error("Error updating number verification status:", error.message);
-        return get500Response(error);
     }
-}
 }

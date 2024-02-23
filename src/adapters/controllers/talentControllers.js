@@ -33,6 +33,7 @@ export class TalentController {
             if (!isExist) {
                 return res.status(403).json({ status: false });
             }
+            const setEmailVerify =  await this.talentUseCase.UpdateEmailVerify(req.clientId)
             return res.status(201).json({ status: true, message: "Token exists successfully." });
         } catch (error) {
             console.log(error.message);
@@ -62,6 +63,7 @@ export class TalentController {
     }
     async saveJobBasedData(req, res) {
         const id = req.clientId
+        console.log(req.body)
         const result = await this.talentUseCase.saveJobData(req.body, id)
         return res.status(STATUS_CODES.OK).json(result)
     }
