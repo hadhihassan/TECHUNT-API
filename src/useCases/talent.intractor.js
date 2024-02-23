@@ -51,13 +51,19 @@ export class TalentUseCase {
             return { talent, token, role: "TALENT" }
         } catch (error) {
             console.log(error.message)
-            
+
         }
     }
     async saveConatctDeatils(formData, id) {
         return await this.talentRepository.addConatctDeatils(formData, id)
     }
-
+    async UpdateEmailVerify(id) {
+        try {
+            const existing = await this.talentRepository.UpdateEmailVerifyTrue(id);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
     async saveProfilePic(filaName, id) {
         return await this.talentRepository.saveProfilePic(filaName, id)
     }
@@ -86,28 +92,28 @@ export class TalentUseCase {
             }
         }
     }
-    async saveJobData(data, id){
+    async saveJobData(data, id) {
         return await this.talentRepository.addJobData(data, id)
     }
-    async getProfilelData(id){
+    async getProfilelData(id) {
         return await this.talentRepository.findById(id)
     }
-    async editProfileSectionOne(data, id){
+    async editProfileSectionOne(data, id) {
         return await this.talentRepository.updateprofile(data, id)
     }
-    async editSkills(data, id){
+    async editSkills(data, id) {
         return await this.talentRepository.updateSkills(data, id)
     }
-    async editExperiance(data, id){
+    async editExperiance(data, id) {
         return await this.talentRepository.updateExperiance(data, id)
     }
-    async editConatctDeatils(data, id){
+    async editConatctDeatils(data, id) {
         return await this.talentRepository.editConatct(data, id)
     }
-    async getAllTalent(){
+    async getAllTalent() {
         return await this.talentRepository.getAllTalentData()
     }
-    async blockTalent(email, block){
+    async blockTalent(email, block) {
         return await this.talentRepository.block(email, block)
     }
 }

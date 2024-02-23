@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const talent_Routes = Router();
-import { Tcontroller } from '../../providers/controller.js';
+import { Tcontroller,jobCateControllers,jobPostControllers  } from '../../providers/controller.js';
 import { checkToken } from '../middlewares/talentAuth.js';
 import { upload } from '../config/multer.js';
 
@@ -17,5 +17,7 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/update-skills/",checkToken, (req,res) => Tcontroller.updateSkills(req,res))
     .post("/update-experiance/",checkToken, (req,res) => Tcontroller.updateExperiance(req,res))
     .post("/edit-profile-contact/",checkToken, (req,res) => Tcontroller.updateConatctDeatils(req,res))
+    .get("/fetch-job-cate/", (req,res) => jobCateControllers.getJobCategory(req,res))
+    .get("/fetch-all-job-post/", checkToken ,(req,res) => jobPostControllers.getAllJobPostForTalent(req,res))
 
 export default talent_Routes;

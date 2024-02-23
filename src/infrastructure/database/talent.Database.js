@@ -25,6 +25,10 @@ export class TalentRepository {
         return { isExist: false, data: findToken }
     }
 
+    async UpdateEmailVerifyTrue(id) {
+        const setAsVerify = await talent.findByIdAndUpdate(id, { $set: { isVerify: true } });
+        return setAsVerify
+    }
     async addTalentSingupData(email, password) {
         try {
             const data = new talent({
@@ -82,7 +86,7 @@ export class TalentRepository {
             return await talent.findByIdAndUpdate(objectId, {
                 "Profile.Title": data.title,
                 "Profile.Skills": data.skills,
-                "Profile.Work_Experiance": data.experiance
+                "Profile.Work_Experiance": data.experience
             })
         } catch (error) {
             consoel.lo(error.message)
@@ -223,10 +227,10 @@ export class TalentRepository {
         return number === talentData.Number
     }
     async updateNumberVerified(id) {
+
         return await talent.findByIdAndUpdate(
             id,
-            { $set: { isNumberVerify: true } },
-            { new: true } 
+            { $set: { isNumberVerify: true } }
         );
     }
 

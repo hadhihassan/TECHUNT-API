@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 
-
 const { Schema, ObjectId } = mongoose;
 
 const ClientSchema = new Schema({
@@ -9,7 +8,7 @@ const ClientSchema = new Schema({
   Password: { type: String, },
   Email: { type: String, },
   Number: { type: String, },
-  JobPost_id: { type: Schema.Types.ObjectId },
+  JobPost_id:[ { type: Schema.Types.ObjectId ,ref: 'JobPost' }],
   Profile: {
     profile_Dp: { type: String },
     Completed_contract: { type: Number },

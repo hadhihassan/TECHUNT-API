@@ -70,4 +70,25 @@ export class JobPostUseCase {
             get500Response(err)
         }
     }
+    async getFullJobsForTalent(){
+        try {
+            const posts = await this.jobPostRepository.findAllPost()
+            console.log(posts)
+            if(posts === null){
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message : "While fetch post got an error",
+                    success : false,
+                    
+                }
+            }return {
+                status: STATUS_CODES.OK,
+                message : "Successfull",
+                success : true,
+                data:posts
+            }
+        } catch (error) {
+            get500Response(error)
+        }
+    }
 } 

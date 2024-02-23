@@ -35,7 +35,7 @@ export class ClientController {
             if (!isExist) {
                 return res.status(STATUS_CODES.FORBIDDEN).json({ status: false });
             }
-            
+            const updateAsVerified = await this.clientUseCase.UpdateEmailVerify(req.clientId)
             return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Token exists successfully." });
         } catch (error) {
             console.log(error.message);

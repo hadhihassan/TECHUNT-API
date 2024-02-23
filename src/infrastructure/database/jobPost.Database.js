@@ -28,4 +28,8 @@ export class JobPostRepository {
     async updateJobDocument(data,id) {
         return await JobPostModel.findByIdAndUpdate(id, data, { new: true });
     }
+    
+    async findAllPost(){
+        return await JobPostModel.find().populate('Client_id').exec();
+    }
 }

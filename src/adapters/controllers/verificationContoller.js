@@ -19,7 +19,6 @@ export class VerificationController {
     }
     async checkNumberisValid(req, res) {
         try{
-
             console.log(req.body)
             const { number, role, id } = req.body
             const valid = await this.verificationUseCase.checkValidity(number, role, id)

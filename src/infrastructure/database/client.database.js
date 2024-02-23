@@ -23,6 +23,10 @@ export class ClientRepository {
         }
         return { isExist: false, data: findToken }
     }
+    async UpdateEmailVerifyTrue(id) {
+        const setAsVerify = await client.findByIdAndUpdate(id, { $set: { isNumberVerify: true } });
+        return setAsVerify
+    }
     async addClientSingupData(email, password) {
         try {
             const emailClient = new client({
@@ -155,8 +159,7 @@ export class ClientRepository {
     async updateNumberVerified(id) {
         return await client.findByIdAndUpdate(
             id,
-            { $set: { isNumberVerify: true } },
-            { new: true }
+            { $set: { isNumberVerify: true } }
         );
     }
 }
