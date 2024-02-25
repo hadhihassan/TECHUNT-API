@@ -1,5 +1,5 @@
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
-import { JobCategoryRepository } from "../infrastructure/database/jobCategory.Database.js";
+import { JobCategoryRepository } from "../infrastructure/Repository/jobCategory.Database.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
 
 export class JobCategoryUseCase {

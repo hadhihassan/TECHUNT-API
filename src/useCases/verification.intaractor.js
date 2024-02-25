@@ -1,7 +1,7 @@
 import { Encrypth } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
-import { TalentRepository } from '../infrastructure/database/talent.Database.js';
-import { ClientRepository } from '../infrastructure/database/client.Database.js';
+import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
+import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
 import { get500Response } from '../infrastructure/helperFunctions/response.js';
 

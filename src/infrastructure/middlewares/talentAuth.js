@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken'
 const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
-import { TalentRepository } from '../database/talent.Database.js';
+import { TalentRepository } from '../Repository/talent.Database.js';
 const talentRepository = new TalentRepository()
 
 export const checkToken = async (req, res, next) => {
     try {
+        console.log(req.headers)
         const token = req.headers.authorization;
-        console.log(req.headers.authorization)
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }

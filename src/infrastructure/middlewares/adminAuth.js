@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
-import { AdminRepository } from '../database/admin.Database.js';
+import { AdminRepository } from '../Repository/admin.Database.js';
 const adminRepository = new AdminRepository()
 
 

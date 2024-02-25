@@ -1,6 +1,6 @@
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
-import { JobPostRepository } from "../infrastructure/database/jobPost.Database.js";
+import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database.js";
 
 
 export class JobPostUseCase {

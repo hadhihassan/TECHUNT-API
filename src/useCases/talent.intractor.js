@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { TalentRepository } from '../infrastructure/database/talent.Database.js';
+import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypth } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
