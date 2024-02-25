@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const client_Routes = Router();
-import { Ccontroller } from '../../providers/controller.js';
+import { Ccontroller, proposalControllers } from '../../providers/controller.js';
 import { jobPostControllers } from '../../providers/controller.js';
 import { checkToken } from '../middlewares/clientAuth.js';
 import { upload } from '../config/multer.js';
@@ -16,4 +16,5 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
             .post("/post-job/", checkToken, (req, res) => jobPostControllers.createNewJobPost(req, res))
             .get("/get-all-jobpost/", checkToken, (req, res) => jobPostControllers.diplsyaAllJoboPost(req, res))
             .patch("/edit-jobpost/", checkToken, (req, res) => jobPostControllers.editJoboPost(req, res))
+            .get("/get-all-proposals/", checkToken, (req, res) => proposalControllers.getAllproposal(req, res))
 export default client_Routes;

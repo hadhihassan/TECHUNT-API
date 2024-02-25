@@ -25,7 +25,8 @@ export class ProposalUesCase {
             return {
                 status: STATUS_CODES.OK,
                 message: "Successfully propsal saved .",
-                success: true
+                success: true,
+                data: datas
             }
         } catch (err) {
             get500Response(err)
@@ -53,6 +54,66 @@ export class ProposalUesCase {
                 success: false
             }
         } catch (err) {
+            get500Response(err)
+        }
+    }
+    async getAllproposal(id){
+        try{
+            const proposals = await this.proposalRepository.findManyProposals(id)
+            if(proposals === null){
+                return {
+                    message : "No proposal you have.",
+                    success :false,
+                    status:STATUS_CODES.BAD_REQUEST
+                }
+            }
+            return{
+                message :"Succedd",
+                success:true,
+                status:STATUS_CODES.OK,
+                data:proposals
+            }
+        }catch(err){
+            get500Response(err)
+        }
+    }
+    async updateProposalAsAAccept(id){
+        try{
+            const accepedProposal = await this.proposalRepository.upadteAccept(id)
+            if(proposals === null){
+                return {
+                    message : "could't find Proposal.",
+                    success :false,
+                    status:STATUS_CODES.BAD_REQUEST
+                }
+            }
+            return{
+                message :"Success",
+                success:true,
+                status:STATUS_CODES.OK,
+                data:proposals
+            }
+        }catch(err){
+            get500Response(err)
+        }
+    }
+    async updateProposalAsDecline(id){
+        try{
+            const declienProposal = await this.proposalRepository.upadteDecline(id)
+            if(proposals === null){
+                return {
+                    message : "could't find Proposal.",
+                    success :false,
+                    status:STATUS_CODES.BAD_REQUEST
+                }
+            }
+            return{
+                message :"Success",
+                success:true,
+                status:STATUS_CODES.OK,
+                data:proposals
+            }
+        }catch(err){
             get500Response(err)
         }
     }

@@ -36,6 +36,9 @@ const proposalSchema = new Schema({
         trim: true,
         maxlength: 1000,
     },
+    isAccept: {
+        type: Boolean,
+    },
     talentId:{
         type: Schema.Types.ObjectId,
         required: true,
@@ -46,6 +49,11 @@ const proposalSchema = new Schema({
         required: true,
         ref: 'JobPost',
     },
+    Client_id:{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'Client',
+    }
 }, { timestamps: true });
 
 const Proposal = mongoose.model('Proposal', proposalSchema);

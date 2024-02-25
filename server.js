@@ -4,7 +4,7 @@ import createServer from './src/infrastructure/config/app.js';
 import dbConnect from './src/infrastructure/config/db.js';
 import 'dotenv/config';
 import { Server as socket } from 'socket.io';
-
+import notificaitonModel from './src/entites/models/subSchema/notificaion.model.js '
 const PORT = process.env.PORT || 3000;
 
 const app = createServer();
@@ -21,8 +21,37 @@ dbConnect()
       })
       io.on("connection", (socket) => {
         console.log("user connected", socket.id)
+        socket.on('disconnect', () => {
+          console.log('User disconnected');
+        });
+        socket.on("sendNotification", async (data) => {
+          console.log("notificaiton recevied :", data)
+          try {
+            const notitification = new notificaitonModel({
+              recipient_id: data.recipient_id,
+              sender_id: data.sender_id,
+              content: data.content,
+              type: data.type,
+              metaData : data.metaData
+            });await notitification.save()
+            io.emit("recevieNotification", {_id:notitification._id, message:data.content})
+          } catch (error) {
+            console.log('Error saving notification:',error.message)
+          }
+        })
+        socket.on("getNotifications",async (recipient_id) => {
+          try{
+            console.log(recipient_id,"ths is id")
+            const notification = await notificaitonModel.find({recipient_id})
+            console.log(notification);
+            socket.emit("receivedNotificatios",notification)
+          }catch(err){
+            console.log( 'Error fetching notifications:', err)
+          }
+        })
       })
-      
+
+
       server.listen(PORT, () => console.log(`listening to PORT ${PORT}`));
     } else {
       throw new Error('app is undefined');
