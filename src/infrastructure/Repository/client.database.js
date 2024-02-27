@@ -3,9 +3,7 @@ import client from "../../entites/models/Client.model.js";
 import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 
-
 export class ClientRepository {
-
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {
@@ -37,10 +35,9 @@ export class ClientRepository {
             return emailClient;
         } catch (error) {
             console.log(error);
-            throw new Error("Saving email got an error");  // Corrected error handling
+            throw new Error("Saving email got an error");  
         }
     }
-
     async addConatctDeatils(formData, id) {
         try {
             const objectId = new mongoose.Types.ObjectId(id);
@@ -128,27 +125,26 @@ export class ClientRepository {
     async block(email, block) {
         try {
             let isBlocked
-            // Assuming you have a MongoDB client instance named 'client'
             if (block) {
                 isBlocked = await client.findOneAndUpdate(
-                    { Email: email }, // Filter object to find the document
-                    { $set: { isBlock: false } } // Update object to set the 'isBlock' field
+                    { Email: email }, 
+                    { $set: { isBlock: false } } 
                 );
             } else {
                 isBlocked = await client.findOneAndUpdate(
-                    { Email: email }, // Filter object to find the document
-                    { $set: { isBlock: true } } // Update object to set the 'isBlock' field
+                    { Email: email }, 
+                    { $set: { isBlock: true } } 
                 );
             }
             console.log("client ====", isBlocked);
             if (isBlocked) {
-                return true; // Successfully updated
+                return true; 
             } else {
-                return false; // Document not found
+                return false;
             }
         } catch (error) {
             console.error('Error occurred while updating user block status:', error);
-            return false; // Error occurred
+            return false; 
         }
     }
     async checkIsValidNumber(id , number){

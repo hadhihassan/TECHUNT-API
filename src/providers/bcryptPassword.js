@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt'
 import { SALT_ROUND } from '../constants/constant.js'
 
-
-export class Encrypth {
+export class Encrypt {
     //Hashing the password for the secure.
-    async encrypthPassword(password) {
+    async encryptPassword(password) {
         const salt = await bcrypt.genSalt(SALT_ROUND);
         return await bcrypt.hash(password, salt)
     }

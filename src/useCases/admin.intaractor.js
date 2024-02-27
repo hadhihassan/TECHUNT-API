@@ -1,6 +1,6 @@
 import { AdminRepository } from "../infrastructure/Repository/admin.Database.js";
 import { JwtToken } from '../providers/jwtToken.js';
-import { Encrypth } from "../providers/bcryptPassword.js";
+import { Encrypt } from "../providers/bcryptPassword.js";
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { ClientUseCase } from "./client.intaractor.js";
 import { TalentUseCase } from "./talent.intractor.js";
@@ -10,10 +10,9 @@ export class AdminUseCase {
         this.jwtToken = new JwtToken()
         this.adminRepository = new AdminRepository()
         this.clientUseCase = new ClientUseCase()
-        this.talnetUseCase = new TalentUseCase()
-        this.encrypth = new Encrypth()
+        this.talentUseCase = new TalentUseCase()
+        this.encrypt = new Encrypt()
     }
-
     async adminLogin(password, userName) {
         try {
             const result = await this.adminRepository.findByUserName(userName);
@@ -24,7 +23,7 @@ export class AdminUseCase {
                     token: ""
                 };
             }
-            const isPasswordCorrect = await this.encrypth.comparePasswords(password, result.data.Password);
+            const isPasswordCorrect = await this.encrypt.comparePasswords(password, result.data.Password);
             if (!isPasswordCorrect) {
                 return {
                     status: STATUS_CODES.FORBIDDEN,
@@ -48,7 +47,7 @@ export class AdminUseCase {
         }
     }
     async collectAllUserData() {
-        const talent = await this.talnetUseCase.getAllTalent()
+        const talent = await this.talentUseCase.getAllTalent()
         const client = await this.clientUseCase.getAllClient()
         if (talent && client) {
             return {
@@ -65,21 +64,14 @@ export class AdminUseCase {
         }
     }
     async blockUesr(email, block, role) {
-        console.log(role, "role is ")
         if (role === "CLIENT") {
             const forClient = await this.clientUseCase.blockClient(email, block)
             if (forClient) {
                 return forClient
             }
         }else if(role === "TALENT"){
-            const forTalent = await this.talnetUseCase.blockTalent(email, block)
+            const forTalent = await this.talentUseCase.blockTalent(email, block)
             return forTalent
         }
-        // const forClient = await this.clientUseCase.blockClient(email, block)
-        // if (forClient) {
-        //     return forClient
-        // }
-        // const forTalent = await this.talnetUseCase.blockTalent(email, block)
-        // return forTalent
     }
 }

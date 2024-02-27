@@ -1,18 +1,17 @@
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
-import { Encrypth } from "../../providers/bcryptPassword.js";
+import { Encrypt } from "../../providers/bcryptPassword.js";
 import { TalentUseCase } from "../../useCases/talent.intractor.js";
 
 
 export class TalentController {
     constructor(talentUseCase, encrypt) {
         this.talentUseCase = new TalentUseCase();
-        this.encrypt = new Encrypth()
+        this.encrypt = new Encrypt()
     }
     async verifyEmail(req, res) {
         try {
             const { email, type } = req.body
             const { password } = req.body
-            console.log(req.body)
             const isExist = await this.talentUseCase.isEmailExist(email);
             if (!isExist.status) {
                 const securePassword = await this.encrypt.encrypthPassword(password)
@@ -29,7 +28,6 @@ export class TalentController {
             try {
             const { token } = req.params;
             const isExist = await this.talentUseCase.isTokenExist(token);
-            console.log(isExist)
             if (!isExist) {
                 return res.status(403).json({ status: false });
             }
@@ -63,7 +61,6 @@ export class TalentController {
     }
     async saveJobBasedData(req, res) {
         const id = req.clientId
-        console.log(req.body)
         const result = await this.talentUseCase.saveJobData(req.body, id)
         return res.status(STATUS_CODES.OK).json(result)
     }
@@ -96,5 +93,4 @@ export class TalentController {
         const editResult = await this.talentUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-
 }

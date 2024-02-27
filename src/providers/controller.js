@@ -13,7 +13,7 @@ import { VerificationUseCase } from "../useCases/verification.intaractor.js";
 import { JobCategoryUseCase } from "../useCases/jobCategory.intaractor.js";
 import { ClientUseCase } from "../useCases/client.intaractor.js";
 import { JobPostUseCase } from "../useCases/jobPost.intaractor.js"
-import { ProposalUesCase } from "../useCases/proposal.intaractor.js";
+import { ProposalUseCase } from "../useCases/proposal.intaractor.js";
 //Repository database
 import { TalentRepository } from "../infrastructure/Repository/talent.Database.js";
 import { AdminRepository } from "../infrastructure/Repository/admin.Database.js";
@@ -21,16 +21,16 @@ import { JobCategoryRepository } from "../infrastructure/Repository/jobCategory.
 import { ClientRepository } from "../infrastructure/Repository/client.Database.js";
 import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database.js";
 //services 
-import { Encrypth } from "./bcryptPassword.js";
+import { Encrypt } from "./bcryptPassword.js";
 import { Mailer } from "./EmailService.js";
 import { S3Service } from "./S3.js";
 
 const mailSend = new Mailer();
-const encrypt = new Encrypth()
+const encrypt = new Encrypt()
 const s3Service = new S3Service()
 
 const proposalRepository = new ProposalRepository()
-const proposalUseCase = new ProposalUesCase(s3Service, proposalRepository)
+const proposalUseCase = new ProposalUseCase(s3Service, proposalRepository)
 export const proposalControllers = new ProposalController(proposalUseCase)
 
 

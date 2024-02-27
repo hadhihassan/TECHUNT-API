@@ -39,20 +39,24 @@ const proposalSchema = new Schema({
     isAccept: {
         type: Boolean,
     },
-    talentId:{
+    talentId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'Talent',
     },
-    jobId:{
+    jobId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'JobPost',
     },
-    Client_id:{
+    Client_id: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'Client',
+    },
+    paymentStatus: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

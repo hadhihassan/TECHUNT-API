@@ -3,7 +3,6 @@ import talent from "../../entites/models/talen.model.js";
 import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 
-
 export class TalentRepository {
     async findByEmail(email) {
         const user = await talent.findOne({ Email: email });
@@ -16,7 +15,6 @@ export class TalentRepository {
         console.log("data base reacjed herer",id)
         return await talent.findById(id)
     }
-
     async findByToken(token) {
         const findToken = await Token.findOne({ token });
         if (findToken) {
@@ -24,7 +22,6 @@ export class TalentRepository {
         }
         return { isExist: false, data: findToken }
     }
-
     async UpdateEmailVerifyTrue(id) {
         const setAsVerify = await talent.findByIdAndUpdate(id, { $set: { isVerify: true } });
         return setAsVerify
@@ -57,7 +54,6 @@ export class TalentRepository {
                 { new: true }
             )
         } catch (error) {
-
             console.error(error.message);
             // throw new Error('Failed to save add contact deatils');
             return {
@@ -96,7 +92,6 @@ export class TalentRepository {
             }
         }
     }
-
     async updateprofile(data, id) {
         try {
             const result = await talent.findByIdAndUpdate(id, {
@@ -227,7 +222,6 @@ export class TalentRepository {
         return number === talentData.Number
     }
     async updateNumberVerified(id) {
-
         return await talent.findByIdAndUpdate(
             id,
             { $set: { isNumberVerify: true } }

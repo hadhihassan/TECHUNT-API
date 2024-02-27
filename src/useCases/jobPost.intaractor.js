@@ -2,18 +2,15 @@ import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
 import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database.js";
 
-
 export class JobPostUseCase {
     constructor() {
         this.jobPostRepository = new JobPostRepository();
     }
     async postNewJob(data, id) {
         try {
-            console.log(data, id)
             const postResult = await this.jobPostRepository.insertNewJobPost(data, id)
             if (postResult === null) {
                 return {
-
                     status: STATUS_CODES.BAD_REQUEST,
                     message: "While creating new job post got a error.",
                     success: false
@@ -52,7 +49,6 @@ export class JobPostUseCase {
     async UpdateJobPost(data,id) {
         try {
             const result = await this.jobPostRepository.updateJobDocument(data,id)
-            console.log(result)
             if (result === null) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,
@@ -73,7 +69,6 @@ export class JobPostUseCase {
     async getFullJobsForTalent(){
         try {
             const posts = await this.jobPostRepository.findAllPost()
-            console.log(posts)
             if(posts === null){
                 return {
                     status: STATUS_CODES.BAD_REQUEST,

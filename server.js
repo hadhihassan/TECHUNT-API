@@ -27,6 +27,7 @@ dbConnect()
         socket.on("sendNotification", async (data) => {
           console.log("notificaiton recevied :", data)
           try {
+
             const notitification = new notificaitonModel({
               recipient_id: data.recipient_id,
               sender_id: data.sender_id,
@@ -34,17 +35,19 @@ dbConnect()
               type: data.type,
               metaData : data.metaData
             });await notitification.save()
-            io.emit("recevieNotification", {_id:notitification._id, message:data.content})
+
+            // io.emit("recevieNotification", {_id:notitification._id, message:data.content})
+            const notification = await notificaitonModel.find({recipient_id : data.recipient_id})
+            io.emit("recevieNotification",notification )
+
           } catch (error) {
             console.log('Error saving notification:',error.message)
           }
         })
         socket.on("getNotifications",async (recipient_id) => {
           try{
-            console.log(recipient_id,"ths is id")
             const notification = await notificaitonModel.find({recipient_id})
-            console.log(notification);
-            socket.emit("receivedNotificatios",notification)
+            socket.emit("recevieNotification",notification)
           }catch(err){
             console.log( 'Error fetching notifications:', err)
           }

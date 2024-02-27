@@ -3,13 +3,12 @@ const talent_Routes = Router();
 import { Tcontroller, jobCateControllers, jobPostControllers, proposalControllers } from '../../providers/controller.js';
 import { checkToken } from '../middlewares/talentAuth.js';
 import { upload } from '../config/multer.js';
-
+import stripeModule from "stripe";
 
 
 
 talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/verify/:token", checkToken, (req, res) => Tcontroller.verifyEmailToken(req, res))
-
     .post("/add-contact/", checkToken, (req, res) => Tcontroller.addConatcDetails(req, res))
     .post("/upload-profile-pic/", checkToken, upload.single("image"), (req, res) => Tcontroller.uploadProfileImg(req, res))
     .post("/save-bio-data/", checkToken, (req, res) => Tcontroller.saveJobBasedData(req, res))
@@ -18,11 +17,47 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/update-skills/", checkToken, (req, res) => Tcontroller.updateSkills(req, res))
     .post("/update-experiance/", checkToken, (req, res) => Tcontroller.updateExperiance(req, res))
     .post("/edit-profile-contact/", checkToken, (req, res) => Tcontroller.updateConatctDeatils(req, res))
-
     .get("/fetch-job-cate/", (req, res) => jobCateControllers.getJobCategory(req, res))
     .get("/fetch-all-job-post/", checkToken, (req, res) => jobPostControllers.getAllJobPostForTalent(req, res))
-
     .post("/upload-attachment/", checkToken, (req, res) => proposalControllers.getSignedUrlForS3Store(req, res))
     .post("/submit-proposal/", checkToken, (req, res) => proposalControllers.saveProposal(req, res))
-
+    .post("/make-payment-proposal/", checkToken, (req, res) => proposalControllers.makeProposalPayment(req, res))
+//     try {
+//         const stripe = stripeModule(process.env.STRIP_SECRET_KEY);
+//         const customer = await stripe.customers.create({
+//             shipping: {
+//                 name: 'Jenny Rosen',
+//                 address: {
+//                     line1: '510 Townsend St',
+//                     postal_code: '98140',
+//                     city: 'San Francisco',
+//                     state: 'CA',
+//                     country: 'DK',
+//                 },
+//             },
+//         });
+//         const lineItems = [{
+//             price_data: {
+//                 currency: "INR",
+//                 product_data: {
+//                     name: "Proposal Service Charge",
+//                 },
+//                 unit_amount: Math.round(500 * 100),
+//             },
+//             quantity: 1,
+//         }];
+//         const session = await stripe.checkout.sessions.create({
+//             payment_method_types: ["card"],
+//             line_items: lineItems,
+//             mode: "payment",
+//             success_url: "http://localhost:3000/",
+//             cancel_url: "http://localhost:3000/talent/profile/",
+//             customer: customer.id
+//         });
+//         res.json({ id: session.id });
+//     } catch (error) {
+//         console.error("Error creating payment session:", error.message);
+//         res.status(500).json({ error: "Internal server error" });
+//     }
+// })
 export default talent_Routes;

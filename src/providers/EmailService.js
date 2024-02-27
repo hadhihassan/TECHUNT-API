@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import Token from '../entites/models/token.js';
 import crypto from 'crypto';
 
-
 export class Mailer {
     async sendMaill(email) {
         
@@ -37,8 +36,6 @@ export class Mailer {
         } catch (error) {
             console.log(error.message);
             return { status: false, message: "error" }
-
-
         }
     }
 }

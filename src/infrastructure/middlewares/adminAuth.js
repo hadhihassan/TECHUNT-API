@@ -11,7 +11,6 @@ export const checkToken = async (req, res, next) => {
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }
-
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
         const clientData = await adminRepository.findById(decodedToken.id);
         if (!clientData) {

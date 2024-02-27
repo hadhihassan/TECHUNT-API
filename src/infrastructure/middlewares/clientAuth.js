@@ -4,20 +4,18 @@ import { STATUS_CODES } from '../../constants/httpStatusCode.js'
 import { ClientRepository } from '../Repository/client.Database.js';
 const clientRepository = new ClientRepository()
 
-
 export const checkToken = async (req, res, next) => {
     try {
         const token = req.headers.authorization;
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }
-
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
         const clientData = await clientRepository.findById(decodedToken.id);
+        console.log(clientData,"user")
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }
-
         if (clientData.isBlock) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({
                 status: STATUS_CODES.UNAUTHORIZED,
@@ -25,7 +23,6 @@ export const checkToken = async (req, res, next) => {
                 isBlocked: true
             });
         }
-
         req.clientId = clientData._id;
         next();
     } catch (error) {

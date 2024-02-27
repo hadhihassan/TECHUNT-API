@@ -1,10 +1,7 @@
 import mongoose, { Schema } from "mongoose"
 import jobCategorySchema from '../../entites/models/jobCategory.model.js'
 
-
 export class JobCategoryRepository {
-
-
     async findByName(name, id) {
         return await jobCategorySchema.findOne({ name, _id: { $ne: id } });
     }

@@ -1,15 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 
-        // interface Notification extends Document {
-        //     recipient_id: Schema.Types.ObjectId;
-        //     sender_id: Schema.Types.ObjectId;
-        //     type: string;
-        //     content: string;
-        //     read: boolean;
-        //     metaData?: any;
-        //     timestamp: Date;
-        // }
-
 const notificationSchema = new Schema({
     recipient_id: {
         type: Schema.Types.ObjectId,
@@ -32,7 +22,7 @@ const notificationSchema = new Schema({
         default: false
     },
     metaData: {
-        type: Schema.Types.ObjectId,
+        type: String,
     },
 
 }, {

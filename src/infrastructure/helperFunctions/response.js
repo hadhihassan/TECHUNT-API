@@ -7,7 +7,6 @@ export function get200Response (){
         data: data
     };
 }
-
 export function get500Response(error) {
     console.log(error, 'error 500');
     return {
@@ -16,7 +15,6 @@ export function get500Response(error) {
         data: null
     };
 }
-
 export function getErrorResponse() {
     const message = customMessage || ERR_MESSAGE[errCode] || 'Unknown Error';
     return {

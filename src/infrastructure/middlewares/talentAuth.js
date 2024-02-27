@@ -11,7 +11,6 @@ export const checkToken = async (req, res, next) => {
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }
-
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
         console.log(decodedToken)
         const clientData = await talentRepository.findById(decodedToken.id);
@@ -19,7 +18,6 @@ export const checkToken = async (req, res, next) => {
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }
-
         if (clientData.isBlock) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({
                 status: STATUS_CODES.UNAUTHORIZED,
@@ -27,8 +25,6 @@ export const checkToken = async (req, res, next) => {
                 isBlocked: true
             });
         }
-
-        // Attach client ID to request for further processing
         req.clientId = clientData._id;
         next();
     } catch (error) {

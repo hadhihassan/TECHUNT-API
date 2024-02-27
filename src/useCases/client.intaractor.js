@@ -1,19 +1,16 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
 import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
 import { Mailer } from '../providers/EmailService.js';
-import { Encrypth } from '../providers/bcryptPassword.js';
+import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
-
-
 
 export class ClientUseCase {
     constructor() {
         this.clientRepository = new ClientRepository(); // Assuming UserRepository is a class that needs to be instantiated
         this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
         this.jwtToken = new JwtToken()
-        this.encrypt = new Encrypth()
+        this.encrypt = new Encrypt()
     }
-
     async isEmailExist(email) {
         try {
             return await this.clientRepository.findByEmail(email);
@@ -21,12 +18,9 @@ export class ClientUseCase {
             console.log(error.message);
         }
     }
-
     async isTokenExist(token) {
         try {
-            console.log(token,"this is token")
             const existing = await this.clientRepository.findByToken(token);
-            console.log(existing)
             if (existing.isExist) {
                 return true
             }
@@ -42,7 +36,6 @@ export class ClientUseCase {
             console.log(error.message);
         }
     }
-
     async sendTimeoutLinkEmailVerification(email) {
         try {
             const sent = await this.mailer.sendMaill(email);
@@ -51,7 +44,6 @@ export class ClientUseCase {
             console.log(error.message);
         }
     }
-
     async saveSignupData(email, encryptedPassword) {
         try {
             const client = await this.clientRepository.addClientSingupData(email, encryptedPassword)
@@ -71,7 +63,6 @@ export class ClientUseCase {
         const clientData = await this.clientRepository.findByEmail(email)
         if (clientData.status) {
             const passwordMatch = await this.encrypt.comparePasswords(password, clientData.data.Password)
-            console.log("password match ", passwordMatch);
             if (passwordMatch) {
                 return {
                     status: STATUS_CODES.OK,
