@@ -14,7 +14,7 @@ export class ClientController {
             const { password } = req.body
             const isExist = await this.clientUseCase.isEmailExist(email);
             if (!isExist.status) {
-                const securePassword = await this.encrypt.encrypthPassword(password)
+                const securePassword = await this.encrypt.encryptPassword(password)
                 await this.clientUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.clientUseCase.saveSignupData(email, securePassword)
                 return res.status(STATUS_CODES.OK).json(saved)

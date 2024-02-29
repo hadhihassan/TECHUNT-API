@@ -1,6 +1,11 @@
 import mongoose from "mongoose"
 const URL = process.env.DATABASE_URL;
-
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    user: process.env.MONGO_DB_UERNAME,
+    pass: process.env.MONGO_DB_PASSWORD
+}
 const connectDb = async () => {
     try {
         mongoose
@@ -12,4 +17,4 @@ const connectDb = async () => {
     }
 };
 
-export default  connectDb;
+export default connectDb;

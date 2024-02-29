@@ -5,7 +5,7 @@ export class VerificationController {
     constructor() {
         this.verificationUseCase = new VerificationUseCase
     }
-    async TalentLogin(req, res) {
+    async login(req, res) {
         try {
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
@@ -17,6 +17,7 @@ export class VerificationController {
     }
     async checkNumberisValid(req, res) {
         try{
+            console.log(req.body)
             const { number, role, id } = req.body
             const valid = await this.verificationUseCase.checkValidity(number, role, id)
             return res.status(valid.status).json(valid)

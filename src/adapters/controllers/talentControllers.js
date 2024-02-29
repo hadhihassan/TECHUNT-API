@@ -14,7 +14,7 @@ export class TalentController {
             const { password } = req.body
             const isExist = await this.talentUseCase.isEmailExist(email);
             if (!isExist.status) {
-                const securePassword = await this.encrypt.encrypthPassword(password)
+                const securePassword = await this.encrypt.encryptPassword(password)
                 await this.talentUseCase.sendTimeoutLinkEmailVerification(email);
                 const saved = await this.talentUseCase.saveSignupData(email, securePassword)
                 return res.status(STATUS_CODES.OK).json(saved)

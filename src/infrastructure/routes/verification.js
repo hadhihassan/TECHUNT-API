@@ -4,7 +4,7 @@ import { Vcontoller } from '../../providers/controller.js';
 
 const verification = Router();
 
-verification.post('/login/', (req, res) => Vcontoller.TalentLogin(req, res))
+verification.post('/login/', (req, res) => Vcontoller.login(req, res))
 verification.post("/checkValidNumber/", (req, res) => Vcontoller.checkNumberisValid(req, res))
 verification.patch("/update-number-verified/", (req, res) => Vcontoller.setNumberVerified(req, res))
 export default verification;

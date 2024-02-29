@@ -114,7 +114,7 @@ export class ProposalUseCase {
             get500Response(err)
         }
     }
-    async callPayment(id) {
+    async callPayment(id, propsalId) {
         try {
             const id = await this.stripPayment.makePayment({
                 name: 'Jenny Rosen',
@@ -125,7 +125,7 @@ export class ProposalUseCase {
                     state: 'CA',
                     country: 'DK',
                 },
-            },)
+            },propsalId)
             if (id) {
                 return {
                     message: "success",
@@ -141,6 +141,22 @@ export class ProposalUseCase {
                 status: STATUS_CODES.BAD_REQUEST
             }
         } catch (err) {
+            get500Response(err)
+        }
+    }
+    async updatePayment(status, id){
+        try{
+            const result = await this.proposalRepository.updatePaymentStatus(status, id)
+            console.log("result" , result)
+            if(result === null){
+                return{
+                    status:STATUS_CODES.BAD_REQUEST
+                }
+            }
+            return{
+                status:STATUS_CODES.OK
+            }
+        }catch(err){
             get500Response(err)
         }
     }

@@ -62,4 +62,3 @@ import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.val
 import { ProposalRepository } from "../infrastructure/Repository/proposal.Database.js";
 export const checkJobExisiting = new CheckJobExisiting(jobCategoryRepository)
 
-

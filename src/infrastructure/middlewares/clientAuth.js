@@ -3,6 +3,7 @@ const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
 import { ClientRepository } from '../Repository/client.Database.js';
 const clientRepository = new ClientRepository()
+import mongoose from 'mongoose'
 
 export const checkToken = async (req, res, next) => {
     try {
@@ -11,8 +12,9 @@ export const checkToken = async (req, res, next) => {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
-        const clientData = await clientRepository.findById(decodedToken.id);
-        console.log(clientData,"user")
+        const objectId = new mongoose.Types.ObjectId(decodedToken.id);
+        console.log(objectId);
+        const clientData = await clientRepository.findById(objectId);
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }

@@ -16,9 +16,7 @@ export class ProposalController {
     }
     async getAllproposal(req, res) {
         const id = req.body.id
-        console.log(id, req.body, "this is sjfk")
         const result = await this.proposalUseCase.getAllproposal(id)
-        console.log(result)
         return res.status(result.status).json(result)
     }
     async updateAcceptence(req, res) {
@@ -32,8 +30,16 @@ export class ProposalController {
         return res.status(result.status).json(result)
     }
     async makeProposalPayment(req, res) {
+        console.log(req.body,"XXXXXXXXXXX")
+        const id = req.body.id
         const talentId = req.clientId
-        const result = await this.proposalUseCase.callPayment(talentId)
+        const result = await this.proposalUseCase.callPayment(talentId, id)
         return res.status(result.status).json(result)
+    }
+    async updatePaymentStatus(req, res) {
+        const { status, proposalId } = req.body;
+        console.log(req.body)
+        const result = await this.proposalUseCase.updatePayment(status, proposalId)
+        return res.status(result.status)
     }
 }

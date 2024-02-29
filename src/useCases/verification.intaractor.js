@@ -17,14 +17,11 @@ export class VerificationUseCase {
         try {
             const talentData = await this.talentRepository.findByEmail(email);
             if (talentData.status) {
-                const percentage =  countProperties(talentData.data)
-                console.log(percentage)
-                return this.authenticateUser(talentData, password, 'TALENT', percentage);
+                return this.authenticateUser(talentData, password, 'TALENT', );
             }
             const clientData = await this.clientRepository.findByEmail(email);
             if (clientData.status) {
-                const percentage =  countProperties(clientData.data)
-                return this.authenticateUser(clientData, password, 'CLIENT', percentage);
+                return this.authenticateUser(clientData, password, 'CLIENT', );
             }
             return {
                 status: STATUS_CODES.UNAUTHORIZED,

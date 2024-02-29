@@ -55,8 +55,9 @@ const proposalSchema = new Schema({
         ref: 'Client',
     },
     paymentStatus: {
-        type: Boolean,
-        default: false
+        type: String,
+        enum: ['Pending', 'Failed ', 'Completed'],
+        default : 'Pending'
     }
 }, { timestamps: true });
 
