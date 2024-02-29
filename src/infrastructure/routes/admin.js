@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Acontroller, checkJobExisiting, jobCateControllers, jobPostControllers } from '../../providers/controller.js';
+import { Acontroller, jobCateControllers, jobPostControllers } from '../../providers/controller.js';
 import { upload } from '../config/multer.js';
 import { checkToken } from '../middlewares/adminAuth.js'
 const admin_Router = Router();
