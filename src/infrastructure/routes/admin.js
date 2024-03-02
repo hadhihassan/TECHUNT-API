@@ -12,6 +12,6 @@ admin_Router.post("/add-new-job-category/",checkToken, upload.single("image"), (
     .get("/get-all-job-category/",checkToken, (req, res) => jobCateControllers.getJobCategory(req, res))
     .patch("/change-job-category-status/",checkToken, (req, res) => jobCateControllers.changeState(req, res))
     .post("/edit-job-category-status/",checkToken,upload.single("image"),  (req, res) => jobCateControllers.editJobCategory(req, res))
-    .patch("/get-job-post/",checkToken,  (req, res) => jobPostControllers.getJoboPost(req, res))
+    .patch("/get-job-post/",checkToken,  (req, res) => jobPostControllers.getJobPost(req, res))
 
 export default admin_Router;

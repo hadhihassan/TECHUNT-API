@@ -125,7 +125,7 @@ export class ProposalUseCase {
                     state: 'CA',
                     country: 'DK',
                 },
-            },propsalId)
+            }, propsalId)
             if (id) {
                 return {
                     message: "success",
@@ -144,19 +144,38 @@ export class ProposalUseCase {
             get500Response(err)
         }
     }
-    async updatePayment(status, id){
-        try{
+    async updatePayment(status, id) {
+        try {
             const result = await this.proposalRepository.updatePaymentStatus(status, id)
-            console.log("result" , result)
-            if(result === null){
-                return{
-                    status:STATUS_CODES.BAD_REQUEST
+            console.log("result", result)
+            if (result === null) {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST
                 }
             }
-            return{
-                status:STATUS_CODES.OK
+            return {
+                status: STATUS_CODES.OK
             }
-        }catch(err){
+        } catch (err) {
+            get500Response(err)
+        }
+    }
+    async getAllConnectedTalent(id) {
+        try {
+            const connectedTalents = await this.proposalRepository.getAllConnectedTalents(id)
+            if (connectedTalents === null) {
+                return {
+                    message: "Error occurs While fetching data ..! ",
+                    success: false,
+                    status: STATUS_CODES.BAD_REQUEST
+                }
+            }
+            return {
+                status: STATUS_CODES.OK,
+                data: connectedTalents,
+                success: true
+            }
+        } catch (err) {
             get500Response(err)
         }
     }

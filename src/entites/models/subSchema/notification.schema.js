@@ -28,8 +28,6 @@ const notificationSchema = new Schema({
 }, {
     timestamps: true
 });
-
-// Define the model
 const NotificationModel = mongoose.model('Notification', notificationSchema);
 
 export default NotificationModel;

@@ -42,7 +42,7 @@ export class TalentController {
             const formData = req.body
             const response = await this.talentUseCase.saveConatctDeatils(formData, req.clientId)
             if (response) {
-                return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Conatct deatisl saved" })
+                return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Contact deatisl saved" })
             }
         } catch (error) {
             console.log(error.message);
@@ -53,7 +53,7 @@ export class TalentController {
             const fileName = req.file?.filename
             const id = req.clientId
             await this.talentUseCase.saveProfilePic(fileName, id)
-            return res.status(STATUS_CODES.CREATED).json({status:true,message:"Successfully chnaged profile photo"})
+            return res.status(STATUS_CODES.CREATED).json({status:true,message:"Successfully changed profile photo"})
         } catch (error) {
             console.error(error);
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
@@ -92,5 +92,10 @@ export class TalentController {
         const id = req.clientId;
         const editResult = await this.talentUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
+    }
+    async getAllTalents(req,res) {
+        const result = await this.talentUseCase.getAllTalent();
+        console.log(result)
+        return res.status(STATUS_CODES.OK).json(result)
     }
 }

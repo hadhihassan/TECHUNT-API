@@ -4,7 +4,7 @@ import createServer from './src/infrastructure/config/app.js';
 import dbConnect from './src/infrastructure/config/db.js';
 import 'dotenv/config';
 import { Server as socket } from 'socket.io';
-import notificaitonModel from './src/entites/models/subSchema/notificaion.model.js '
+import notificaitonModel from './src/entites/models/subSchema/notification.schema.js'
 const PORT = process.env.PORT || 3000;
 
 const app = createServer();

@@ -1,4 +1,4 @@
-import proposal from '../../entites/models/subSchema/proposal.js'
+import proposal from '../../entites/models/subSchema/proposal.schema.js'
 import mongoose from 'mongoose'
 export class ProposalRepository {
     async insertProposal(data) {
@@ -24,5 +24,8 @@ export class ProposalRepository {
         return await proposal.findByIdAndUpdate(_id, {
             paymentStatus: status
         }, { new: true })
+    }
+    async getAllConnectedTalents(id) {
+        return await proposal.find({ isAccept: true, paymentStatus: "Completed", Client_id : id }).populate(["jobId", "talentId"]).exec()
     }
 }

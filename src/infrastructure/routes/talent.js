@@ -22,6 +22,6 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/upload-attachment/", checkToken, (req, res) => proposalControllers.getSignedUrlForS3Store(req, res))
     .post("/submit-proposal/", checkToken, (req, res) => proposalControllers.saveProposal(req, res))
     .post("/make-payment-proposal/", checkToken, (req, res) => proposalControllers.makeProposalPayment(req, res))
-    .post("/update-payment-status/", checkToken, (req, res) => proposalControllers.updatePaymentStatus(req, res))
+    .patch("/update-payment-status/", checkToken, (req, res) => proposalControllers.updatePaymentStatus(req, res))
 
 export default talent_Routes;
