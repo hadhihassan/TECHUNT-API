@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import admin from "../../entites/models/admin.model.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import Talent from "../../entites/models/talen.model.js";
-import Client from "../../entites/models/Client.model.js";
+import Client from "../../entites/models/Client.schema.js";
 import Proposal from "../../entites/models/subSchema/proposal.schema.js";
 
 export class AdminRepository {

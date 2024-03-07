@@ -22,7 +22,7 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/upload-attachment/", checkToken, (req, res) => proposalControllers.getSignedUrlForS3Store(req, res))
     .post("/submit-proposal/", checkToken, (req, res) => proposalControllers.saveProposal(req, res))
     .post("/make-payment-proposal/", checkToken, (req, res) => proposalControllers.makeProposalPayment(req, res))
-    .patch("/update-payment-status/", checkToken, (req, res) => proposalControllers.updatePaymentStatus(req, res))
+    .patch("/update-payment-status/",  (req, res) => proposalControllers.updatePaymentStatus(req, res))
     .get("/fetch-all-clients/", checkToken, (req, res) => Tcontroller.getAllClientsForTalent(req, res))
     .get("/fetch-all-clients-proposal/:id/", checkToken, (req, res) => Tcontroller.getClientProposals(req, res))
 

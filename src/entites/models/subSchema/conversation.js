@@ -6,7 +6,6 @@ const conversationSchema = new Schema({
     participants: [
         {
             type: Schema.Types.ObjectId,
-            // refPath: 'participantsModel'
         },
     ],
     messages: [

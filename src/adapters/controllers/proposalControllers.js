@@ -38,8 +38,7 @@ export class ProposalController {
     }
     async updatePaymentStatus(req, res) {
         const { status, proposalId } = req.body;
-        console.log("data =>>>>>>>>>>>",status, proposalId)
-        // const result = await this.proposalUseCase.updatePayment(status, proposalId)
+        const result = await this.proposalUseCase.updatePayment(status, proposalId)
         // return res.status(result.status)
     }
     async fetchAllConnectedTalents(req,res) {

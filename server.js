@@ -68,23 +68,6 @@ dbConnect()
         })
       })
 
-      // WebSocket code for chat
-      // const wss = new WebSocketServer({server});
-      // wss.on('connection', (ws) => {
-      //   console.log('WebSocket client connected');
-
-      //   // Handle incoming messages from WebSocket clients
-      //   ws.on('message', (message) => {
-      //     console.log(`Received message from WebSocket client bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: ${message}`);
-      //   });
-
-      //   // Handle WebSocket client disconnection
-      //   ws.on('close', () => {
-      //     console.log('WebSocket client disconnected ');
-      //   });
-      // });
-
-
       server.listen(PORT, () => console.log(`listening to PORT ${PORT}`));
     } else {
       throw new Error('app is undefined');

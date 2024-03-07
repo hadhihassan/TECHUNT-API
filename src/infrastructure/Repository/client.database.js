@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import client from "../../entites/models/Client.model.js";
+import client from "../../entites/models/Client.schema.js";
 import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 

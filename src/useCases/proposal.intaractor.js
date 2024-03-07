@@ -147,7 +147,6 @@ export class ProposalUseCase {
     async updatePayment(status, id) {
         try {
             const result = await this.proposalRepository.updatePaymentStatus(status, id)
-            console.log("result", result)
             if (result === null) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST

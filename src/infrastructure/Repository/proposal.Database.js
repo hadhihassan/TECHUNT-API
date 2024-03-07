@@ -19,19 +19,13 @@ export class ProposalRepository {
         }, { new: true })
     }
     async updatePaymentStatus(status, id) {
-        console.log(status, id)
-        if (id) {
-            const _id = new mongoose.Types.ObjectId(id);
-            if (result && result.status) {
-                return res.status(result.status).json({ message: 'Result status: ' + result.status });
-            } else {
-                return res.status(500).json({ error: 'Result is undefined or does not have status property' });
-            }
-        } else {
-            return res.status(400).json({ error: 'ID is required' });
-        }
+            const idString = id.path.replace(/"/g, ''); 
+            const _id = new mongoose.Types.ObjectId(idString);
+            return await proposal.findByIdAndUpdate(_id,{
+                paymentStatus : status
+            } );
     }
     async getAllConnectedTalents(id) {
-        return await proposal.find({ isAccept: true, Client_id : id }).populate(["jobId", "talentId"]).exec()
+        return await proposal.find({ isAccept: true, Client_id: id }).populate(["jobId", "talentId"]).exec()
     }
 }
