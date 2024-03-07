@@ -27,7 +27,7 @@ export class JobPostUseCase {
     }
     async getAllClientJobPosts(id) {
         try {
-            const datas = await this.jobPostRepository.getAllJobPosts(id)
+            const datas = await this.jobPostRepository.getJobPosts(id)
             if (datas === null) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,

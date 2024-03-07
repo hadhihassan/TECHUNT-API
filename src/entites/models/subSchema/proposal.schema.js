@@ -46,12 +46,12 @@ const proposalSchema = new Schema({
     },
     jobId: {
         type: Schema.Types.ObjectId,
-        required: true,
+        // required: true,
         ref: 'JobPost',
     },
     Client_id: {
         type: Schema.Types.ObjectId,
-        required: true,
+        // required: true,
         ref: 'Client',
     },
     paymentStatus: {

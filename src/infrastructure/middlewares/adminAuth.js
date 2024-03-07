@@ -12,7 +12,10 @@ export const checkToken = async (req, res, next) => {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
         }
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
-        const objectId = mongoose.Types.ObjectId(decodedToken.id);
+        if (!decodedToken) {
+            return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
+        }
+        const objectId = new mongoose.Types.ObjectId(decodedToken.id);
         const clientData = await adminRepository.findById(objectId);
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });

@@ -30,4 +30,5 @@ export class JobPostController {
         const result = await this.jobPostUseCase.getFullJobsForTalent()
         return res.status(result.status).json(result)
     }
+   
 }

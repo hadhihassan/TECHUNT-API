@@ -23,6 +23,7 @@ export class VerificationUseCase {
             if (clientData.status) {
                 return this.authenticateUser(clientData, password, 'CLIENT', );
             }
+            console.log(clientData)
             return {
                 status: STATUS_CODES.UNAUTHORIZED,
                 message: "Invalid email or password.",
@@ -43,7 +44,7 @@ export class VerificationUseCase {
             }
             const passwordMatch = await this.encrypt.comparePasswords(password, userData.data.Password);
             if (passwordMatch) {
-                const token = await this.jwtToken.generateJwtToken(userData.data._id)
+                const token = await this.jwtToken.generateJwtToken(userData.data._id,role)
                 return {
                     status: STATUS_CODES.OK,
                     message: "Successfully logged in.",

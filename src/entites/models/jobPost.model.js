@@ -18,7 +18,7 @@ const JobPostSchema = new Schema({
     }],
     TimeLine: {
         type: String,
-        enum: ['Small', 'Medium ', 'Large']
+        enum: ['Small', 'Medium', 'Large']
     },
     Description: {
         type: String,

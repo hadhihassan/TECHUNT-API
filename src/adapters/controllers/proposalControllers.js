@@ -6,6 +6,7 @@ export class ProposalController {
     }
     async saveProposal(req, res) {
         const id = req.clientId
+        console.log( "this is the proposa data", req.body )
         const result = await this.proposalUseCase.saveProposal(req.body, id);
         return res.status(result.status).json(result)
     }
@@ -37,8 +38,9 @@ export class ProposalController {
     }
     async updatePaymentStatus(req, res) {
         const { status, proposalId } = req.body;
-        const result = await this.proposalUseCase.updatePayment(status, proposalId)
-        return res.status(result.status)
+        console.log("data =>>>>>>>>>>>",status, proposalId)
+        // const result = await this.proposalUseCase.updatePayment(status, proposalId)
+        // return res.status(result.status)
     }
     async fetchAllConnectedTalents(req,res) {
         const id = req.clientId

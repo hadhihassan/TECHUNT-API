@@ -47,7 +47,7 @@ export class ClientUseCase {
     async saveSignupData(email, encryptedPassword) {
         try {
             const client = await this.clientRepository.addClientSingupData(email, encryptedPassword)
-            const token = await this.jwtToken.generateJwtToken(client._id)
+            const token = await this.jwtToken.generateJwtToken(client._id,"CLIENT")
             return { client, token, role: "CLIENT" }
         } catch (error) {
             console.log(error.message)

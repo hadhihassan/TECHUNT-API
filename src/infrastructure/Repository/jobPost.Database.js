@@ -10,7 +10,7 @@ export class JobPostRepository {
         const newJobPost = new JobPostModel(data);
         return await newJobPost.save();
     }
-    async getAllJobPosts(id) {
+    async getJobPosts(id) {
         return await JobPostModel.find({ Client_id: id });
     }
     async updateJobPost(id, data) {
@@ -22,7 +22,6 @@ export class JobPostRepository {
     async updateJobDocument(data,id) {
         return await JobPostModel.findByIdAndUpdate(id, data, { new: true });
     }
-    
     async findAllPost(){
         return await JobPostModel.find().populate('Client_id').exec();
     }

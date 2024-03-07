@@ -41,7 +41,7 @@ export class TalentUseCase {
     async saveSignupData(email, scurePassword) {
         try {
             const talent = await this.talentRepository.addTalentSingupData(email, scurePassword)
-            const token = await this.jwtToken.generateJwtToken(talent._id)
+            const token = await this.jwtToken.generateJwtToken(talent._id,"TALENT")
             return { talent, token, role: "TALENT" }
         } catch (error) {
             console.log(error.message)

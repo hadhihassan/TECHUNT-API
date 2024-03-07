@@ -7,7 +7,6 @@ const talentRepository = new TalentRepository()
 
 export const checkToken = async (req, res, next) => {
     try {
-        console.log(req.headers.authorization, "token is here")
         const token = req.headers.authorization;
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
@@ -15,14 +14,13 @@ export const checkToken = async (req, res, next) => {
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
         const objectId = new mongoose.Types.ObjectId(decodedToken.id);
         const clientData = await talentRepository.findById(objectId);
-        console.log(clientData);
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }
         if (clientData.isBlock) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({
                 status: STATUS_CODES.UNAUTHORIZED,
-                message: "Sorry youre blocked",
+                message: "Sorry your blocked",
                 isBlocked: true
             });
         }

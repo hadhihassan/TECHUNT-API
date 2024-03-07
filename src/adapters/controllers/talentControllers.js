@@ -1,11 +1,13 @@
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import { Encrypt } from "../../providers/bcryptPassword.js";
 import { TalentUseCase } from "../../useCases/talent.intractor.js";
-
-
+import { ClientUseCase } from "../../useCases/client.intaractor.js";
+import { JobPostUseCase } from "../../useCases/jobPost.intaractor.js";
 export class TalentController {
     constructor(talentUseCase, encrypt) {
         this.talentUseCase = new TalentUseCase();
+        this.clientUseCase = new ClientUseCase();
+        this.jobPostUseCase = new JobPostUseCase();
         this.encrypt = new Encrypt()
     }
     async verifyEmail(req, res) {
@@ -25,13 +27,13 @@ export class TalentController {
         }
     }
     async verifyEmailToken(req, res) {
-            try {
+        try {
             const { token } = req.params;
             const isExist = await this.talentUseCase.isTokenExist(token);
             if (!isExist) {
                 return res.status(403).json({ status: false });
             }
-            const setEmailVerify =  await this.talentUseCase.UpdateEmailVerify(req.clientId)
+            const setEmailVerify = await this.talentUseCase.UpdateEmailVerify(req.clientId)
             return res.status(201).json({ status: true, message: "Token exists successfully." });
         } catch (error) {
             console.log(error.message);
@@ -53,7 +55,7 @@ export class TalentController {
             const fileName = req.file?.filename
             const id = req.clientId
             await this.talentUseCase.saveProfilePic(fileName, id)
-            return res.status(STATUS_CODES.CREATED).json({status:true,message:"Successfully changed profile photo"})
+            return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Successfully changed profile photo" })
         } catch (error) {
             console.error(error);
             return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
@@ -75,27 +77,38 @@ export class TalentController {
     }
     async editProfileFirstSection(req, res) {
         const id = req.clientId
-        const editResult = await this.talentUseCase.editProfileSectionOne(req.body,id)
+        const editResult = await this.talentUseCase.editProfileSectionOne(req.body, id)
         return res.status(editResult.status).json(editResult.data)
     }
-    async updateSkills(req,res) {
+    async updateSkills(req, res) {
         const id = req.clientId;
         const editResult = await this.talentUseCase.editSkills(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-    async updateExperiance(req,res) {
+    async updateExperiance(req, res) {
         const id = req.clientId;
         const editResult = await this.talentUseCase.editExperiance(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-    async updateConatctDeatils(req,res) {
+    async updateConatctDeatils(req, res) {
         const id = req.clientId;
         const editResult = await this.talentUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-    async getAllTalents(req,res) {
+    async getAllTalents(req, res) {
         const result = await this.talentUseCase.getAllTalent();
         console.log(result)
         return res.status(STATUS_CODES.OK).json(result)
+    }
+    async getAllClientsForTalent(req, res) {
+        const result = await this.clientUseCase.getAllClient()
+        return res.status(STATUS_CODES.OK).json(result);
+    }
+    async getClientProposals(req, res) {
+        const client_id = req.params.id
+        console.log(req.params)
+        const proposals = await this.jobPostUseCase.getAllClientJobPosts(client_id)
+        console.log(proposals)
+        return res.status(proposals.status).json(proposals.data)
     }
 }

@@ -31,7 +31,7 @@ export class AdminUseCase {
                     token: ""
                 };
             }
-            const token = await this.jwtToken.generateJwtToken(result.data._id);
+            const token = await this.jwtToken.generateJwtToken(result.data._id,"ADMIN");
             return {
                 status: STATUS_CODES.OK,
                 message: "Admin login success",
@@ -73,5 +73,21 @@ export class AdminUseCase {
             const forTalent = await this.talentUseCase.blockTalent(email, block)
             return forTalent
         }
+    }
+    async getRevenue() {
+        const talentCount = await this.adminRepository.getYearlyRevenue()
+        return talentCount
+    }
+    async getMonthlyTalent(){
+        const monthlyTalent =  await this.adminRepository.monthlyTalent()
+        return monthlyTalent
+    } 
+    async getMonthlyClient(){
+        const monthlyTalent =  await this.adminRepository.monthlyClient()
+        return monthlyTalent
+    } 
+    async getMostFreelancer(){
+        const mostFreelancer =  await this.adminRepository.mostFreelancer()
+        return mostFreelancer
     }
 }

@@ -15,11 +15,23 @@ export class AdminContollers {
         return res.status(users.status).json(users.users)
     }
     async blockUser(req, res) {
-        const { email,block,role } = req.body
-        let result = await this.adminUseCase.blockUesr(email,block,role)
-        if(result){
+        const { email, block, role } = req.body
+        let result = await this.adminUseCase.blockUesr(email, block, role)
+        if (result) {
             return res.status(STATUS_CODES.OK).json(result)
         }
         return res.status(STATUS_CODES.NO_CONTENT).json(result)
+    }
+    async getMonthlydata() {
+        const monthData = await this.adminUseCase.getMonthlyRevenue()
+        return res.status(monthData.status).json(month)
+    }
+    async getDashboard(req, res) {
+        const monthlyTalent = await this.adminUseCase.getMonthlyTalent()
+        const monthlyClient = await this.adminUseCase.getMonthlyClient()
+        const overalRevenuse = await this.adminUseCase.getRevenue()
+        const mostWorkignFreelancer = await this.adminUseCase.getMostFreelancer()
+        console.log(overalRevenuse,"this is monly data ")
+        return res.status(STATUS_CODES.OK).json({monthlyTalent,monthlyClient, mostWorkignFreelancer });
     }
 }

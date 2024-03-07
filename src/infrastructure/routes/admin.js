@@ -13,5 +13,6 @@ admin_Router.post("/add-new-job-category/",checkToken, upload.single("image"), (
     .patch("/change-job-category-status/",checkToken, (req, res) => jobCateControllers.changeState(req, res))
     .post("/edit-job-category-status/",checkToken,upload.single("image"),  (req, res) => jobCateControllers.editJobCategory(req, res))
     .patch("/get-job-post/",checkToken,  (req, res) => jobPostControllers.getJobPost(req, res))
+    .get("/get-dashBoardData/",checkToken,  (req, res) => Acontroller.getDashboard(req, res))
 
 export default admin_Router;
