@@ -3,6 +3,8 @@ const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
 import { TalentRepository } from '../Repository/talent.Database.js';
 import mongoose from 'mongoose';
+import { getAllRoles } from '../../constants/role.js';
+
 const talentRepository = new TalentRepository()
 
 export const checkToken = async (req, res, next) => {
@@ -25,6 +27,7 @@ export const checkToken = async (req, res, next) => {
             });
         }
         req.clientId = clientData._id;
+        req.role =  getAllRoles()[0];
         next();
     } catch (error) {
         console.error('Error in token verification:', error);

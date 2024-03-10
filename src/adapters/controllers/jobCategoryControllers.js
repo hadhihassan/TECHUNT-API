@@ -1,4 +1,4 @@
-import { JobCategoryUseCase } from "../../useCases/jobCategory.intaractor.js";
+import { JobCategoryUseCase } from "../../useCases/jobCategory.USeCase.js";
 
 export class JobCategoryControllers {
     constructor() {

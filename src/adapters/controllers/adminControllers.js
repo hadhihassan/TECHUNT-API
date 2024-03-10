@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../../constants/httpStatusCode.js';
-import { AdminUseCase } from '../../useCases/admin.intaractor.js';
+import { AdminUseCase } from '../../useCases/admin.UseCase.js';
 
 export class AdminContollers {
     constructor() {

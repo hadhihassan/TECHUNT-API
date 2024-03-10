@@ -19,31 +19,22 @@ dbConnect()
   .then(() => {
     if (app) {
       const server = http.createServer(app);
-
-
-
-      // socket.io codes for notifications 
       io = new socket(server, {
         cors: {
-          origin: 'http://localhost:5173'
+          origin: process.env.CLIENT_ORIGIN
         },
       })
       io.on("connection", (socket) => {
         const userId = socket.handshake.query.userId;
         if (userId != "undefined") userSocketMap[userId] = socket.id;
-
-
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
-
         console.log("user connected", socket.id)
-
         socket.on('disconnect', () => {
           console.log('User disconnected');
           delete userSocketMap[userId];
           io.emit("getOnlineUsers", Object.keys(userSocketMap));
         });
         socket.on("sendNotification", async (data) => {
-          console.log("notification received :", data)
           try {
             const notitification = new notificaitonModel({
               recipient_id: data.recipient_id,
@@ -67,12 +58,10 @@ dbConnect()
           }
         })
       })
-
       server.listen(PORT, () => console.log(`listening to PORT ${PORT}`));
     } else {
       throw new Error('app is undefined');
     }
   })
   .catch((err) => console.error('error while connecting to database\n', err));
-  
-  export { io } 
+export { io }

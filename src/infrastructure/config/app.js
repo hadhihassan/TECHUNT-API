@@ -22,7 +22,7 @@ import talent_Routes from '../routes/talent.js';
 
 const createServer = () => {
   const app = express();
-  // app.use(morgan())
+  app.use(morgan())
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
@@ -41,6 +41,12 @@ const createServer = () => {
   app.use('/TALENT', talent_Routes);
   app.use('/admin', admin_Router);
   app.use('/message/', chatRouter);
+  app.use((err, req, res, next) => {
+    res.status(500).json({
+        status: "failed",
+        message: "Something went wrong!"
+    });
+});
 
   return app;
 };

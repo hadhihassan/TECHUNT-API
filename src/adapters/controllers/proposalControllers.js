@@ -1,4 +1,4 @@
-import { ProposalUseCase } from "../../useCases/proposal.intaractor.js";
+import { ProposalUseCase } from "../../useCases/proposal.UseCase.js";
 
 export class ProposalController {
     constructor() {

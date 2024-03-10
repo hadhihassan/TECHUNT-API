@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ChatUseCase } from "../../useCases/chat.Intaractor.js";
+import { ChatUseCase } from "../../useCases/chat.UseCase.js";
 
 export class ChatController {
     constructor() {

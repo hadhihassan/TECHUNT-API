@@ -15,11 +15,11 @@ export function get500Response(error) {
         data: null
     };
 }
-export function getErrorResponse() {
-    const message = customMessage || ERR_MESSAGE[errCode] || 'Unknown Error';
-    return {
-        status: errCode,
-        message: message,
-        data: null
-    };
+export function getErrorResponse(statusCode, message) {
+    // const message = customMessage || ERR_MESSAGE[errCode] || 'Unknown Error';
+    // return {
+    //     status: errCode,
+    //     message: message,
+    //     data: null
+    // };
 }

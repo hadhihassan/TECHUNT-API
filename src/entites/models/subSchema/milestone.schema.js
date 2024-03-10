@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const milestoneSchema = new Schema({
     no: {
-        type: number,
+        type: Number,
         required: true
     },
     name: {
@@ -22,11 +22,19 @@ const milestoneSchema = new Schema({
         required: true
     },
     completed: {
-        type: string,
+        type: String,
         enum: ["Pending", "Progress", "Completed"],
         default: "Pending"
+    },
+    approval: {
+        type: Boolean,
+        default: false
+    },
+    amount: {
+        type: Number,
+        required: true
     }
-});
+}, { timestamps: true });
 
 const Milestone = mongoose.model('Milestone', milestoneSchema);
-module.exports = Milestone;
+export default Milestone

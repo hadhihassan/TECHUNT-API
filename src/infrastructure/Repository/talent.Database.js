@@ -35,7 +35,7 @@ export class TalentRepository {
             await data.save();
             return data;
         } catch (error) {
-            throw new Error("Saving email got an error");  // Corrected error handling
+            throw new Error("Saving email got an error");  
         }
     }
     async addConatctDeatils(formData, id) {
@@ -55,7 +55,6 @@ export class TalentRepository {
             )
         } catch (error) {
             console.error(error.message);
-            // throw new Error('Failed to save add contact deatils');
             return {
                 status: STATUS_CODES.INTERNAL_SERVER_ERROR,
                 data: "Error"
@@ -168,7 +167,7 @@ export class TalentRepository {
     async editConatct(data, id) {
         try {
             const result = await talent.findByIdAndUpdate(id, {
-                $set: data // Use $set to specify the fields to update
+                $set: data 
             });
             if (result) {
                 return {
@@ -194,26 +193,25 @@ export class TalentRepository {
     async block(email, block) {
         try {
             let isBlocked
-            // Assuming you have a MongoDB client instance named 'client'
             if (block) {
                 isBlocked = await talent.findOneAndUpdate(
-                    { Email: email }, // Filter object to find the document
-                    { $set: { isBlock: false } } // Update object to set the 'isBlock' field
+                    { Email: email }, 
+                    { $set: { isBlock: false } } 
                 );
             } else {
                 isBlocked = await talent.findOneAndUpdate(
-                    { Email: email }, // Filter object to find the document
-                    { $set: { isBlock: true } } // Update object to set the 'isBlock' field
+                    { Email: email }, 
+                    { $set: { isBlock: true } } 
                 );
             }
             if (isBlocked) {
-                return true; // Successfully updated
+                return true;
             } else {
-                return false; // Document not found
+                return false;
             }
         } catch (error) {
             console.error('Error occurred while updating user block status:', error);
-            return false; // Error occurred
+            return false; 
         }
     }
     async checkIsValidNumber(id , number){

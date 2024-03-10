@@ -1,11 +1,16 @@
 import { Router } from 'express';
 const talent_Routes = Router();
-import { Tcontroller, jobCateControllers, jobPostControllers, proposalControllers } from '../../providers/controller.js';
+import {
+    Tcontroller,
+    jobCateControllers,
+    jobPostControllers,
+    proposalControllers,
+    contractController
+} from '../../providers/controller.js';
 import { checkToken } from '../middlewares/talentAuth.js';
 import { upload } from '../config/multer.js';
 import stripeModule from "stripe";
-
-
+import catchAsync from '../../utils/catchAsync.js'
 
 talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/verify/:token", checkToken, (req, res) => Tcontroller.verifyEmailToken(req, res))
@@ -22,8 +27,11 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/upload-attachment/", checkToken, (req, res) => proposalControllers.getSignedUrlForS3Store(req, res))
     .post("/submit-proposal/", checkToken, (req, res) => proposalControllers.saveProposal(req, res))
     .post("/make-payment-proposal/", checkToken, (req, res) => proposalControllers.makeProposalPayment(req, res))
-    .patch("/update-payment-status/",  (req, res) => proposalControllers.updatePaymentStatus(req, res))
+    .patch("/update-payment-status/", (req, res) => proposalControllers.updatePaymentStatus(req, res))
     .get("/fetch-all-clients/", checkToken, (req, res) => Tcontroller.getAllClientsForTalent(req, res))
     .get("/fetch-all-clients-proposal/:id/", checkToken, (req, res) => Tcontroller.getClientProposals(req, res))
+    .get("/fetch-all-new-contract/", checkToken, (req, res) => contractController.fetchAllNewContracts(req, res))
+    .patch("/update-contract-status/", checkToken, (req, res) => contractController.updateContractStatus(req, res))
+    .get("/fetch-all-active-contract/", checkToken, (req, res) => contractController.fetchAllActiveContracts(req, res))
 
 export default talent_Routes;

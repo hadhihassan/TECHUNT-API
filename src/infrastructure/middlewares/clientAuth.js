@@ -3,10 +3,13 @@ const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
 import { ClientRepository } from '../Repository/client.Database.js';
 const clientRepository = new ClientRepository()
+import { getAllRoles } from '../../constants/role.js';
+
 import mongoose from 'mongoose'
 
 export const checkToken = async (req, res, next) => {
     try {
+        const role = getAllRoles()
         const token = req.headers.authorization;
         if (!token) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Token not provided" });
@@ -25,6 +28,7 @@ export const checkToken = async (req, res, next) => {
             });
         }
         req.clientId = clientData._id;
+        req.role = role[1];
         next();
     } catch (error) {
         console.error('Error in token verification:', error);

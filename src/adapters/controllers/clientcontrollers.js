@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../../constants/httpStatusCode.js';
-import { ClientUseCase } from '../../useCases/client.intaractor.js';
+import { ClientUseCase } from '../../useCases/client.UseCase.js';
 import { Encrypt } from '../../providers/bcryptPassword.js';
 
 export class ClientController {

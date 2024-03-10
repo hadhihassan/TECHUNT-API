@@ -2,8 +2,8 @@ import { AdminRepository } from "../infrastructure/Repository/admin.Database.js"
 import { JwtToken } from '../providers/jwtToken.js';
 import { Encrypt } from "../providers/bcryptPassword.js";
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
-import { ClientUseCase } from "./client.intaractor.js";
-import { TalentUseCase } from "./talent.intractor.js";
+import { ClientUseCase } from "./client.UseCase.js";
+import { TalentUseCase } from "./talent.UseCase.js";
 
 export class AdminUseCase {
     constructor() {

@@ -1,8 +1,8 @@
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import { Encrypt } from "../../providers/bcryptPassword.js";
-import { TalentUseCase } from "../../useCases/talent.intractor.js";
-import { ClientUseCase } from "../../useCases/client.intaractor.js";
-import { JobPostUseCase } from "../../useCases/jobPost.intaractor.js";
+import { TalentUseCase } from "../../useCases/talent.UseCase.js";
+import { ClientUseCase } from "../../useCases/client.UseCase.js";
+import { JobPostUseCase } from "../../useCases/jobPost.UseCase.js";
 export class TalentController {
     constructor(talentUseCase, encrypt) {
         this.talentUseCase = new TalentUseCase();

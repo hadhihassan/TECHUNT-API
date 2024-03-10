@@ -1,32 +1,28 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const contractSchema = new Schema({
     talent: {
         type: Schema.Types.ObjectId,
-        ref: "Talent", 
+        ref: "Talent",
         required: true
     },
     client: {
         type: Schema.Types.ObjectId,
-        ref: 'Client', 
+        ref: 'Client',
         required: true
     },
-    project: {
+    work: {
         type: Schema.Types.ObjectId,
-        ref: 'JobPost', 
+        ref: 'JobPost',
         required: true
     },
     terms: {
         type: String,
         required: true
     },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    endDate: {
-        type: Date,
+    duration: {
+        type: [Date],
         required: true
     },
     amount: {
@@ -38,34 +34,21 @@ const contractSchema = new Schema({
         enum: ['pending', 'active', 'completed', 'cancelled'],
         default: 'pending'
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     milestones: [{
-        name: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String
-        },
-        dueDate: {
-            type: Date,
-            required: true
-        },
-        completed: {
-            type: Boolean,
-            default: false
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Milestone'
     }],
     paymentTerms: {
         type: String
     },
     notes: {
         type: String
+    },
+    isAccepted: {
+        type: Boolean,
+        default: false
     }
-});
+    
+}, { timestamps: true });
 const Contract = mongoose.model('Contract', contractSchema);
-
-module.exports = Contract;
+export default Contract;

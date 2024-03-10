@@ -7,17 +7,19 @@ import { JobCategoryControllers } from "../adapters/controllers/jobCategoryContr
 import { JobPostController } from "../adapters/controllers/jobPostControllers.js";
 import { ProposalController } from "../adapters/controllers/proposalControllers.js";
 import { ChatController } from "../adapters/controllers/ChatControllers.js";
-
+import { ContractController } from '../adapters/controllers/contractControllers.js'
 
 //UseCases
-import { TalentUseCase } from "../useCases/talent.intractor.js";
-import { AdminUseCase } from "../useCases/admin.intaractor.js";
-import { VerificationUseCase } from "../useCases/verification.intaractor.js";
-import { JobCategoryUseCase } from "../useCases/jobCategory.intaractor.js";
-import { ClientUseCase } from "../useCases/client.intaractor.js";
-import { JobPostUseCase } from "../useCases/jobPost.intaractor.js"
-import { ProposalUseCase } from "../useCases/proposal.intaractor.js";
-import { ChatUseCase } from "../useCases/chat.Intaractor.js";
+import { TalentUseCase } from "../useCases/talent.UseCase.js";
+import { AdminUseCase } from "../useCases/admin.UseCase.js";
+import { VerificationUseCase } from "../useCases/verification.UseCase.js";
+import { JobCategoryUseCase } from "../useCases/jobCategory.USeCase.js";
+import { ClientUseCase } from "../useCases/client.UseCase.js";
+import { JobPostUseCase } from "../useCases/jobPost.UseCase.js"
+import { ProposalUseCase } from "../useCases/proposal.UseCase.js";
+import { ChatUseCase } from "../useCases/chat.UseCase.js";
+import { ContractUseCase } from "../useCases/contract.UseCase.js";
+import { MilestoneUseCase } from "../useCases/milestone.UseCase.js";
 
 
 //Repository database
@@ -27,6 +29,8 @@ import { JobCategoryRepository } from "../infrastructure/Repository/jobCategory.
 import { ClientRepository } from "../infrastructure/Repository/client.Database.js";
 import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database.js";
 import { ChatRepository } from "../infrastructure/repository/chat.Database.js";
+import { ContractRepository } from "../infrastructure/repository/contract.Database.js";
+import { MilestoneRepository } from "../infrastructure/repository/milestone.Database.js";
 
 
 //services 
@@ -37,6 +41,12 @@ import { S3Service } from "./S3.js";
 const mailSend = new Mailer();
 const encrypt = new Encrypt()
 const s3Service = new S3Service()
+
+const milestoneRepository = new MilestoneRepository()
+const contractRepository = new ContractRepository()
+const contractUseCase = new ContractUseCase(contractRepository)
+const milestoneUseCase = new MilestoneUseCase(milestoneRepository)
+export const contractController = new ContractController(contractUseCase, milestoneUseCase)
 
 const proposalRepository = new ProposalRepository()
 const proposalUseCase = new ProposalUseCase(s3Service, proposalRepository)

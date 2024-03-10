@@ -1,5 +1,5 @@
 import { STATUS_CODES } from "../../constants/httpStatusCode.js"
-import { VerificationUseCase } from "../../useCases/verification.intaractor.js"
+import { VerificationUseCase } from "../../useCases/verification.UseCase.js"
 
 export class VerificationController {
     constructor() {

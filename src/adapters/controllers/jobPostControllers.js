@@ -1,4 +1,4 @@
-import { JobPostUseCase } from "../../useCases/jobPost.intaractor.js"; 
+import { JobPostUseCase } from "../../useCases/jobPost.UseCase.js"; 
 
 export class JobPostController {
     constructor(){
