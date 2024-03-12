@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import talent from "../../entites/models/talen.model.js";
 import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
+import BankAccount from "../../entites/models/subSchema/bankDetails.js";
+import Wallet from "../../entites/models/base/wallectSchema.js";
 
 export class TalentRepository {
     async findByEmail(email) {
@@ -12,7 +14,7 @@ export class TalentRepository {
         return { status: true, data: user }
     }
     async findById(id) {
-        console.log("data base reacjed herer",id)
+        console.log("data base reacjed herer", id)
         return await talent.findById(id)
     }
     async findByToken(token) {
@@ -35,11 +37,12 @@ export class TalentRepository {
             await data.save();
             return data;
         } catch (error) {
-            throw new Error("Saving email got an error");  
+            throw new Error("Saving email got an error");
         }
     }
     async addConatctDeatils(formData, id) {
         try {
+            const wallet = await this.Wallet.create()
             const objectId = new mongoose.Types.ObjectId(id);
             return await talent.findByIdAndUpdate(objectId, {
                 Last_name: formData.lName,
@@ -49,7 +52,8 @@ export class TalentRepository {
                 City: formData.city,
                 Number: formData.number,
                 Country: formData.country,
-                'Profile.Description': formData.description
+                'Profile.Description': formData.description,
+                Wallet: wallet._id
             },
                 { new: true }
             )
@@ -167,7 +171,7 @@ export class TalentRepository {
     async editConatct(data, id) {
         try {
             const result = await talent.findByIdAndUpdate(id, {
-                $set: data 
+                $set: data
             });
             if (result) {
                 return {
@@ -195,13 +199,13 @@ export class TalentRepository {
             let isBlocked
             if (block) {
                 isBlocked = await talent.findOneAndUpdate(
-                    { Email: email }, 
-                    { $set: { isBlock: false } } 
+                    { Email: email },
+                    { $set: { isBlock: false } }
                 );
             } else {
                 isBlocked = await talent.findOneAndUpdate(
-                    { Email: email }, 
-                    { $set: { isBlock: true } } 
+                    { Email: email },
+                    { $set: { isBlock: true } }
                 );
             }
             if (isBlocked) {
@@ -211,10 +215,10 @@ export class TalentRepository {
             }
         } catch (error) {
             console.error('Error occurred while updating user block status:', error);
-            return false; 
+            return false;
         }
     }
-    async checkIsValidNumber(id , number){
+    async checkIsValidNumber(id, number) {
         const talentData = await talent.findById(id)
         console.log(talentData)
         return number === talentData.Number
@@ -225,5 +229,46 @@ export class TalentRepository {
             { $set: { isNumberVerify: true } }
         );
     }
-
+    async addBankDetail(id, data) {
+        const bankDetails = await BankAccount.create(data);
+        const talent = await this.findById(id);
+        if (talent) {
+            talent.bankDetails = bankDetails._id;
+            await talent.save();
+            return true;
+        }
+        return false
+    }
+    async createWallet(history) {
+        try {
+            return await Wallet.create(history);
+        } catch (error) {
+            // Handle the error, log it, or throw it further
+            console.error('Error creating wallet:', error);
+            throw error; // Re-throwing the error for further handling
+        }
+    }
+    async getWallet(id) {
+        return await Wallet.findById(id)
+    }
+    async addAmountIntoWallet(talentId, amount, milestoneId) {
+        try {
+            let talentData = await this.findById(talentId);
+            let history = {
+                type: "Milestone",
+                amount: amount
+            };
+            let talentWallet = await this.getWallet(talentData.Wallet);
+            if (!talentWallet) {
+                let newWallet = await this.createWallet({ history: [history], balance: amount });
+                talentData.Wallet = newWallet._id;
+            } else {
+                talentWallet.balance += amount;
+                talentWallet.history.push(history);
+            }
+            return await Promise.all([talentData.save(), talentWallet.save()]);
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
 }

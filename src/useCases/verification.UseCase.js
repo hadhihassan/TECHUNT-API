@@ -17,11 +17,11 @@ export class VerificationUseCase {
         try {
             const talentData = await this.talentRepository.findByEmail(email);
             if (talentData.status) {
-                return this.authenticateUser(talentData, password, 'TALENT', );
+                return this.authenticateUser(talentData, password, 'TALENT',);
             }
             const clientData = await this.clientRepository.findByEmail(email);
             if (clientData.status) {
-                return this.authenticateUser(clientData, password, 'CLIENT', );
+                return this.authenticateUser(clientData, password, 'CLIENT',);
             }
             console.log(clientData)
             return {
@@ -44,7 +44,7 @@ export class VerificationUseCase {
             }
             const passwordMatch = await this.encrypt.comparePasswords(password, userData.data.Password);
             if (passwordMatch) {
-                const token = await this.jwtToken.generateJwtToken(userData.data._id,role)
+                const token = await this.jwtToken.generateJwtToken(userData.data._id, role)
                 return {
                     status: STATUS_CODES.OK,
                     message: "Successfully logged in.",
@@ -115,6 +115,29 @@ export class VerificationUseCase {
         } catch (error) {
             console.error("Error updating number verification status:", error.message);
             get500Response(error);
+        }
+    }
+    async addBankDetails(id, role, data){
+        try{
+            let result 
+            if(role === "CLIENT"){
+                result = await this.clientRepository.addBankDetail(id, data);
+            }else if(role === "TALENT"){
+                result = await this.talentRepository.addBankDetail(id, data);
+            } else {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message: "Invalid role.",
+                    success: false
+                };
+            }
+            return {
+                status: STATUS_CODES.OK,
+                message: "Successfully bank details uploaded.",
+                success: true
+            };
+        }catch(err){
+            get500Response
         }
     }
 }

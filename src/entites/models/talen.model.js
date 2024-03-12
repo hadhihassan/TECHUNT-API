@@ -25,6 +25,8 @@ const TalentSchema = new Schema({
     online: { type: Boolean, default: false },
     isVerify: { type: Boolean, default: false },
     isNumberVerify: { type: Boolean, default: false },
+    bankDetails : {type: Schema.Types.ObjectId, ref: "BankAccount"},
+    Wallet : {type: Schema.Types.ObjectId, ref: "Wallet"}
 
 
 }, {

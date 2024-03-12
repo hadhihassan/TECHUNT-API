@@ -16,18 +16,24 @@ export class VerificationController {
         }
     }
     async checkNumberisValid(req, res) {
-        try{
+        try {
             console.log(req.body)
             const { number, role, id } = req.body
             const valid = await this.verificationUseCase.checkValidity(number, role, id)
             return res.status(valid.status).json(valid)
-        } catch(err){
+        } catch (err) {
             console.log(err.message)
         }
     }
     async setNumberVerified(req, res) {
         const { id, role } = req.body
         const result = await this.verificationUseCase.updateNumberVerifiedStatus(id, role)
+        return res.status(result.status).json(result)
+    }
+    async addBankDetails(req, res) {
+        const { data, role, id } = req.body
+        console.log(data, role, id, req.body )
+        const result = await this.verificationUseCase.addBankDetails(id, role, data)
         return res.status(result.status).json(result)
     }
 }

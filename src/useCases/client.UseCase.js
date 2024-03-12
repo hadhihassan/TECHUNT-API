@@ -3,13 +3,15 @@ import { ClientRepository } from '../infrastructure/Repository/client.Database.j
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
+import { StripPayment } from '../providers/paymentService.js';
 
 export class ClientUseCase {
     constructor() {
-        this.clientRepository = new ClientRepository(); // Assuming UserRepository is a class that needs to be instantiated
-        this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
+        this.clientRepository = new ClientRepository();
+        this.mailer = new Mailer();
         this.jwtToken = new JwtToken()
         this.encrypt = new Encrypt()
+        this.payment = new StripPayment()
     }
     async isEmailExist(email) {
         try {
@@ -47,7 +49,7 @@ export class ClientUseCase {
     async saveSignupData(email, encryptedPassword) {
         try {
             const client = await this.clientRepository.addClientSingupData(email, encryptedPassword)
-            const token = await this.jwtToken.generateJwtToken(client._id,"CLIENT")
+            const token = await this.jwtToken.generateJwtToken(client._id, "CLIENT")
             return { client, token, role: "CLIENT" }
         } catch (error) {
             console.log(error.message)
@@ -93,11 +95,18 @@ export class ClientUseCase {
     async editConatctDeatils(data, id) {
         return await this.clientRepository.editConatct(data, id)
     }
-    async getAllClient(){
+    async getAllClient() {
         return await this.clientRepository.getAllClientData()
     }
-    async blockClient(email, block){
+    async blockClient(email, block) {
         return await this.clientRepository.block(email, block)
+    }
+    async payContractAmount(talentId, amount, clientId) {
+        try {
+            
+        } catch (err) {
+            console.log("while making payment got and error", err)
+        }
     }
 }
 

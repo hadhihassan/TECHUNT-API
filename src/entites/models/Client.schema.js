@@ -26,7 +26,9 @@ const ClientSchema = new Schema({
   isBlock: { type: Boolean, default: false },
   online: { type: Boolean, default: false },
   isVerify: { type: Boolean, default: false },
-  isNumberVerify: { type: Boolean, default: false }
+  isNumberVerify: { type: Boolean, default: false },
+  bankDetails : {type: Schema.Types.ObjectId, ref: "BankAccount"}
+
 }, {
   timestamps: true
 });

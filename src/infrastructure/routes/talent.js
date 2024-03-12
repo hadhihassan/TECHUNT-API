@@ -33,5 +33,9 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/fetch-all-new-contract/", checkToken, (req, res) => contractController.fetchAllNewContracts(req, res))
     .patch("/update-contract-status/", checkToken, (req, res) => contractController.updateContractStatus(req, res))
     .get("/fetch-all-active-contract/", checkToken, (req, res) => contractController.fetchAllActiveContracts(req, res))
+    .patch("/update-milestone-status/", checkToken, (req, res) => contractController.updateMilestoneStatus(req, res))
+    .post("/contract/milestone/submit-work/", checkToken, (req, res) => contractController.saveWork(req, res))
+    .patch("/contract/milestone/edit-work/", checkToken, (req, res) => contractController.saveEditWork(req, res))
+    .get("/contract/get-submitted-work/:id/", checkToken, (req, res) => contractController.getWork(req, res))
 
 export default talent_Routes;

@@ -7,34 +7,48 @@ export class StripPayment {
     }
     async createCustomer(address) {
         const customer = await stripe.customers.create({
-            shipping:address
+            shipping: address
         });
         return customer.id
     }
-    async createLineItems(){
+    async createLineItems(amount = 500) {
         return [{
             price_data: {
                 currency: "INR",
                 product_data: {
                     name: "Proposal Service Charge",
                 },
-                unit_amount: Math.round(500 * 100),
+                unit_amount: Math.round(amount * 100),
             },
             quantity: 1,
         }];
     }
-    async makePayment(address,id){
+    async makePayment(address, id, isMilestonePay=false, amount) {
         const customerId = await this.createCustomer(address)
-        const lineItems = await this.createLineItems()
-
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: lineItems,
-            mode: "payment",
-            success_url: `http://localhost:5173/payment-success/${id}`,
-            cancel_url: "http://localhost:5173/payment-failed",
-            customer: customerId
-        });
-        return session.id
+        const lineItems = await this.createLineItems(amount)
+        let session
+        if (isMilestonePay) {
+            session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                line_items: lineItems,
+                mode: "payment",
+                success_url: `http://localhost:5173/client/contract/work-details/true`,
+                cancel_url: "http://localhost:5173/client/contract/work-details/false",
+                customer: customerId
+            });
+        } else {
+            session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                line_items: lineItems,
+                mode: "payment",
+                success_url: `http://localhost:5173/payment-success/${id}`,
+                cancel_url: "http://localhost:5173/payment-failed",
+                customer: customerId
+            });
+        }
+        if(session){
+            return session.id
+        }
     }
+
 }

@@ -1,10 +1,11 @@
 import { ContractUseCase } from "../../useCases/contract.UseCase.js";
 import { MilestoneUseCase } from "../../useCases/milestone.UseCase.js";
-import catchAsync from '../../utils/catchAsync.js'
+import { TransactionUseCase } from "../../useCases/transactionUseCase.js";
 export class ContractController {
     constructor() {
         this.contractUseCase = new ContractUseCase()
         this.milestoneUseCase = new MilestoneUseCase()
+        this.transactionUseCase = new TransactionUseCase()
     }
     async saveNewContract(req, res) {
         const { contract, milestone, isMilestone } = req.body;
@@ -22,13 +23,11 @@ export class ContractController {
     }
     async fetchAllNewContracts(req, res) {
         const { clientId: id, role } = req
-        console.log(id, role)
         const result = await this.contractUseCase.getAllNewContract(id, role)
         return res.status(result.status).json(result)
     }
     async fetchAllActiveContracts(req, res) {
         const { clientId: id, role } = req
-        console.log(id, role)
         const result = await this.contractUseCase.findAllActiveContract(id, role)
         return res.status(result.status).json(result)
     }
@@ -37,5 +36,45 @@ export class ContractController {
         const result = await this.contractUseCase.updateContractStatus(id, status, actualStatus)
         return res.status(result.status).json(result)
     }
-
+    async cancelContract(req, res) {
+        const { id } = req.params;
+        const result = await this.contractUseCase.cancelContract(id)
+        return res.status(result.status).json(result)
+    }
+    async updateMilestoneStatus(req, res) {
+        const { id, status } = req.body
+        const result = await this.milestoneUseCase.updateMilestoneStatus(id, status)
+        return res.status(result.status).json(result)
+    }
+    async sendMilestoneApproval(req, res) {
+        const { id, approval } = req.body
+        const result = await this.milestoneUseCase.sendMilestoneApproval(id, approval)
+        return res.status(result.status).json(result)
+    }
+    async saveWork(req, res) {
+        const { id, data } = req.body
+        const result = await this.milestoneUseCase.saveWork(id, data)
+        return res.status(result.status).json(result)
+    }
+    async saveEditWork(req, res) {
+        const { id, data, workId } = req.body
+        const result = await this.milestoneUseCase.saveEditWork(id, data, workId)
+        return res.status(result.status).json(result)
+    }
+    async getWork(req, res) {
+        const { id } = req.params
+        const result = await this.milestoneUseCase.getSubmittedWork(id)
+        return res.status(result.status).json(result)
+    }
+    async makePaymentToTalent(req, res) {
+        const { talentId, amount } = req.body
+        const result = await this.contractUseCase.makePayment(talentId, amount)
+        return res.status(200).json(result)
+    }
+    async updateTalentWalletAmount(req, res) {
+        const { talentId, amount, milestoneId } = req.body;
+        const result = await this.contractUseCase.payTalentAmount(talentId, amount, milestoneId)
+        if(result) await this.transactionUseCase.saveNewTransaction(amount, talentId, req.clientId, "Contract");
+        return res.status(result.status).json(result)
+    }
 }

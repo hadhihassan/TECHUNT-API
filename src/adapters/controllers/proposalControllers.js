@@ -1,12 +1,14 @@
+import { PROPOSAL_CHARGE, PROPOSAL_CHARGE_TRANSACTION_TO } from "../../constants/constant.js";
 import { ProposalUseCase } from "../../useCases/proposal.UseCase.js";
+import { TransactionUseCase } from '../../useCases/transactionUseCase.js'
 
 export class ProposalController {
     constructor() {
         this.proposalUseCase = new ProposalUseCase()
+        this.transactionUseCase = new TransactionUseCase()
     }
     async saveProposal(req, res) {
         const id = req.clientId
-        console.log( "this is the proposa data", req.body )
         const result = await this.proposalUseCase.saveProposal(req.body, id);
         return res.status(result.status).json(result)
     }
@@ -38,10 +40,12 @@ export class ProposalController {
     }
     async updatePaymentStatus(req, res) {
         const { status, proposalId } = req.body;
+        const { clientId } = req
         const result = await this.proposalUseCase.updatePayment(status, proposalId)
+        if (result) await this.transactionUseCase.saveNewTransaction(PROPOSAL_CHARGE, PROPOSAL_CHARGE_TRANSACTION_TO, clientId, "Proposal")
         // return res.status(result.status)
     }
-    async fetchAllConnectedTalents(req,res) {
+    async fetchAllConnectedTalents(req, res) {
         const id = req.clientId
         const result = await this.proposalUseCase.getAllConnectedTalent(id)
         return res.status(result.status).json(result)

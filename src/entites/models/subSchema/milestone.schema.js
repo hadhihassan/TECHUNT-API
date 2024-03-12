@@ -33,6 +33,19 @@ const milestoneSchema = new Schema({
     amount: {
         type: Number,
         required: true
+    },
+    payed: {
+        type: Boolean,
+        default: false
+    },
+    work:{
+        type : Schema.Types.ObjectId,
+        ref: 'Work'
+    },
+    payment:{
+        type: String,
+        enum: ["Pending", "failed", "Completed"],
+        default: "Pending"
     }
 }, { timestamps: true });
 

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import client from "../../entites/models/Client.schema.js";
 import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
+import BankAccount from "../../entites/models/subSchema/bankDetails.js";
 
 export class ClientRepository {
     async findByEmail(email) {
@@ -157,6 +158,16 @@ export class ClientRepository {
             id,
             { $set: { isNumberVerify: true } }
         );
+    }
+    async addBankDetail(id, data) {
+        const bankDetails = await BankAccount.create(data);
+        const client = await this.findById(id);
+        if (client) {
+            client.bankDetails = bankDetails._id;
+            await client.save();
+            return true;
+        }
+        return false
     }
 }
 

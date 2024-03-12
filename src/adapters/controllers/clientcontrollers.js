@@ -80,4 +80,4 @@ export class ClientController {
         const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-}
+} 

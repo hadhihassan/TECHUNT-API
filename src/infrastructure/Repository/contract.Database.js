@@ -28,4 +28,11 @@ export class ContractRepository {
     async updateContractStatus(id, status, actualStatus) {
         return await Contract.findByIdAndUpdate(id, { $set: { isAccepted: status }, status: actualStatus })
     }
+    async cancelContract(id) {
+        return await Contract.findByIdAndUpdate(id, {
+            $set: { status: "cancelled" }
+        });
+    }
+    
+
 }
