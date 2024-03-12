@@ -92,24 +92,6 @@ export class ContractUseCase {
             get500Response(err)
         }
     }
-    async cancelContract(id) {
-        try {
-            const result = await this.contractRepository.cancelContract(id)
-            if (result) {
-                return {
-                    message: "success",
-                    status: STATUS_CODES.OK,
-                    success: true
-                }
-            } return {
-                message: "failed",
-                status: STATUS_CODES.BAD_REQUEST,
-                success: false
-            }
-        } catch (err) {
-            get500Response(err)
-        }
-    }
     async makePayment(talentId, amount) {
         try {
             const talent = await this.talentRepository.findById(talentId)
@@ -152,6 +134,41 @@ export class ContractUseCase {
                         success: true,
                     }
                 }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async updateStatus(contractId, status) {
+        try {
+            const result = await this.contractRepository.updateContract(contractId, status)
+            if (result) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        success: true,
+                    }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async fetchCompletedContracts(id, role) {
+        try {
+            const result = await this.contractRepository.findCompletedContracts(id, role)
+            if (result) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        success: true,
+                        data: result
+                    }
             }
             return {
                 status: STATUS_CODES.BAD_REQUEST,

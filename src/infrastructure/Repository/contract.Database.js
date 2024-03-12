@@ -28,11 +28,17 @@ export class ContractRepository {
     async updateContractStatus(id, status, actualStatus) {
         return await Contract.findByIdAndUpdate(id, { $set: { isAccepted: status }, status: actualStatus })
     }
-    async cancelContract(id) {
-        return await Contract.findByIdAndUpdate(id, {
-            $set: { status: "cancelled" }
+    
+    async updateContract(contractId, status) {
+        return await Contract.findByIdAndUpdate(contractId, {
+            $set: { status: status }
         });
     }
-    
-
+    async findCompletedContracts(id, role) {
+        const query = {};
+        query[role.toLowerCase()] = id;
+        query['status'] = 'completed';
+        console.log(query)
+        return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
+    }
 }

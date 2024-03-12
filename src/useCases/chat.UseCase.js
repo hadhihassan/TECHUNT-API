@@ -50,5 +50,6 @@ export class ChatUseCase {
     async createNewConversation(senderId, receiverId){
         return await this.chatRepository.createNewConversation(senderId, receiverId)
     }
+    
 
 }

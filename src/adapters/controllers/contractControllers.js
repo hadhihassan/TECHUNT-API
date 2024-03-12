@@ -77,4 +77,14 @@ export class ContractController {
         if(result) await this.transactionUseCase.saveNewTransaction(amount, talentId, req.clientId, "Contract");
         return res.status(result.status).json(result)
     }
+    async updateStatus(req, res) {
+        const { contractId, status } = req.body;
+        console.log(contractId, status)
+        const result = await this.contractUseCase.updateStatus(contractId, status)
+        return res.status(result.status).json(result)
+    }
+    async getCompletedContract(req, res) {
+        const result = await this.contractUseCase.fetchCompletedContracts(req.clientId, req.role)
+        return res.status(result.status).json(result)
+    }
 }

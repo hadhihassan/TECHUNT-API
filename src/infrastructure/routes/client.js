@@ -29,5 +29,7 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .get("/contract/get-submitted-work/:id/", checkToken, (req, res) => contractController.getWork(req, res))
     .post("/send-money-talent/", checkToken, (req, res) => contractController.makePaymentToTalent(req, res))
     .post("/wallet/add-amount/", checkToken, (req, res) => contractController.updateTalentWalletAmount(req, res))
+    .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
+    .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
 
 export default client_Routes;
