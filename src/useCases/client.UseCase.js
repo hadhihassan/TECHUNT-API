@@ -4,7 +4,7 @@ import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 import { StripPayment } from '../providers/paymentService.js';
-
+import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
 export class ClientUseCase {
     constructor() {
         this.clientRepository = new ClientRepository();
@@ -12,6 +12,7 @@ export class ClientUseCase {
         this.jwtToken = new JwtToken()
         this.encrypt = new Encrypt()
         this.payment = new StripPayment()
+        this.transactionRepository = new TransactionRepository();
     }
     async isEmailExist(email) {
         try {
@@ -101,11 +102,22 @@ export class ClientUseCase {
     async blockClient(email, block) {
         return await this.clientRepository.block(email, block)
     }
-    async payContractAmount(talentId, amount, clientId) {
-        try {
-            
-        } catch (err) {
-            console.log("while making payment got and error", err)
+    async getTransactionHistory(id){
+        try{
+            const getResult = await this.transactionRepository.getToTransaction(id);
+            if(getResult){
+                return{
+                    status:STATUS_CODES.OK,
+                    success:true,
+                    data:getResult
+                }
+            }
+            return{
+                status:STATUS_CODES.BAD_REQUEST,
+                success:false,
+            }
+        }catch(err){
+            console.log(err)
         }
     }
 }

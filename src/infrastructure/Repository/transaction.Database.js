@@ -3,6 +3,7 @@ import Transaction from "../../entites/models/transations.Schema.js";
 export class TransactionRepository {
 
     async saveTransaction(amount, to, from, forWhat) {
+        console.log(amount, to, from , forWhat)
         return await Transaction.create({ amount, to, from, forWhat })
     }
     async findById(id) {

@@ -80,4 +80,9 @@ export class ClientController {
         const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
+    async getTransactionHistory(req,res){
+        const {clientId:id} = req;
+        const getResult = await this.clientUseCase.getTransactionHistory(id)
+        return res.status(getResult.status).json(getResult)
+    }
 } 

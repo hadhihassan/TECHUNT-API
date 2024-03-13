@@ -41,8 +41,9 @@ export class ProposalController {
     async updatePaymentStatus(req, res) {
         const { status, proposalId } = req.body;
         const { clientId } = req
+        console.log(req.clientId)
         const result = await this.proposalUseCase.updatePayment(status, proposalId)
-        if (result) await this.transactionUseCase.saveNewTransaction(PROPOSAL_CHARGE, PROPOSAL_CHARGE_TRANSACTION_TO, clientId, "Proposal")
+        if (result){ await this.transactionUseCase.saveNewTransaction(PROPOSAL_CHARGE, PROPOSAL_CHARGE_TRANSACTION_TO, clientId, "Proposal")}
         // return res.status(result.status)
     }
     async fetchAllConnectedTalents(req, res) {

@@ -3,10 +3,11 @@ import { TalentRepository } from '../infrastructure/Repository/talent.Database.j
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
-
+import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
 export class TalentUseCase {
     constructor() {
         this.talentRepository = new TalentRepository(); // Assuming UserRepository is a class that needs to be instantiated
+        this.transactionRepository = new TransactionRepository(); // Assuming UserRepository is a class that needs to be instantiated
         this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypt()
@@ -41,7 +42,7 @@ export class TalentUseCase {
     async saveSignupData(email, scurePassword) {
         try {
             const talent = await this.talentRepository.addTalentSingupData(email, scurePassword)
-            const token = await this.jwtToken.generateJwtToken(talent._id,"TALENT")
+            const token = await this.jwtToken.generateJwtToken(talent._id, "TALENT")
             return { talent, token, role: "TALENT" }
         } catch (error) {
             console.log(error.message)
@@ -109,5 +110,24 @@ export class TalentUseCase {
     async blockTalent(email, block) {
         return await this.talentRepository.block(email, block)
     }
-}
+    async getTransactionsHistory(id){
+        try{
+            const getResult = await this.transactionRepository.getToTransaction(id)
+            const getResultSecond = await this.transactionRepository.getFromTransaction(id)
+            if(getResult){
+                return {
+                    status : STATUS_CODES.OK,
+                    success:true,
+                    data:[...getResult,...getResultSecond]
+                }
+            } 
+            return {
+                status : STATUS_CODES.BAD_REQUEST,
+                success:false
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
 
+}

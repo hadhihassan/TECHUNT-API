@@ -31,5 +31,6 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .post("/wallet/add-amount/", checkToken, (req, res) => contractController.updateTalentWalletAmount(req, res))
     .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
     .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
+    .get("/get-transaction-history/", checkToken, (req, res) => Ccontroller.getTransactionHistory(req, res))
 
 export default client_Routes;

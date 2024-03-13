@@ -4,7 +4,7 @@ import { TalentUseCase } from "../../useCases/talent.UseCase.js";
 import { ClientUseCase } from "../../useCases/client.UseCase.js";
 import { JobPostUseCase } from "../../useCases/jobPost.UseCase.js";
 export class TalentController {
-    constructor(talentUseCase, encrypt) {
+    constructor() {
         this.talentUseCase = new TalentUseCase();
         this.clientUseCase = new ClientUseCase();
         this.jobPostUseCase = new JobPostUseCase();
@@ -110,5 +110,10 @@ export class TalentController {
         const proposals = await this.jobPostUseCase.getAllClientJobPosts(client_id)
         console.log(proposals)
         return res.status(proposals.status).json(proposals.data)
+    }
+    async getTalentTransactionHistory(req, res) {
+        const { clientId: id } = req;
+        const getResult = await this.talentUseCase.getTransactionsHistory(id)
+        return res.status(getResult.status).json(getResult)
     }
 }
