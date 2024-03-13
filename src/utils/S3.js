@@ -9,8 +9,8 @@ const s3Client = new S3Client({
         secretAccessKey: config.AWS.SECRET_ACCESS_KEY
     }
 })
-const BUCKET_NAME = config.AWS.BUCKET_NAME;
 
+const BUCKET_NAME = config.AWS.BUCKET_NAME;
 
 export async function createPreSignedPost({ key, contentType }) {
     const command = new PutObjectCommand({

@@ -1,10 +1,17 @@
 import { STATUS_CODES, ERR_MESSAGE } from "../../constants/httpStatusCode.js";
 
-export function get200Response (){
+export function get200Response (data){
     return {
         status: STATUS_CODES.OK,
-        message: 'Success',
+        success: true,
         data: data
+    };
+}
+export function get400Response (){
+    return {
+        status: STATUS_CODES.BAD_REQUEST,
+        success: true,
+        data: null
     };
 }
 export function get500Response(error) {

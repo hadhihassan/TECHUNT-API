@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-
 const { Schema } = mongoose;
-
 const JobCategorySchema = new Schema({
     name: {
         type: String,
@@ -30,6 +28,5 @@ const JobCategorySchema = new Schema({
 }, {
     timestamps: true
 });
-
 const JobCategory = mongoose.model("Job_Category", JobCategorySchema); 
 export default JobCategory;

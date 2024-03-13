@@ -19,7 +19,6 @@ export class ChatController {
             const { id } = req.params;
             const userToChatId = new mongoose.Types.ObjectId(id);
             const senderId = new mongoose.Types.ObjectId(req.clientId);
-            console.log(userToChatId, senderId);
             const result = await this.chatUseCase.getUserConversation(senderId, userToChatId)
             return res.status(result.status).json(result)
         } catch (error) {
