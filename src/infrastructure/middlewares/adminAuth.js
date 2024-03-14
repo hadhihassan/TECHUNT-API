@@ -20,6 +20,7 @@ export const checkToken = async (req, res, next) => {
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }
+        console.log("youre admin")
         next();
     } catch (error) {
         console.error('Error in token verification:', error);

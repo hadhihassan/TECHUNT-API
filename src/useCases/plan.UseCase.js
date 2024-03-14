@@ -1,6 +1,6 @@
 import { STATUS_CODES } from "http";
-import { PlanRepository } from "../infrastructure/repository/plan.Database";
-import { get200Response, get500Response, get400Response } from "../infrastructure/helperFunctions/response";
+import { PlanRepository } from "../infrastructure/repository/plan.Database.js";
+import { get200Response, get500Response, get400Response } from "../infrastructure/helperFunctions/response.js";
 
 export class PlanUesCase {
     constructor(){  
@@ -10,7 +10,7 @@ export class PlanUesCase {
         try{
             const result = await this.planRepository.createNewPlan(data)
             if(result){
-                return get200Response(data)
+                return get200Response(result)
             }
             return get400Response()
         }catch(err){
@@ -19,9 +19,10 @@ export class PlanUesCase {
     }
     async getAllPlan(){
         try{
-            const result = await this.planRepository.getAllPalans(data)
+            const result = await this.planRepository.getAllPalans()
+            console.log(result)
             if(result){
-                return get200Response(data)
+                return get200Response(result)
             }
             return get400Response()
         }catch(err){
@@ -32,7 +33,7 @@ export class PlanUesCase {
         try{
             const result = await this.planRepository.disablePlan(id, status)
             if(result){
-                return get200Response(data)
+                return get200Response(result)
             }
             return get400Response()
         }catch(err){

@@ -8,6 +8,7 @@ import { JobPostController } from "../adapters/controllers/jobPostControllers.js
 import { ProposalController } from "../adapters/controllers/proposalControllers.js";
 import { ChatController } from "../adapters/controllers/ChatControllers.js";
 import { ContractController } from '../adapters/controllers/contractControllers.js'
+import { PlanController } from '../adapters/controllers/planControllers.js'
 
 //UseCases
 import { TalentUseCase } from "../useCases/talent.UseCase.js";
@@ -20,6 +21,7 @@ import { ProposalUseCase } from "../useCases/proposal.UseCase.js";
 import { ChatUseCase } from "../useCases/chat.UseCase.js";
 import { ContractUseCase } from "../useCases/contract.UseCase.js";
 import { MilestoneUseCase } from "../useCases/milestone.UseCase.js";
+import { PlanUesCase } from "../useCases/plan.UseCase.js";
 
 
 //Repository database
@@ -31,6 +33,8 @@ import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database
 import { ChatRepository } from "../infrastructure/repository/chat.Database.js";
 import { ContractRepository } from "../infrastructure/repository/contract.Database.js";
 import { MilestoneRepository } from "../infrastructure/repository/milestone.Database.js";
+import { PlanRepository } from "../infrastructure/repository/plan.Database.js";
+
 
 
 //services 
@@ -41,6 +45,10 @@ import { S3Service } from "./S3.js";
 const mailSend = new Mailer();
 const encrypt = new Encrypt()
 const s3Service = new S3Service()
+
+const planRepository = new PlanRepository()
+const planUseCase = new PlanUesCase(planRepository)
+export const planControllers = new PlanController(planUseCase)
 
 const milestoneRepository = new MilestoneRepository()
 const contractRepository = new ContractRepository()

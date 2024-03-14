@@ -1,21 +1,20 @@
-import { PlanUesCase } from '../../useCases/plan.UseCase'
-
-export class PlanController{
-    constructor(){
-        this.planUesCase = new PlanUesCase()
+export class PlanController {
+    constructor(planUesCase) {
+        this.planUesCase = planUesCase;
     }
-    async createNewPlan(req,res){
-        const { planData:data } = req.body;
+    createNewPlan = async (req, res) => {
+        const data = req.body;
         const result = await this.planUesCase.createNewPlan(data);
-        return res.status(result.status).json(result); 
+        return res.status(result.status).json(result);
     }
-    async getAllPlans(req,res){
+    async getAllPlans(req, res) {
         const result = await this.planUesCase.getAllPlan();
-        return res.status(result.status).json(result); 
+        console.log(result)
+        return res.status(result.status).json(result);
     }
-    async createNewPlan(req,res){
-        const { planId:id, status } = req.body;
+    async createNewPlan(req, res) {
+        const { planId: id, status } = req.body;
         const result = await this.planUesCase.disablePlan(id, status);
-        return res.status(result.status).json(result); 
+        return res.status(result.status).json(result);
     }
 }

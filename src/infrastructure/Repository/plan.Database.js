@@ -1,5 +1,5 @@
-import Subscription from "../../entites/models/base/subscription.Schema";
-import Plan from "../../entites/models/plan.Schema";
+import Subscription from "../../entites/models/base/subscription.Schema.js";
+import Plan from "../../entites/models/plan.Schema.js";
 
 export class PlanRepository {
     async createNewPlan(data) {

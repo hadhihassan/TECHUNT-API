@@ -8,10 +8,10 @@ const PlanSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    type: {
-        type: String,
-        required: true
-    },
+    // type: {
+    //     type: String,
+    //     required: true
+    // },
     amount: {
         type: Number,
         required: true,
