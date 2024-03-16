@@ -8,7 +8,7 @@ const ClientSchema = new Schema({
   Password: { type: String, },
   Email: { type: String, },
   Number: { type: String, },
-  JobPost_id:[ { type: Schema.Types.ObjectId ,ref: 'JobPost' }],
+  JobPost_id: [{ type: Schema.Types.ObjectId, ref: 'JobPost' }],
   Profile: {
     profile_Dp: { type: String },
     Completed_contract: { type: Number },
@@ -27,8 +27,8 @@ const ClientSchema = new Schema({
   online: { type: Boolean, default: false },
   isVerify: { type: Boolean, default: false },
   isNumberVerify: { type: Boolean, default: false },
-  bankDetails : {type: Schema.Types.ObjectId, ref: "BankAccount"}
-
+  bankDetails: { type: Schema.Types.ObjectId, ref: "BankAccount" },
+  subscription: { type: Schema.Types.ObjectId, ref: "Subscription" }
 }, {
   timestamps: true
 });

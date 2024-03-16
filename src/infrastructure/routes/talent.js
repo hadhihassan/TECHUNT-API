@@ -5,12 +5,12 @@ import {
     jobCateControllers,
     jobPostControllers,
     proposalControllers,
-    contractController
+    contractController,
+    planControllers
 } from '../../providers/controller.js';
 import { checkToken } from '../middlewares/talentAuth.js';
 import { upload } from '../config/multer.js';
-import stripeModule from "stripe";
-import catchAsync from '../../utils/catchAsync.js'
+
 
 talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/verify/:token", checkToken, (req, res) => Tcontroller.verifyEmailToken(req, res))
@@ -40,5 +40,9 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
     .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
     .get("/get-transaction-history/", checkToken, (req, res) => Tcontroller.getTalentTransactionHistory(req, res))
+    .get("/plan/getAll/", checkToken, (req, res) => planControllers.getPlanForUsers(req, res))
+    .post("/plan/purchase-plan/", checkToken, (req, res) => planControllers.purchasePlan(req, res))
+    .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
+
 
 export default talent_Routes;

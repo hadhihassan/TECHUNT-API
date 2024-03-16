@@ -1,7 +1,13 @@
 import { Router } from 'express';
 const client_Routes = Router();
-import { Ccontroller, proposalControllers, Tcontroller, contractController } from '../../providers/controller.js';
-import { jobPostControllers } from '../../providers/controller.js';
+import {
+    Ccontroller,
+    proposalControllers,
+    Tcontroller,
+    contractController,
+    planControllers,
+    jobPostControllers
+} from '../../providers/controller.js';
 import { checkToken } from '../middlewares/clientAuth.js';
 import { upload } from '../config/multer.js';
 
@@ -22,6 +28,7 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .patch("/update-proposal-accept/", checkToken, (req, res) => proposalControllers.updateAcceptence(req, res))
     .patch("/update-proposal-decline/", checkToken, (req, res) => proposalControllers.updateDecline(req, res))
     .get("/fetch-Connected-talents/", checkToken, (req, res) => proposalControllers.fetchAllConnectedTalents(req, res))
+
     .get("/get-all-talent/", checkToken, (req, res) => Tcontroller.getAllTalents(req, res))
     .post("/contract/send-contract/", checkToken, (req, res) => contractController.saveNewContract(req, res))
     .get("/fetch-all-active-contract/", checkToken, (req, res) => contractController.fetchAllActiveContracts(req, res))
@@ -31,6 +38,11 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .post("/wallet/add-amount/", checkToken, (req, res) => contractController.updateTalentWalletAmount(req, res))
     .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
     .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
+
     .get("/get-transaction-history/", checkToken, (req, res) => Ccontroller.getTransactionHistory(req, res))
+
+    .get("/plan/getAll/", checkToken, (req, res) => planControllers.getPlanForUsers(req, res))
+    .post("/plan/purchase-plan/", checkToken, (req, res) => planControllers.purchasePlan(req, res))
+    .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
 
 export default client_Routes;

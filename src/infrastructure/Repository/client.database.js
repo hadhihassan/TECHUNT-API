@@ -169,5 +169,11 @@ export class ClientRepository {
         }
         return false
     }
+    async saveSuscription(userId, subscriptionId) {
+        return await client.findByIdAndUpdate(
+            userId,
+            { $set: { subscription: subscriptionId } }
+        );
+    }
 }
 

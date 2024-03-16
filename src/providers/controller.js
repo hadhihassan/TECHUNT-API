@@ -34,6 +34,7 @@ import { ChatRepository } from "../infrastructure/repository/chat.Database.js";
 import { ContractRepository } from "../infrastructure/repository/contract.Database.js";
 import { MilestoneRepository } from "../infrastructure/repository/milestone.Database.js";
 import { PlanRepository } from "../infrastructure/repository/plan.Database.js";
+import { SubscriptionRepository } from "../infrastructure/repository/subscription.js";
 
 
 
@@ -47,7 +48,7 @@ const encrypt = new Encrypt()
 const s3Service = new S3Service()
 
 const planRepository = new PlanRepository()
-const planUseCase = new PlanUesCase(planRepository)
+const planUseCase = new PlanUesCase(planRepository, SubscriptionRepository)
 export const planControllers = new PlanController(planUseCase)
 
 const milestoneRepository = new MilestoneRepository()

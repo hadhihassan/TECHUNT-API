@@ -129,5 +129,23 @@ export class TalentUseCase {
             console.log(err)
         }
     }
+    async saveSuscription(userId, subscriptionId){
+        try{
+            const result = await this.talentRepository.saveSuscription(userId, subscriptionId)
+            if(result){
+                return {
+                    status : STATUS_CODES.OK,
+                    success:true,
+                    data:result
+                }
+            } 
+            return {
+                status : STATUS_CODES.BAD_REQUEST,
+                success:false
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
 
 }

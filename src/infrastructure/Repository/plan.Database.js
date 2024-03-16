@@ -8,12 +8,17 @@ export class PlanRepository {
     async getAllPalans() {
         return await Plan.find()
     }
-    async disablePlan(id, status) {
-        return await Plan.findByIdAndUpdate(id,
-            { isActive: status },
-            { new: true });
+    async disablePlan(id) {
+        return await Plan.findByIdAndDelete(id)
     }
     async createSubscription(data) {
         return await Subscription.create(data)
     }
+    async getPlan(id) {
+        return await Plan.findById(id)
+    }
+    async getPlanForUser() {
+        return await Plan.find({ isActive: true })
+    }
+    
 }

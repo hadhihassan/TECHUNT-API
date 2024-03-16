@@ -243,9 +243,8 @@ export class TalentRepository {
         try {
             return await Wallet.create(history);
         } catch (error) {
-            // Handle the error, log it, or throw it further
             console.error('Error creating wallet:', error);
-            throw error; // Re-throwing the error for further handling
+            throw error; 
         }
     }
     async getWallet(id) {
@@ -270,5 +269,11 @@ export class TalentRepository {
         } catch (err) {
             console.error(err.message);
         }
+    }
+    async saveSuscription(userId, subscriptionId) {
+        return await talent.findByIdAndUpdate(
+            userId, 
+            { $set: { subscription: subscriptionId } }
+        );
     }
 }

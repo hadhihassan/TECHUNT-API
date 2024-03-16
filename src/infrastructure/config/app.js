@@ -22,7 +22,7 @@ import talent_Routes from '../routes/talent.js';
 
 const createServer = () => {
   const app = express();
-  app.use(morgan())
+  // app.use(morgan())
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
@@ -43,10 +43,14 @@ const createServer = () => {
   app.use('/message/', chatRouter);
   app.use((err, req, res, next) => {
     res.status(500).json({
-        status: "failed",
-        message: "Something went wrong!"
+      status: "failed",
+      message: "Something went wrong!"
     });
-});
+  });
+  app.post('/webhook', async (req, res) => {
+    const event = req.body;
+    console.log(event)
+  })
 
   return app;
 };
