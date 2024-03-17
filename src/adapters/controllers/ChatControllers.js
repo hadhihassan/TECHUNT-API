@@ -27,14 +27,12 @@ export class ChatController {
     }
     async getMessagedUser(req, res) {
         const currentUser = req.clientId
-        console.log(req.role)
         const data = await this.chatUseCase.gteAll(currentUser, req.role)
         return res.status(200).json(data)
     }
     async createConversation(req, res) {
         const { id: receiverId } = req.body
         const senderId = req.clientId;
-        console.log(senderId, receiverId)
         const result = await this.chatUseCase.createNewConversation(senderId, receiverId)
         return res.status(200).json(result)
     }

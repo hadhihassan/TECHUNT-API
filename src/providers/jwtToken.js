@@ -15,4 +15,7 @@ export class JwtToken {
             console.log(error)
         }
     }
+    async verifyJwt(token){
+        return jwt.verify(token.slice(7), process.env.JWT_SECRET_KEY);
+    }
 }

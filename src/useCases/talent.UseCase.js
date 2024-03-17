@@ -4,11 +4,13 @@ import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
+import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
+
 export class TalentUseCase {
     constructor() {
-        this.talentRepository = new TalentRepository(); // Assuming UserRepository is a class that needs to be instantiated
-        this.transactionRepository = new TransactionRepository(); // Assuming UserRepository is a class that needs to be instantiated
-        this.mailer = new Mailer(); // Assuming Mailer is a class that needs to be instantiated
+        this.talentRepository = new TalentRepository();
+        this.transactionRepository = new TransactionRepository();
+        this.mailer = new Mailer();
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypt()
     }
@@ -110,41 +112,52 @@ export class TalentUseCase {
     async blockTalent(email, block) {
         return await this.talentRepository.block(email, block)
     }
-    async getTransactionsHistory(id){
-        try{
+    async getTransactionsHistory(id) {
+        try {
             const getResult = await this.transactionRepository.getToTransaction(id)
             const getResultSecond = await this.transactionRepository.getFromTransaction(id)
-            if(getResult){
+            if (getResult) {
                 return {
-                    status : STATUS_CODES.OK,
-                    success:true,
-                    data:[...getResult,...getResultSecond]
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: [...getResult, ...getResultSecond]
                 }
-            } 
-            return {
-                status : STATUS_CODES.BAD_REQUEST,
-                success:false
             }
-        }catch(err){
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false
+            }
+        } catch (err) {
             console.log(err)
         }
     }
-    async saveSuscription(userId, subscriptionId){
-        try{
+    async saveSuscription(userId, subscriptionId) {
+        try {
             const result = await this.talentRepository.saveSuscription(userId, subscriptionId)
-            if(result){
+            if (result) {
                 return {
-                    status : STATUS_CODES.OK,
-                    success:true,
-                    data:result
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: result
                 }
-            } 
-            return {
-                status : STATUS_CODES.BAD_REQUEST,
-                success:false
             }
-        }catch(err){
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false
+            }
+        } catch (err) {
             console.log(err)
+        }
+    }
+    async saveResume(id,s3Link) {
+        try {
+            const result = await this.talentRepository.saveResume(id,s3Link)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
         }
     }
 

@@ -14,7 +14,6 @@ export class TalentRepository {
         return { status: true, data: user }
     }
     async findById(id) {
-        console.log("data base reacjed herer", id)
         return await talent.findById(id)
     }
     async findByToken(token) {
@@ -244,7 +243,7 @@ export class TalentRepository {
             return await Wallet.create(history);
         } catch (error) {
             console.error('Error creating wallet:', error);
-            throw error; 
+            throw error;
         }
     }
     async getWallet(id) {
@@ -272,8 +271,18 @@ export class TalentRepository {
     }
     async saveSuscription(userId, subscriptionId) {
         return await talent.findByIdAndUpdate(
-            userId, 
+            userId,
             { $set: { subscription: subscriptionId } }
         );
+    }
+    async updateUserState(id, state) {
+        return await talent.findByIdAndUpdate(id, {
+            $set: { online: state }
+        })
+    }
+    async saveResume(id, s3Link) {
+        return await talent.findByIdAndUpdate(id, {
+            $set: { resume: s3Link }
+        }, { new: true })
     }
 }

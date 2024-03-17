@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { TalentRepository } from '../../Repository/talent.Database.js';
-import { ClientRepository } from '../../Repository/client.Database.js';
+import { ClientRepository } from '../../Repository/client.database.js';
 import { STATUS_CODES } from '../../../constants/httpStatusCode.js';
-const talentRepository = new TalentRepository()
-const clientRepository = new ClientRepository()
+const talentRepository = new TalentRepository();
+const clientRepository = new ClientRepository();
 
 const { JWT_SECRET_KEY } = process.env;
 
@@ -17,7 +17,6 @@ export const checkChatToken = async (req, res, next) => {
         }
         const decodedToken = jwt.verify(token.slice(7), JWT_SECRET_KEY);
         const objectId = new mongoose.Types.ObjectId(decodedToken.id);
-        console.log(decodedToken)
         let clientData
         
         if(decodedToken.role === "TALENT"){
@@ -25,7 +24,6 @@ export const checkChatToken = async (req, res, next) => {
         }else{
             clientData = await clientRepository.findById(objectId);
         }
-        console.log(clientData)
         if (!clientData) {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Invalid token" });
         }

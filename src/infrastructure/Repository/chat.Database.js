@@ -1,9 +1,14 @@
+import Client from "../../entites/models/Client.schema.js";
 import Conversation from "../../entites/models/subSchema/conversation.js";
 import Message from "../../entites/models/subSchema/message.js";
-import { getReceiverSocketId, io } from "../../../server.js";
+import Talent from "../../entites/models/talen.model.js";
+import { io } from '../../providers/socket.js'
+import { ClientRepository } from "./client.database.js";
+import { TalentRepository } from "./talent.Database.js";
+
+
 
 export class ChatRepository {
-
 
     async createMessage(senderId, receiverId, message) {
         let conversation = await Conversation.findOne({
@@ -22,13 +27,22 @@ export class ChatRepository {
         if (newMessage) {
             conversation.messages.push(newMessage._id)
         }
+        let receiver
+        receiver = await Talent.findById(receiverId)
+        if (!receiver) {
+            const isRecevier = await Client.findById(receiverId)
+            if (isRecevier) {
+                receiver = isRecevier
+            }
+        }
         await Promise.all([conversation.save(), newMessage.save()])
-        // const receiverSocketId = getReceiverSocketId(receiverId);
-        // log
-        // if (receiverSocketId) {
-        // io.to(<socket_id>).emit() used to send events to specific client
+        if (receiver.online) {
+            console.log(receiver?.online," this is the status")
+            const id = await Message.updateMany({ senderId: senderId, receiverId: receiverId }, { $set: { read: true } })
+            console.log(id)
+        }
         io.emit("newMessage", newMessage);
-        // }
+
         return true
     }
 
@@ -40,12 +54,11 @@ export class ChatRepository {
             model: 'Message',
             select: '-password'
         }).exec();
-        console.log(conversation, " this ite xxxxxxxxxxxxxxxxxxxxxxx \n");
+        await Message.updateMany({ senderId: userToChatId, receiverId: senderId }, { $set: { read: true } })
         return conversation.messages
     }
 
     async findMessagedUsers(currentUserId, role) {
-        console.log(currentUserId, role)
         if (role === "TALENT") {
             return await Conversation.find({
                 participants: { $in: currentUserId }
@@ -76,7 +89,6 @@ export class ChatRepository {
             })
             await Promise.all([conversation.save()])
         }
-
         return true
     }
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-
+import { ResumeSchema } from "./base/resume.Schema.js";
 
 const { Schema, ObjectId } = mongoose;
 
@@ -33,6 +33,8 @@ const TalentSchema = new Schema({
 }, {
     timestamps: true
 });
+
+TalentSchema.add(ResumeSchema);
 
 const Talent = mongoose.model('Talent', TalentSchema);
 

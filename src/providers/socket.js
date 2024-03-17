@@ -1,20 +1,22 @@
 import { Server as SocketIO } from 'socket.io';
 import NotificationModel from '../entites/models/subSchema/notification.schema.js';
+import jwt from 'jsonwebtoken'
 import { TalentRepository } from '../infrastructure/repository/talent.Database.js'
 import { ClientRepository } from '../infrastructure/repository/client.database.js'
-
+import { JwtToken } from './jwtToken.js';
+const jwtToken = new JwtToken()
 const talentRepository = new TalentRepository()
 const clientRepository = new ClientRepository()
 
 const userSocketMap = {};
 let premimuUsers = {}
+let io
 const initializeSocket = (server) => {
-    const io = new SocketIO(server, {
+    io = new SocketIO(server, {
         cors: {
             origin: process.env.CLIENT_ORIGIN
         },
     });
-
     io.on("connection", (socket) => {
         const userId = socket.handshake.query.userId;
         if (userId != "undefined") userSocketMap[userId] = socket.id;
@@ -44,14 +46,12 @@ const initializeSocket = (server) => {
         socket.on('newJobPost', async (jobPost) => {
             const { userData, formData } = jobPost;
             let user;
-
             user = await talentRepository.findById(userData.id);
             if (!user) {
                 user = await clientRepository.findById(userData.id);
             }
             io.emit("newPost", { user, formData });
         });
-
         socket.on("subscribedUser", (data) => {
             console.log("this is the subscribed user", data)
             premimuUsers[data] = socket.id
@@ -65,7 +65,31 @@ const initializeSocket = (server) => {
                 console.log('Error fetching notifications:', err)
             }
         })
+        socket.on("OnlineUser", async (userData) => {
+            const { role, id } = userData;
+            try {
+                if (role === "TALENT") {
+                    await talentRepository.updateUserState(id, true)
+                } else {
+                    await clientRepository.updateUserState(id, true)
+                }
+            } catch (err) {
+                console.log('Error fetching notifications:', err)
+            }
+        })
+        socket.on("OfflineUser", async (userData) => {
+            const { role, id } = userData;
+            try {
+                if (role === "TALENT") {
+                    await talentRepository.updateUserState(id, false)
+                } else {
+                    await clientRepository.updateUserState(id, false)
+                }
+            } catch (err) {
+                console.log('Error fetching notifications:', err)
+            }
+        })
     })
 };
 
-export { initializeSocket, userSocketMap };
+export { initializeSocket, userSocketMap, io };

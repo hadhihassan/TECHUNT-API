@@ -14,7 +14,7 @@ const app = createServer();
 export const getReceiverSocketId = (receiverId) => {
   return userSocketMap[receiverId];
 };
-let io
+
 const userSocketMap = {}
 dbConnect()
   .then(() => {
@@ -27,4 +27,3 @@ dbConnect()
     }
   })
   .catch((err) => console.error('error while connecting to database\n', err));
-export { io }

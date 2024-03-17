@@ -5,6 +5,7 @@ import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import BankAccount from "../../entites/models/subSchema/bankDetails.js";
 
 export class ClientRepository {
+    
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {
@@ -36,7 +37,7 @@ export class ClientRepository {
             return emailClient;
         } catch (error) {
             console.log(error);
-            throw new Error("Saving email got an error");  
+            throw new Error("Saving email got an error");
         }
     }
     async addConatctDeatils(formData, id) {
@@ -90,7 +91,6 @@ export class ClientRepository {
                 }
             }
         } catch (error) {
-            console.log(error.message);
             return {
                 status: STATUS_CODES.INTERNAL_SERVER_ERROR,
                 data: "Error"
@@ -128,27 +128,27 @@ export class ClientRepository {
             let isBlocked
             if (block) {
                 isBlocked = await client.findOneAndUpdate(
-                    { Email: email }, 
-                    { $set: { isBlock: false } } 
+                    { Email: email },
+                    { $set: { isBlock: false } }
                 );
             } else {
                 isBlocked = await client.findOneAndUpdate(
-                    { Email: email }, 
-                    { $set: { isBlock: true } } 
+                    { Email: email },
+                    { $set: { isBlock: true } }
                 );
             }
             console.log("client ====", isBlocked);
             if (isBlocked) {
-                return true; 
+                return true;
             } else {
                 return false;
             }
         } catch (error) {
             console.error('Error occurred while updating user block status:', error);
-            return false; 
+            return false;
         }
     }
-    async checkIsValidNumber(id , number){
+    async checkIsValidNumber(id, number) {
         const clientData = await client.findById(id);
         console.log(clientData)
         return number === clientData.Number;
@@ -174,6 +174,11 @@ export class ClientRepository {
             userId,
             { $set: { subscription: subscriptionId } }
         );
+    }
+    async updateUserState(id, state) {
+        return await client.findByIdAndUpdate(id, {
+            $set: { online: state }
+        })
     }
 }
 
