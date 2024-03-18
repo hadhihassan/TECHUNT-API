@@ -1,10 +1,8 @@
 import nodemailer from 'nodemailer';
 import Token from '../entites/models/token.js';
 import crypto from 'crypto';
-
 export class Mailer {
     async sendMaill(email) {
-        
         const token = await new Token({
             token: crypto.randomBytes(32).toString("hex"),
         }).save();

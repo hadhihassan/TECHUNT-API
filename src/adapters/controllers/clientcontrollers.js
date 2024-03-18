@@ -1,10 +1,14 @@
 import { STATUS_CODES } from '../../constants/httpStatusCode.js';
 import { ClientUseCase } from '../../useCases/client.UseCase.js';
 import { Encrypt } from '../../providers/bcryptPassword.js';
+import { JobPostUseCase } from '../../useCases/jobPost.UseCase.js';
+import { TalentUseCase } from '../../useCases/talent.UseCase.js';
 
 export class ClientController {
     constructor(clientUseCase, encrypt) {
         this.clientUseCase = new ClientUseCase();
+        this.talentUseCase = new TalentUseCase();
+        this.jobPostUseCase = new JobPostUseCase();
         this.encrypt = new Encrypt()
     }
     async verifyEmail(req, res) {
@@ -80,9 +84,19 @@ export class ClientController {
         const editResult = await this.clientUseCase.editConatctDeatils(req.body, id);
         return res.status(editResult.status).json(editResult.data)
     }
-    async getTransactionHistory(req,res){
-        const {clientId:id} = req;
+    async getTransactionHistory(req, res) {
+        const { clientId: id } = req;
         const getResult = await this.clientUseCase.getTransactionHistory(id)
         return res.status(getResult.status).json(getResult)
+    }
+    async senInvitation(req, res) {
+        const { WorkId, talentId } = req.body
+        console.log(WorkId, talentId)
+        const getSender = await this.clientUseCase.getProfilelData(req.clientId)
+        const getReceiver = await this.talentUseCase.getProfilelData(talentId)
+        console.log(getSender.First_name, getReceiver.First_name, WorkId[0].Title)
+        const result = await this.clientUseCase.sendInvitation(getSender, getReceiver, WorkId[0])
+        console.log(result)
+        return res.status(result.status).json(result)
     }
 } 

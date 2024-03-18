@@ -1,6 +1,6 @@
 import Subscription from "../../entites/models/base/subscription.Schema.js";
 import Plan from "../../entites/models/plan.Schema.js";
-
+    
 export class PlanRepository {
     async createNewPlan(data) {
         return await Plan.create(data)
@@ -20,5 +20,11 @@ export class PlanRepository {
     async getPlanForUser() {
         return await Plan.find({ isActive: true })
     }
-    
+    async updatePlan(id, data) {
+        return await Plan.findByIdAndUpdate(id,{
+            name : data.name,
+            amount:data.amount,
+            description : data.description
+        })
+    }
 }

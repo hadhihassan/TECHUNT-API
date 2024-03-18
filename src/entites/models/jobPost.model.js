@@ -47,5 +47,22 @@ const JobPostSchema = new Schema({
 
 const JobPost = mongoose.model('JobPost', JobPostSchema);
 
+export async function searchJobs({ Title, WorkType, Expertiselevel, maxAmount, minAmount }) {
+    try {
+        const query = {};
+        if (Title !=="") query.Title = { $regex: new RegExp(Title, 'i') };
+        if (WorkType !=="") query.WorkType = WorkType;
+        if (Expertiselevel !=="") query.Expertiselevel = Expertiselevel;
+        if (maxAmount) query.Amount = { $lte: maxAmount };
+        if (minAmount) query.Amount = { ...query.Amount, $gte: minAmount };
+        const jobs = await JobPost.find(query);
+        return jobs;
+    } catch (error) {
+        throw new Error('Error searching jobs: ' + error.message);
+    }
+}
+
+
+
 export default JobPost;
 

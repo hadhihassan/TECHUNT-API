@@ -97,4 +97,16 @@ export class PlanUesCase {
             get500Response(error)
         }
     }
+    async updatePlan(id, data) {
+        try {
+            const result = await this.planRepository.updatePlan(id, data);
+            console.log(result)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (error) {
+            get500Response(error)
+        }
+    }
 }

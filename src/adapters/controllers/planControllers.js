@@ -24,6 +24,7 @@ export class PlanController {
     }
     async getPlan(req, res) {
         const { id } = req.params;
+        console.log("am reached here",id)
         const result = await this.planUesCase.getPlan(id);
         return res.status(result.status).json(result);
     }
@@ -53,6 +54,11 @@ export class PlanController {
             const data = await this.talentUseCase.saveSuscription(userId, result?.data?._id)
             console.log(data)
         }
+        return res.status(result.status).json(result)
+    }
+    async updatePlan(req,res){
+        const {id, data} = req.body;
+        const result = await this.planUesCase.updatePlan(id,data);
         return res.status(result.status).json(result)
     }
 }

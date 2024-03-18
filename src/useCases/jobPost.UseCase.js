@@ -33,28 +33,28 @@ export class JobPostUseCase {
                     status: STATUS_CODES.BAD_REQUEST,
                     message: "While fetching job post got a error.",
                     sucess: false,
-                    
+
                 }
             }
             return {
                 status: STATUS_CODES.OK,
                 message: "Successfully get all job post ",
                 sucess: true,
-                data:datas
+                data: datas
             }
         } catch (err) {
             get500Response(err)
         }
     }
-    async UpdateJobPost(data,id) {
+    async UpdateJobPost(data, id) {
         try {
-            const result = await this.jobPostRepository.updateJobDocument(data,id)
+            const result = await this.jobPostRepository.updateJobDocument(data, id)
             if (result === null) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,
                     message: "While updating job post got a error.",
                     sucess: false,
-                    
+
                 }
             }
             return {
@@ -66,21 +66,66 @@ export class JobPostUseCase {
             get500Response(err)
         }
     }
-    async getFullJobsForTalent(){
+    async getFullJobsForTalent() {
         try {
             const posts = await this.jobPostRepository.findAllPost()
-            if(posts === null){
+            if (posts === null) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,
-                    message : "While fetch post got an error",
-                    success : false,
-                    
+                    message: "While fetch post got an error",
+                    success: false,
+
                 }
-            }return {
+            } return {
                 status: STATUS_CODES.OK,
-                message : "Successfull",
-                success : true,
-                data:posts
+                message: "Successfull",
+                success: true,
+                data: posts
+            }
+        } catch (error) {
+            get500Response(error)
+        }
+    }
+    async getJobPost(id) {
+        try {
+            const posts = await this.jobPostRepository.getJobPost(id)
+            if (posts === null) {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message: "While fetch post got an error",
+                    success: false,
+
+                }
+            } return {
+                status: STATUS_CODES.OK,
+                message: "Successfull",
+                success: true,
+                data: posts
+            }
+        } catch (error) {
+            get500Response(error)
+        }
+    }
+    async serachJobs(searchData) {
+        try {
+            const Title = searchData.query || "";
+            const WorkType = searchData.postType || "";
+            const Expertiselevel = searchData.experiance || "";
+            const maxAmount = searchData.maxInputValue || Infinity;
+            const minAmount = searchData.inputValue || 0;
+            const posts = await this.jobPostRepository.serachJobs({ Title, WorkType, Expertiselevel, maxAmount, minAmount })
+
+            if (posts === null) {
+                return {
+                    status: STATUS_CODES.BAD_REQUEST,
+                    message: "While fetch post got an error",
+                    success: false,
+                }
+            } return {
+                status: STATUS_CODES.OK,
+                message: "Successfull",
+                success: true,
+                data: posts
             }
         } catch (error) {
             get500Response(error)

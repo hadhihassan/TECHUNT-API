@@ -5,6 +5,9 @@ import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 import { StripPayment } from '../providers/paymentService.js';
 import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
+import invitationTemplate from '../infrastructure/templates/mail/invitation.js'
+
+
 export class ClientUseCase {
     constructor() {
         this.clientRepository = new ClientRepository();
@@ -102,42 +105,65 @@ export class ClientUseCase {
     async blockClient(email, block) {
         return await this.clientRepository.block(email, block)
     }
-    async getTransactionHistory(id){
-        try{
+    async getTransactionHistory(id) {
+        try {
             const getResult = await this.transactionRepository.getToTransaction(id);
-            if(getResult){
-                return{
-                    status:STATUS_CODES.OK,
-                    success:true,
-                    data:getResult
-                }
-            }
-            return{
-                status:STATUS_CODES.BAD_REQUEST,
-                success:false,
-            }
-        }catch(err){
-            console.log(err)
-        }
-    }
-    async saveSuscription(userId, subscriptionId){
-        try{
-            const result = await this.clientRepository.saveSuscription(userId, subscriptionId)
-            if(result){
+            if (getResult) {
                 return {
-                    status : STATUS_CODES.OK,
-                    success:true,
-                    data:result
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: getResult
                 }
-            } 
-            return {
-                status : STATUS_CODES.BAD_REQUEST,
-                success:false
             }
-        }catch(err){
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+            }
+        } catch (err) {
             console.log(err)
         }
     }
-    
+    async saveSuscription(userId, subscriptionId) {
+        try {
+            const result = await this.clientRepository.saveSuscription(userId, subscriptionId)
+            if (result) {
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: result
+                }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async getJobLink(id) {
+        return `http://localhost:5173/job-post/${id}`
+    }
+
+    async sendInvitation(getSender, getReceiver, getJobPost) {
+        try {
+            const result = await this.mailer.sendEmailTransporter(getReceiver.Email, "Invitation", invitationTemplate(getSender.First_name, getJobPost.Title, getJobPost.Description, this.getJobLink(getJobPost)))
+            if (result) {
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: result
+                }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 }
 

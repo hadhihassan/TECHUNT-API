@@ -41,4 +41,12 @@ export class ContractRepository {
         console.log(query)
         return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
     }
+    async getCancelledContract(id, role) {
+        console.log("cancelled find here")
+        const query = {};
+        query[role.toLowerCase()] = id;
+        query['status'] = 'cancelled';
+        console.log(query)
+        return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
+    }
 }

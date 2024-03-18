@@ -178,5 +178,23 @@ export class ContractUseCase {
             console.log(err)
         }
     }
+    async getCancelledContract(id, role) {
+        try {
+            const result = await this.contractRepository.getCancelledContract(id, role)
+            if (result) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        success: true,
+                        data: result
+                    }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                success: false,
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 }

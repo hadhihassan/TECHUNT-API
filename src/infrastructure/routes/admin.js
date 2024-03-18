@@ -17,6 +17,7 @@ admin_Router.post("/add-new-job-category/", checkToken, upload.single("image"), 
     .post("/plan/create-new/", checkToken, (req, res) => planControllers.createNewPlan(req, res))
     .get("/plan/get-all/", checkToken, (req, res) => planControllers.getAllPlans(req, res))
     .get("/plan/get-plan/:id/", checkToken, (req, res) => planControllers.getPlan(req, res))
-    .get("/plan/edit-plan/:id/", checkToken, (req, res) => planControllers.editPlan(req, res))
+    .get("/plan/edit-plan/:id/", checkToken, (req, res) => planControllers.getPlan(req, res))
+    .put("/plan/update/", checkToken, (req, res) => planControllers.updatePlan(req, res))
 
 export default admin_Router;

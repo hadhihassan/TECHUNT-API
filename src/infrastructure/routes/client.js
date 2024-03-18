@@ -38,11 +38,16 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .post("/wallet/add-amount/", checkToken, (req, res) => contractController.updateTalentWalletAmount(req, res))
     .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
     .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
+    .get("/contract/get-cancelled-contract/", checkToken, (req, res) => contractController.getCancelledContract(req, res))
 
     .get("/get-transaction-history/", checkToken, (req, res) => Ccontroller.getTransactionHistory(req, res))
 
     .get("/plan/getAll/", checkToken, (req, res) => planControllers.getPlanForUsers(req, res))
     .post("/plan/purchase-plan/", checkToken, (req, res) => planControllers.purchasePlan(req, res))
     .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
+
+
+
+    .post("/send-Invitation/", checkToken, (req, res) => Ccontroller.senInvitation(req, res))
 
 export default client_Routes;

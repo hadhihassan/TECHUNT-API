@@ -87,4 +87,9 @@ export class ContractController {
         const result = await this.contractUseCase.fetchCompletedContracts(req.clientId, req.role)
         return res.status(result.status).json(result)
     }
+    async getCancelledContract(req, res) {
+        const result = await this.contractUseCase.getCancelledContract(req.clientId, req.role)
+        return res.status(result.status).json(result)
+    }
+    
 }
