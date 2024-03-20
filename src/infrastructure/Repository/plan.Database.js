@@ -24,6 +24,7 @@ export class PlanRepository {
         return await Plan.findByIdAndUpdate(id,{
             name : data.name,
             amount:data.amount,
+            type:data.type,
             description : data.description
         })
     }

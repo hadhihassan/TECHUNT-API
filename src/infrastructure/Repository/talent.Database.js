@@ -14,7 +14,7 @@ export class TalentRepository {
         return { status: true, data: user }
     }
     async findById(id) {
-        return await talent.findById(id)
+        return await talent.findById(id).populate([ "subscription", "bankDetails","Wallet"])
     }
     async findByToken(token) {
         const findToken = await Token.findOne({ token });
@@ -285,4 +285,16 @@ export class TalentRepository {
             $set: { resume: s3Link }
         }, { new: true })
     }
+    async  updateBankDetail(id, data) {
+        try {
+            const updatedBankAccount = await BankAccount.findByIdAndUpdate(data._id, {
+                $set: data 
+            }, { new: true }); 
+            return updatedBankAccount;
+        } catch (error) {
+            console.error('Error updating bank detail:', error);
+            throw error; 
+        }
+    }
+    
 }

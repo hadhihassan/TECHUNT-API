@@ -148,7 +148,7 @@ export class ClientUseCase {
 
     async sendInvitation(getSender, getReceiver, getJobPost) {
         try {
-            const result = await this.mailer.sendEmailTransporter(getReceiver.Email, "Invitation", invitationTemplate(getSender.First_name, getJobPost.Title, getJobPost.Description, this.getJobLink(getJobPost)))
+            const result = await this.mailer.sendEmailTransporter(getReceiver.Email, "Invitation to Collaborate on a Project", invitationTemplate(getSender.First_name, getJobPost.Title, getJobPost.Description, await this.getJobLink(getJobPost._id)))
             if (result) {
                 return {
                     status: STATUS_CODES.OK,
@@ -162,6 +162,17 @@ export class ClientUseCase {
             }
         } catch (err) {
             console.log(err)
+        }
+    }
+    async updateBankDetail(id,data) {
+        try {
+            const result = await this.clientRepository.updateBankDetail(id,s3Link)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
         }
     }
 

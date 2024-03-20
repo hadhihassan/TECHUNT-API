@@ -5,7 +5,7 @@ import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import BankAccount from "../../entites/models/subSchema/bankDetails.js";
 
 export class ClientRepository {
-    
+
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {
@@ -14,7 +14,7 @@ export class ClientRepository {
         return { status: true, data: user }
     }
     async findById(id) {
-        return await client.findById(id)
+        return await client.findById(id).populate(["JobPost_id", "subscription", "bankDetails"])
     }
     async findByToken(token) {
         const findToken = await Token.findOne({ token });
@@ -179,6 +179,13 @@ export class ClientRepository {
         return await client.findByIdAndUpdate(id, {
             $set: { online: state }
         })
+    }
+    async updateBankDetail(id, data) {
+        const getClient = await this.findById(id)
+        console.log(id,data)
+        return await BankAccount.findByIdAndUpdate(getClient.bankDetails._id,{
+            data
+        });
     }
 }
 

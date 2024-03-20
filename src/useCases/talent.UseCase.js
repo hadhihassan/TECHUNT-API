@@ -160,5 +160,16 @@ export class TalentUseCase {
             get500Response(err)
         }
     }
+    async updateBankDetail(id,data) {
+        try {
+            const result = await this.talentRepository.updateBankDetail(id,s3Link)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
 
 }

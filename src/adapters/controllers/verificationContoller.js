@@ -32,8 +32,13 @@ export class VerificationController {
     }
     async addBankDetails(req, res) {
         const { data, role, id } = req.body
-        console.log(data, role, id, req.body )
         const result = await this.verificationUseCase.addBankDetails(id, role, data)
+        return res.status(result.status).json(result)
+    }
+    async updateBankDetails(req, res) {
+        const { data, role, id } = req.body;
+        const result = await this.verificationUseCase.updateBankDetails(role, id, data)
+        console.log(result)
         return res.status(result.status).json(result)
     }
 }

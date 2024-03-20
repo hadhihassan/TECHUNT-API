@@ -27,11 +27,20 @@ export class AdminContollers {
         return res.status(monthData.status).json(month)
     }
     async getDashboard(req, res) {
-        const monthlyTalent = await this.adminUseCase.getMonthlyTalent()
-        const monthlyClient = await this.adminUseCase.getMonthlyClient()
-        const overalRevenuse = await this.adminUseCase.getRevenue()
-        const mostWorkignFreelancer = await this.adminUseCase.getMostFreelancer()
-        console.log(overalRevenuse,"this is monly data ")
-        return res.status(STATUS_CODES.OK).json({monthlyTalent,monthlyClient, mostWorkignFreelancer });
+        Promise.all([
+            this.adminUseCase.getMonthlyTalent(),
+            this.adminUseCase.getMonthlyClient(),
+            this.adminUseCase.getRevenue(),
+            this.adminUseCase.getMostFreelancer()
+        ])
+        .then(([monthlyTalent, monthlyClient, overalRevenuse, mostWorkignFreelancer]) => {
+            console.log(overalRevenuse, "this is monly data ");
+            res.status(STATUS_CODES.OK).json({ monthlyTalent, monthlyClient, mostWorkignFreelancer, overalRevenuse });
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: "An error occurred" });
+        });
+        
     }
 }

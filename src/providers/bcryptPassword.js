@@ -13,8 +13,8 @@ export class Encrypt {
             const result = await bcrypt.compare(password, hashedPassword);
             return result;
         } catch (error) {
-            console.error(error); // Handle any errors
-            throw error; // Rethrow the error for the caller to handle
+            console.error(error);
+            throw error; 
         }
     }
     

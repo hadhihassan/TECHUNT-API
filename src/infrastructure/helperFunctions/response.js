@@ -15,7 +15,6 @@ export function get400Response (){
     };
 }
 export function get500Response(error) {
-    console.log(error, 'error 500');
     return {
         status: STATUS_CODES.INTERNAL_SERVER_ERROR,
         message: error.message,

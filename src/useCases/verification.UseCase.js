@@ -3,7 +3,7 @@ import { JwtToken } from '../providers/jwtToken.js';
 import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
 import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { get500Response } from '../infrastructure/helperFunctions/response.js';
+import { get500Response, get200Response,get400Response } from '../infrastructure/helperFunctions/response.js';
 import countProperties from '../infrastructure/helperFunctions/calculateProfileCompletion.js';
 
 export class VerificationUseCase {
@@ -117,12 +117,12 @@ export class VerificationUseCase {
             get500Response(error);
         }
     }
-    async addBankDetails(id, role, data){
-        try{
-            let result 
-            if(role === "CLIENT"){
+    async addBankDetails(id, role, data) {
+        try {
+            let result
+            if (role === "CLIENT") {
                 result = await this.clientRepository.addBankDetail(id, data);
-            }else if(role === "TALENT"){
+            } else if (role === "TALENT") {
                 result = await this.talentRepository.addBankDetail(id, data);
             } else {
                 return {
@@ -136,8 +136,23 @@ export class VerificationUseCase {
                 message: "Successfully bank details uploaded.",
                 success: true
             };
-        }catch(err){
+        } catch (err) {
             get500Response
+        }
+    }
+    async updateBankDetails(role, userId, data) {
+        try {
+            let result
+            if (role === "CLIENT") {
+                result = await this.clientRepository.updateBankDetail(userId, data);
+            } else if (role === "TALENT") {
+                result = await this.talentRepository.updateBankDetail(userId, data);
+            }
+            console.log(result)
+            return get200Response(result)
+        } catch (err) {
+            console.log(err)
+            return get500Response
         }
     }
 }
