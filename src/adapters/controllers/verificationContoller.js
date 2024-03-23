@@ -1,4 +1,5 @@
 import { STATUS_CODES } from "../../constants/httpStatusCode.js"
+import getProfileProggressBarPercentage from "../../infrastructure/helperFunctions/calculateProfileCompletion.js"
 import { VerificationUseCase } from "../../useCases/verification.UseCase.js"
 
 export class VerificationController {
@@ -9,6 +10,8 @@ export class VerificationController {
         try {
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
+            const progress = getProfileProggressBarPercentage(result.data,result.role)
+            result.progress = progress; 
             return res.status(result.status).json(result)
         } catch (error) {
             console.log(error.message)

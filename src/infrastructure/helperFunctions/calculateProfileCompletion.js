@@ -1,26 +1,36 @@
-function countProperties(obj) {
-    let count = 0;
+import { CLIENT_MARKS, TALENT_MARKS } from "../../constants/progressBarMarks.js"
 
-    // Function to recursively count properties
-    function countRecursive(obj) {
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                count++; // Increment count for each property found
-                // If the value is an object, recursively count its properties
-                if (typeof obj[key] === 'object') {
-                    countRecursive(obj[key]);
-                }
-            }
-        }
+export default function getProfileProggressBarPercentage(talent, role) {
+    if (role === "TALENT") {
+        const totalFields = 12;
+        let filledFields = 0;
+        if (talent.Profile.profile_Dp) filledFields++;
+        if (talent.Profile.Description) filledFields++;
+        if (talent.Profile.Title) filledFields++;
+        if (talent.Profile.Skills && talent.Profile.Skills.length > 0) filledFields++;
+        if (talent.Profile.Work_Experiance && talent.Profile.Work_Experiance.length > 0) filledFields++;
+        if (talent.Address) filledFields++;
+        if (talent.PinCode) filledFields++;
+        if (talent.City) filledFields++;
+        if (talent.Country) filledFields++;
+        if (talent.bankDetails) filledFields++;
+        if (talent.isNumberVerify) filledFields++;
+        const progress = (filledFields / totalFields) * 100;
+        console.log(totalFields)
+        return totalFields === 12 ? 100 : progress;
+    } else {
+        const totalFields = 8;
+        let filledFields = 0;
+        if (talent.Profile.profile_Dp) filledFields++;
+        if (talent.Profile.Description) filledFields++;
+        if (talent.Address) filledFields++;
+        if (talent.PinCode) filledFields++;
+        if (talent.City) filledFields++;
+        if (talent.Country) filledFields++;
+        if (talent.bankDetails) filledFields++;
+        if (talent.isNumberVerify) filledFields++;
+        const progress = (filledFields / totalFields) * 100;
+        console.log(totalFields)
+        return totalFields === 8 ? 100 : progress;
     }
-
-    // Call the recursive function to count properties
-    countRecursive(obj);
-    console.log(count)
-    const totalProperties = 20; // Assuming a total of 20 properties
-    const completionPercentage = (count / totalProperties) * 100;
-    return completionPercentage;
 }
-
-
-export default countProperties
