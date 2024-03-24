@@ -9,7 +9,7 @@ admin_Router.post("/admin-login/", (req, res) => Acontroller.verifyLogin(req, re
     .post("/block-user/", checkToken, (req, res) => Acontroller.blockUser(req, res))
 
 admin_Router.post("/add-new-job-category/", checkToken, upload.single("image"), (req, res) => jobCateControllers.addNewJobCategory(req, res))
-    .get("/get-all-job-category/",  (req, res) => jobCateControllers.getJobCategory(req, res))
+    .get("/get-all-job-category/",checkToken,  (req, res) => jobCateControllers.getJobCategory(req, res))
     .patch("/change-job-category-status/", checkToken, (req, res) => jobCateControllers.changeState(req, res))
     .post("/edit-job-category-status/", checkToken, upload.single("image"), (req, res) => jobCateControllers.editJobCategory(req, res))
     .patch("/get-job-post/", checkToken, (req, res) => jobPostControllers.getJobPost(req, res))

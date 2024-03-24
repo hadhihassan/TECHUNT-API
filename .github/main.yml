@@ -1,0 +1,14 @@
+name: Push code
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  log_message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Log a message
+        run: echo "Code was pushed to the main branch."

@@ -14,6 +14,7 @@ export class PlanController {
         return res.status(result.status).json(result);
     }
     async getAllPlans(req, res) {
+        console.log("am here")
         const result = await this.planUesCase.getAllPlan();
         return res.status(result.status).json(result);
     }
