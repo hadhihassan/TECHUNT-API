@@ -50,6 +50,7 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
 
     .post("/search/find-job/", (req, res) => jobPostControllers.findJobPost(req, res))
+    .get("/get-wallet-amount/", checkToken, (req, res) => Tcontroller.getWalletAmount(req, res))
 
 
 export default talent_Routes;

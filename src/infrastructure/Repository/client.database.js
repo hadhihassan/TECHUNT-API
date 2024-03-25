@@ -186,6 +186,17 @@ export class ClientRepository {
             data
         });
     }
+    async findWalletAmount(id) {
+        try {
+            const clientWithWallet = await client.findById(id).populate({
+                path: "Wallet",
+                select: "balance"
+            });
+            return clientWithWallet.Wallet.balance;
+        } catch (error) {
+            throw error;
+        }
+    }
     async checkForgetEmail(email) {
         const getEmail = await client.findOne({ Email: email, isVerify: true })
         return getEmail ? true : false

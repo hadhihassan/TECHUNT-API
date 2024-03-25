@@ -164,6 +164,17 @@ export class ClientUseCase {
             console.log(err)
         }
     }
+    async getWalletAmount(id) {
+        try {
+            const result = await this.clientRepository.findWalletAmount(id)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
     async updateBankDetail(id,data) {
         try {
             const result = await this.clientRepository.updateBankDetail(id,s3Link)

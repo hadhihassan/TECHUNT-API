@@ -15,4 +15,4 @@ jobs:
       
       - name: Log message
         run: |
-          echo "This workflow is triggered by a push event, but no code will be pushed."
+          echo "This workflow is triggered by a push event ."

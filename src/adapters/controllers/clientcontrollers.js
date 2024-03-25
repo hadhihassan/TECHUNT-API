@@ -91,12 +91,13 @@ export class ClientController {
     }
     async senInvitation(req, res) {
         const { WorkId, talentId } = req.body
-        console.log(WorkId, talentId)
         const getSender = await this.clientUseCase.getProfilelData(req.clientId)
         const getReceiver = await this.talentUseCase.getProfilelData(talentId)
-        console.log(getSender.First_name, getReceiver.First_name, WorkId[0].Title)
         const result = await this.clientUseCase.sendInvitation(getSender, getReceiver, WorkId[0])
-        console.log(result)
         return res.status(result.status).json(result)
+    }
+    async getWalletAmount(req, res) {
+        const getResult = await this.clientUseCase.getWalletAmount(req.clientId)
+        return res.status(getResult.status).json(getResult);
     }
 } 

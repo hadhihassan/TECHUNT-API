@@ -116,11 +116,16 @@ export class TalentController {
         const getResult = await this.talentUseCase.getTransactionsHistory(id)
         return res.status(getResult.status).json(getResult)
     }
+    async getWalletAmount(req, res) {
+        const getResult = await this.talentUseCase.getWalletAmount(req.clientId)
+        return res.status(getResult.status).json(getResult);
+    }
     async saveTalentResume(req, res) {
         const { s3Link } = req.body;
         const id = req.clientId
-        console.log(id,s3Link)
-        const result = await this.talentUseCase.saveResume(id,s3Link);
+        console.log(id, s3Link)
+        const result = await this.talentUseCase.saveResume(id, s3Link);
         return res.status(result.status).json(result);
     }
+
 }

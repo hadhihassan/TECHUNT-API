@@ -160,6 +160,17 @@ export class TalentUseCase {
             get500Response(err)
         }
     }
+    async getWalletAmount(id) {
+        try {
+            const result = await this.talentRepository.findWalletAmount(id)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
     async updateBankDetail(id,data) {
         try {
             const result = await this.talentRepository.updateBankDetail(id,s3Link)
