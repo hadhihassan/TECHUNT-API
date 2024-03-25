@@ -1,0 +1,20 @@
+name: Push to Master Branch
+
+on:
+  push:
+    branches:
+      - master  
+
+jobs:
+  push_to_master:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Push code to master
+        run: |
+          git config --global user.email "diluhadhi01@gmail.com"
+          git config --global user.name "hadhihasssn"
+          git push origin master  
