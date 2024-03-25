@@ -1,5 +1,4 @@
 import { JobCategoryUseCase } from "../../useCases/jobCategory.USeCase.js";
-
 export class JobCategoryControllers {
     constructor() {
         this.jobCategoryUseCase = new JobCategoryUseCase()
