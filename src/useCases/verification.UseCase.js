@@ -3,8 +3,7 @@ import { JwtToken } from '../providers/jwtToken.js';
 import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
 import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { get500Response, get200Response,get400Response } from '../infrastructure/helperFunctions/response.js';
-import countProperties from '../infrastructure/helperFunctions/calculateProfileCompletion.js';
+import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
 
 export class VerificationUseCase {
     constructor() {
@@ -23,7 +22,6 @@ export class VerificationUseCase {
             if (clientData.status) {
                 return this.authenticateUser(clientData, password, 'CLIENT',);
             }
-            console.log(clientData)
             return {
                 status: STATUS_CODES.UNAUTHORIZED,
                 message: "Invalid email or password.",
@@ -153,6 +151,38 @@ export class VerificationUseCase {
         } catch (err) {
             console.log(err)
             return get500Response
+        }
+    }
+    async forGetPassWordEmailCheck(email) {
+        try {
+            const isTalent = await this.talentRepository.findByEmail(email)
+            if (isTalent.status) {
+                const isValid = await this.talentRepository.checkForgetEmail(email)
+                if (isValid) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        message: "Otp sended your email .",
+                        success: true
+                    }
+                }
+            } else {
+                const isClient = await this.clientRepository.findByEmail(email)
+                if (isClient.status) {
+                    const isValid = await this.clientRepository.checkForgetEmail(email)
+                    console.log(isValid)
+                    if (isValid) {
+                        return {
+                            status: STATUS_CODES.OK,
+                            message: "Otp sended your email .",
+                            success: true
+                        }
+                    }
+                }
+                console.log(isClient)
+            }
+            return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note existing." }
+        } catch (error) {
+            get500Response(error)
         }
     }
 }

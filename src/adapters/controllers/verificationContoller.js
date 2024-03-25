@@ -10,8 +10,8 @@ export class VerificationController {
         try {
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
-            const progress = getProfileProggressBarPercentage(result.data,result.role)
-            result.progress = progress; 
+            const progress = getProfileProggressBarPercentage(result.data, result.role)
+            result.progress = progress;
             return res.status(result.status).json(result)
         } catch (error) {
             console.log(error.message)
@@ -42,6 +42,12 @@ export class VerificationController {
         const { data, role, id } = req.body;
         const result = await this.verificationUseCase.updateBankDetails(role, id, data)
         console.log(result)
+        return res.status(result.status).json(result)
+    }
+    async forGetPasswordEmail(req, res) {
+        console.log(req.body)
+        const { email } = req.body
+        const result = await this.verificationUseCase.forGetPassWordEmailCheck(email)
         return res.status(result.status).json(result)
     }
 }

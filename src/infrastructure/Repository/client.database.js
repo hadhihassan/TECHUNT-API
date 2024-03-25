@@ -182,10 +182,13 @@ export class ClientRepository {
     }
     async updateBankDetail(id, data) {
         const getClient = await this.findById(id)
-        console.log(id,data)
-        return await BankAccount.findByIdAndUpdate(getClient.bankDetails._id,{
+        return await BankAccount.findByIdAndUpdate(getClient.bankDetails._id, {
             data
         });
+    }
+    async checkForgetEmail(email) {
+        const getEmail = await client.findOne({ Email: email, isVerify: true })
+        return getEmail ? true : false
     }
 }
 

@@ -296,5 +296,8 @@ export class TalentRepository {
             throw error; 
         }
     }
-    
+    async checkForgetEmail(email) {
+        const getEmail = await talent.findOne({ Email: email, isVerify: true })
+        return getEmail ? true : false
+    }
 }

@@ -9,4 +9,5 @@ verification.post("/checkValidNumber/", (req, res) => Vcontoller.checkNumberisVa
 verification.patch("/update-number-verified/", (req, res) => Vcontoller.setNumberVerified(req, res))
 verification.post("/add-bank-details/", (req, res) => Vcontoller.addBankDetails(req, res))
 verification.patch("/update-bank-details/", (req, res) => Vcontoller.updateBankDetails(req, res))
+verification.post("/forget-password/email/", (req, res) => Vcontoller.forGetPasswordEmail(req, res))
 export default verification;
