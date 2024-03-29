@@ -201,5 +201,12 @@ export class ClientRepository {
         const getEmail = await client.findOne({ Email: email, isVerify: true })
         return getEmail ? true : false
     }
+    async updatedNewPassword(email, password) {
+        return await client.findOneAndUpdate(
+            { Email: email }, 
+            { $set: { Password: password } },
+            { new: true } 
+        );
+    }
 }
 

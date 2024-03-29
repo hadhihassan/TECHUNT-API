@@ -311,4 +311,11 @@ export class TalentRepository {
         const getEmail = await talent.findOne({ Email: email, isVerify: true })
         return getEmail ? true : false
     }
+    async updatedNewPassword(email, password) {
+        return await talent.findOneAndUpdate(
+            { Email: email }, 
+            { $set: { Password: password } },
+            { new: true } 
+        );
+    }
 }

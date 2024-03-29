@@ -4,13 +4,18 @@ import { TalentRepository } from '../infrastructure/Repository/talent.Database.j
 import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
 import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
+import { OtpRepository } from '../infrastructure/repository/opt.Database.js';
+import { Mailer } from '../providers/EmailService.js';
+import forgetPasswordTemplate from '../infrastructure/templates/mail/forgetPasswordEmail.js';
 
 export class VerificationUseCase {
     constructor() {
         this.talentRepository = new TalentRepository();
         this.clientRepository = new ClientRepository();// Assuming UserRepository is a class that needs to be instantiated
+        this.otpRepository = new OtpRepository()
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypt()
+        this.mailer = new Mailer()
     }
     async verifyLogin(email, password) {
         try {
@@ -159,18 +164,9 @@ export class VerificationUseCase {
             if (isTalent.status) {
                 const isValid = await this.talentRepository.checkForgetEmail(email)
                 if (isValid) {
-                    return {
-                        status: STATUS_CODES.OK,
-                        message: "Otp sended your email .",
-                        success: true
-                    }
-                }
-            } else {
-                const isClient = await this.clientRepository.findByEmail(email)
-                if (isClient.status) {
-                    const isValid = await this.clientRepository.checkForgetEmail(email)
-                    console.log(isValid)
-                    if (isValid) {
+                    const newOtp = await this.otpRepository.createNewOtp(email)
+                    if (newOtp) {
+                        const sendEmail = await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isTalent.data.First_name, newOtp.otpValue))
                         return {
                             status: STATUS_CODES.OK,
                             message: "Otp sended your email .",
@@ -178,11 +174,92 @@ export class VerificationUseCase {
                         }
                     }
                 }
-                console.log(isClient)
+                return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note valid." }
+            } else {
+                const isClient = await this.clientRepository.findByEmail(email)
+                if (isClient.status) {
+                    const isValid = await this.clientRepository.checkForgetEmail(email)
+                    if (isValid) {
+                        const newOtp = await this.otpRepository.createNewOtp(email)
+                        if (newOtp) {
+                            const sendEmail = await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isClient.data.First_name, newOtp.otpValue))
+                            return {
+                                status: STATUS_CODES.OK,
+                                message: "Otp sended your email .",
+                                success: true
+                            }
+                        }
+                    }
+                    return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note valid." }
+                }
             }
             return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note existing." }
         } catch (error) {
+            console.log(error.message)
             get500Response(error)
         }
     }
+    async isOtpIsValid(email, otp) {
+        try {
+            const isValid = await this.otpRepository.checkOtpIsVaid(email, otp)
+            if (isValid) {
+                if (isValid.otpValue !== otp) {
+                    return {
+                        status: STATUS_CODES.BAD_REQUEST,
+                        message: "Otp is note match ?.",
+                        success: false
+                    };
+                }
+                return {
+                    status: STATUS_CODES.OK,
+                    message: "Otp verfications success.",
+                    success: true
+                };
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                message: "Invalid otp or otp is expired?.",
+                success: false
+            };
+        } catch (err) {
+            get500Response
+        }
+    }
+    async setNewPassword(email, password) {
+        try {
+            const isTalent = await this.talentRepository.findByEmail(email)
+            if (isTalent.status) {
+                const bcryptPassword = await this.encrypt.encryptPassword(password)
+                const isValid = await this.talentRepository.updatedNewPassword(email, bcryptPassword)
+                if (isValid) {
+                    return {
+                        status: STATUS_CODES.OK,
+                        message: "New password updated successfully",
+                        success: true
+                    };
+                }
+            } else {
+                const isClient = await this.clientRepository.findByEmail(email)
+                if (isClient.status) {
+                    const bcryptPassword = await this.encrypt.encryptPassword(password)
+                    const isValid = await this.clientRepository.updatedNewPassword(email, bcryptPassword)
+                    if (isValid) {
+                        return {
+                            status: STATUS_CODES.OK,
+                            message: "New password updated successfully ",
+                            success: true
+                        };
+                    }
+                }
+            }
+            return {
+                status: STATUS_CODES.BAD_REQUEST,
+                message: "While updating password got an error ",
+                success: false
+            };
+        } catch (err) {
+            get500Response
+        }
+    }
+    
 }

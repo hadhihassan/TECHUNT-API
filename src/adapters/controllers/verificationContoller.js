@@ -45,9 +45,18 @@ export class VerificationController {
         return res.status(result.status).json(result)
     }
     async forGetPasswordEmail(req, res) {
-        console.log(req.body)
         const { email } = req.body
         const result = await this.verificationUseCase.forGetPassWordEmailCheck(email)
+        return res.status(result.status).json(result)
+    }
+    async checkOtpIsValid(req, res) {
+        const { email , otp} = req.body
+        const result = await this.verificationUseCase.isOtpIsValid(email, otp)
+        return res.status(result.status).json(result)
+    }
+    async updatedPassword(req, res) {
+        const { email , password} = req.body
+        const result = await this.verificationUseCase.setNewPassword(email , password)
         return res.status(result.status).json(result)
     }
 }

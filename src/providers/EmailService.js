@@ -9,7 +9,7 @@ export class Mailer {
         const url = `${process.env.BASE_URL}client/verify/${token.token}`;
         return this.sendEmailTransporter(email, "Verify Email", url)
     }
-    async sendEmailTransporter(email, subject, text) {
+    async sendEmailTransporter(email, subject, html) {
         try {
             const transporter = nodemailer.createTransport({
                 host: process.env.HOST,
@@ -28,7 +28,7 @@ export class Mailer {
                 from: process.env.USER,
                 to: email,
                 subject,
-                text,
+                html,
             })
             return { status: true, message: "Email sended successfully" }
         } catch (error) {

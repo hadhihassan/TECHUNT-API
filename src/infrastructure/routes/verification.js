@@ -10,4 +10,7 @@ verification.patch("/update-number-verified/", (req, res) => Vcontoller.setNumbe
 verification.post("/add-bank-details/", (req, res) => Vcontoller.addBankDetails(req, res))
 verification.patch("/update-bank-details/", (req, res) => Vcontoller.updateBankDetails(req, res))
 verification.post("/forget-password/email/", (req, res) => Vcontoller.forGetPasswordEmail(req, res))
+verification.post("/forget-password/otp/resend/", (req, res) => Vcontoller.forGetPasswordEmail(req, res))
+verification.post("/forget-password/otp/send/", (req, res) => Vcontoller.checkOtpIsValid(req, res))
+verification.post("/forget-password/set-new-Password/", (req, res) => Vcontoller.updatedPassword(req, res))
 export default verification;

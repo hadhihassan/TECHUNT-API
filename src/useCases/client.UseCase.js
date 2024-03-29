@@ -143,7 +143,7 @@ export class ClientUseCase {
     }
 
     async getJobLink(id) {
-        return `http://localhost:5173/job-post/${id}`
+        return `http://localhost:5173/talent/job-post/${id}`
     }
 
     async sendInvitation(getSender, getReceiver, getJobPost) {
