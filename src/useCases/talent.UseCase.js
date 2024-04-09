@@ -193,5 +193,16 @@ export class TalentUseCase {
             get500Response(err)
         }
     }
+    async deleteEducation(id, talentId) {
+        try {
+            const result = await this.talentRepository.deleteEducation(id, talentId)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
 
 }

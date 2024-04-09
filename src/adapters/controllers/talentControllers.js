@@ -3,11 +3,13 @@ import { Encrypt } from "../../providers/bcryptPassword.js";
 import { TalentUseCase } from "../../useCases/talent.UseCase.js";
 import { ClientUseCase } from "../../useCases/client.UseCase.js";
 import { JobPostUseCase } from "../../useCases/jobPost.UseCase.js";
+import { EducationUseCase } from "../../useCases/education.UseCase.js";
 export class TalentController {
     constructor() {
         this.talentUseCase = new TalentUseCase();
         this.clientUseCase = new ClientUseCase();
         this.jobPostUseCase = new JobPostUseCase();
+        this.educationUseCase = new EducationUseCase();
         this.encrypt = new Encrypt()
     }
     async verifyEmail(req, res) {
@@ -132,7 +134,13 @@ export class TalentController {
     async deleteEducation(req, res) {
         const { id } = req.body;
         const { clientId: talentId } = req;
+        await this.educationUseCase.deleteEducation(id)
         const result = await this.talentUseCase.deleteEducation(id, talentId)
         return res.status(result.status).json(result);
+    }
+    async deleteEducation(req, res) {
+        const { id, data } = req.body;
+        const editData = await this.educationUseCase.editEducation(id, data)
+        return res.status(editData.status).json(editData);
     }
 }
