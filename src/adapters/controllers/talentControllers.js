@@ -132,13 +132,14 @@ export class TalentController {
         return res.status(result.status).json(result);
     }
     async deleteEducation(req, res) {
-        const { id } = req.body;
+        const { id } = req.params;
         const { clientId: talentId } = req;
         await this.educationUseCase.deleteEducation(id)
         const result = await this.talentUseCase.deleteEducation(id, talentId)
         return res.status(result.status).json(result);
     }
-    async deleteEducation(req, res) {
+    async editEducation(req, res) {
+        console.log("request is here", req.body)
         const { id, data } = req.body;
         const editData = await this.educationUseCase.editEducation(id, data)
         return res.status(editData.status).json(editData);

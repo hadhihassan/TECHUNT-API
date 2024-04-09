@@ -11,51 +11,67 @@ import { TalentRepository } from "./talent.Database.js";
 export class ChatRepository {
 
     async createMessage(senderId, receiverId, message) {
-        let conversation = await Conversation.findOne({
-            participants: { $all: [senderId, receiverId] },
-        })
-        if (!conversation) {
-            conversation = await Conversation.create({
-                participants: [senderId, receiverId]
+        try {
+            await Message.updateMany({ senderId: receiverId, receiverId: senderId, read: false }, { $set: { read: true } })
+            let conversation = await Conversation.findOne({
+                participants: { $all: [senderId, receiverId] },
             })
-        }
-        const newMessage = new Message({
-            senderId,
-            receiverId,
-            message
-        })
-        if (newMessage) {
-            conversation.messages.push(newMessage._id)
-        }
-        let receiver
-        receiver = await Talent.findById(receiverId)
-        if (!receiver) {
-            const isRecevier = await Client.findById(receiverId)
-            if (isRecevier) {
-                receiver = isRecevier
+            if (!conversation) {
+                conversation = await Conversation.create({
+                    participants: [senderId, receiverId]
+                })
             }
+            const newMessage = new Message({
+                senderId,
+                receiverId,
+                message
+            })
+            if (newMessage) {
+                conversation.messages.push(newMessage._id)
+            }
+            let receiver
+            receiver = await Talent.findById(receiverId)
+            if (!receiver) {
+                const isRecevier = await Client.findById(receiverId)
+                if (isRecevier) {
+                    receiver = isRecevier
+                }
+            }
+            await Promise.all([conversation.save(), newMessage.save()])
+            if (conversation.isInConversation.includes(receiverId)) {
+                const a = await Message.updateMany({ senderId: senderId, receiverId: receiverId, read: false }, { $set: { read: true } })
+                console.log(a)
+            }
+            io.emit("newMessage", newMessage);
+            console.log(conversation.isInConversation.includes(receiverId))
+            return true
+        } catch (err) {
+            console.log(err)
         }
-        await Promise.all([conversation.save(), newMessage.save()])
-        // if (receiver.online) {
-        //     console.log(receiver?.online," this is the status")
-        //     const id = await Message.updateMany({ senderId: senderId, receiverId: receiverId }, { $set: { read: true } })
-        //     console.log(id)
-        // }
-        io.emit("newMessage", newMessage);
-
-        return true
     }
 
     async getUserConversation(senderId, userToChatId) {
-        const conversation = await Conversation.findOne({
-            participants: { $in: [senderId, userToChatId] }
-        }).populate({
-            path: 'messages',
-            model: 'Message',
-            select: '-password'
-        }).exec();
-        // await Message.updateMany({ senderId: userToChatId, receiverId: senderId }, { $set: { read: true } })
-        return conversation.messages
+        try {
+            await Message.updateMany(
+                { senderId: userToChatId, receiverId: senderId, read: false },
+                { $set: { read: true } }
+            );
+            const conversation = await Conversation.findOne({
+                participants: { $in: [senderId, userToChatId] }
+            }).populate({
+                path: 'messages',
+                model: 'Message',
+                select: '-password'
+            }).exec();
+            if (!conversation.isInConversation.includes(senderId)) {
+                await Conversation.updateMany({ isInConversation: senderId }, { $pull: { isInConversation: senderId } })
+                conversation.isInConversation.push(senderId)
+                await conversation.save()
+            }
+            return conversation.messages
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async findMessagedUsers(currentUserId, role) {

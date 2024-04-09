@@ -53,6 +53,8 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/get-wallet-amount/", checkToken, (req, res) => Tcontroller.getWalletAmount(req, res))
     .get("/contract/get-contract/:id/", checkToken, (req, res) => contractController.getContract(req, res))
     .post("/profile/save-education/", checkToken, (req, res) => Tcontroller.saveEduction(req, res))
+    .delete("/profile/delete-education/:id", checkToken, (req, res) => Tcontroller.deleteEducation(req, res))
+    .patch("/profile/edit-education/", checkToken, (req, res) => Tcontroller.editEducation(req, res))
 
 
 export default talent_Routes;

@@ -5,8 +5,11 @@ export class EducationRepository {
         return await Education.findByIdAndDelete(id)
     }
     async editEducation(id, data) {
-        return await Education.findByIdAndUpdate(id,
-            { $set: { data } }
-        )
+        console.log(id, data)
+        try {
+            return await Education.findByIdAndUpdate(id, data, { new: true })
+        } catch (err) {
+            console.log(err)
+        }
     }
 }
