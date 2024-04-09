@@ -97,7 +97,6 @@ export class TalentController {
     }
     async getAllTalents(req, res) {
         const result = await this.talentUseCase.getAllTalent();
-        console.log(result)
         return res.status(STATUS_CODES.OK).json(result)
     }
     async getAllClientsForTalent(req, res) {
@@ -106,9 +105,7 @@ export class TalentController {
     }
     async getClientProposals(req, res) {
         const client_id = req.params.id
-        console.log(req.params)
         const proposals = await this.jobPostUseCase.getAllClientJobPosts(client_id)
-        console.log(proposals)
         return res.status(proposals.status).json(proposals.data)
     }
     async getTalentTransactionHistory(req, res) {
@@ -123,9 +120,19 @@ export class TalentController {
     async saveTalentResume(req, res) {
         const { s3Link } = req.body;
         const id = req.clientId
-        console.log(id, s3Link)
         const result = await this.talentUseCase.saveResume(id, s3Link);
         return res.status(result.status).json(result);
     }
-
+    async saveEduction(req, res) {
+        const { data, } = req.body;
+        const { clientId: id } = req;
+        const result = await this.talentUseCase.saveEducation(data, id);
+        return res.status(result.status).json(result);
+    }
+    async deleteEducation(req, res) {
+        const { id } = req.body;
+        const { clientId: talentId } = req;
+        const result = await this.talentUseCase.deleteEducation(id, talentId)
+        return res.status(result.status).json(result);
+    }
 }

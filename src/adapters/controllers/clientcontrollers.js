@@ -23,7 +23,7 @@ export class ClientController {
                 const saved = await this.clientUseCase.saveSignupData(email, securePassword)
                 return res.status(STATUS_CODES.OK).json(saved)
             } else {
-                return res.status(STATUS_CODES.CONFLICT).json({ message: "Email Alredy exsting" })
+                return res.status(STATUS_CODES.CONFLICT).json({ message: "Email already existing" })
             }
         } catch (error) {
             console.log(error.message);
@@ -47,7 +47,7 @@ export class ClientController {
             const formData = req.body
             const response = await this.clientUseCase.saveConatctDeatils(formData, req.clientId)
             if (response) {
-                return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Conatct deatisl saved" })
+                return res.status(STATUS_CODES.CREATED).json({ status: true, message: "Contact details saved" })
             }
         } catch (error) {
             console.log(error);

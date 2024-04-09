@@ -1,16 +1,18 @@
 import { TalentUseCase } from "../../useCases/talent.UseCase.js";
 import { ClientUseCase } from "../../useCases/client.UseCase.js";
-
+import { TransactionUseCase } from "../../useCases/transactionUseCase.js";
 
 export class PlanController {
     constructor(planUesCase) {
         this.planUesCase = planUesCase;
         this.talentUseCase = new TalentUseCase()
         this.clientUseCase = new ClientUseCase()
+        this.transactionUseCase = new TransactionUseCase()
     }
     createNewPlan = async (req, res) => {
-        const data = req.body;
-        const result = await this.planUesCase.createNewPlan(data);
+        const data = req.body.data;
+        console.log(req.body)
+        const result = await this.planUesCase.createNewPlan(req.body);
         return res.status(result.status).json(result);
     }
     async getAllPlans(req, res) {
@@ -25,7 +27,7 @@ export class PlanController {
     }
     async getPlan(req, res) {
         const { id } = req.params;
-        console.log("am reached here",id)
+        console.log("am reached here", id)
         const result = await this.planUesCase.getPlan(id);
         return res.status(result.status).json(result);
     }
@@ -38,6 +40,7 @@ export class PlanController {
         const { amount } = req.body
         const userId = req.clientId
         const result = await this.planUesCase.makePlanPayment(userId, amount)
+        await this.transactionUseCase.saveNewTransaction(amount, "Application", userId, "Subscription")
         return res.status(result.status).json(result)
     }
     async getPlanForUsers(req, res) {
@@ -45,6 +48,7 @@ export class PlanController {
         return res.status(result.status).json(result)
     }
     async purchasePlan(req, res) {
+        console.log("purchasing the plan as well ", req.body, req.clientId)
         const { planId } = req.body
         const userId = req.clientId
         const result = await this.planUesCase.purchasePlan(planId, userId)
@@ -57,9 +61,9 @@ export class PlanController {
         }
         return res.status(result.status).json(result)
     }
-    async updatePlan(req,res){
-        const {id, data} = req.body;
-        const result = await this.planUesCase.updatePlan(id,data);
+    async updatePlan(req, res) {
+        const { id, data } = req.body;
+        const result = await this.planUesCase.updatePlan(id, data);
         return res.status(result.status).json(result)
     }
 }

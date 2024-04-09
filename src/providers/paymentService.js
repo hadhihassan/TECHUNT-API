@@ -11,7 +11,7 @@ export class StripPayment {
         });
         return customer.id
     }
-    async createLineItems(name ="Proposal Service Charge",amount = 500) {
+    async createLineItems(name = "Proposal Service Charge", amount = 500) {
         return [{
             price_data: {
                 currency: "INR",
@@ -24,45 +24,54 @@ export class StripPayment {
         }];
     }
     async makePayment(address, id, isMilestonePay = false, amount) {
-        const customerId = await this.createCustomer(address)
-        const lineItems = await this.createLineItems(amount)
-        let session
-        if (isMilestonePay) {
-            session = await stripe.checkout.sessions.create({
-                payment_method_types: ["card"],
-                line_items: lineItems,
-                mode: "payment",
-                success_url: `http://localhost:5173/client/contract/work-details/true`,
-                cancel_url: "http://localhost:5173/client/contract/work-details/false",
-                customer: customerId
-            });
-        } else {
-            session = await stripe.checkout.sessions.create({
-                payment_method_types: ["card"],
-                line_items: lineItems,
-                mode: "payment",
-                success_url: `http://localhost:5173/payment-success/${id}`,
-                cancel_url: "http://localhost:5173/payment-failed",
-                customer: customerId
-            });
-        }
-        if (session) {
-            return session.id
+        try {
+            const customerId = await this.createCustomer(address)
+            const lineItems = await this.createLineItems(amount)
+            let session
+            if (isMilestonePay) {
+                session = await stripe.checkout.sessions.create({
+                    payment_method_types: ["card"],
+                    line_items: lineItems,
+                    mode: "payment",
+                    success_url: `http://localhost:5173/payment-success/s23432`,
+                    cancel_url: "http://localhost:5173/",
+                    customer: customerId
+                });
+            } else {
+                session = await stripe.checkout.sessions.create({
+                    payment_method_types: ["card"],
+                    line_items: lineItems,
+                    mode: "payment",
+                    success_url: `http://localhost:5173/payment-success/${id}`,
+                    cancel_url: "http://localhost:5173/",
+                    customer: customerId
+                });
+            }
+            if (session) {
+                return session.id
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
-    async makeSubsciptionPayment(name,address, id,amount) {
-        const customerId = await this.createCustomer(address)
-        const lineItems = await this.createLineItems(name,amount)
-        let session
-        session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: lineItems,
-            mode: "payment",
-            success_url: `http://localhost:5173/plan`,
-            cancel_url: "http://localhost:5173/plan",
-            customer: customerId
-        });
-        if (session) {
+    async makeSubsciptionPayment(name, address, id, amount) {
+        try {
+            const customerId = await this.createCustomer(address)
+            const lineItems = await this.createLineItems(name, amount)
+            let session
+            session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                line_items: lineItems,
+                mode: "payment",
+                success_url: `http://localhost:5173/payment-success/success`,
+                cancel_url: "http://localhost:5173/plan",
+                customer: customerId
+            });
+            if (session) {
+                return session.id
+            }
+        } catch (err) {
+            console.log(session)
             return session.id
         }
     }

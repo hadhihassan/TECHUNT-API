@@ -76,6 +76,7 @@ export class MilestoneUseCase {
     }
     async saveWork(id, data) {
         try {
+            console.log(id, data)
             const result = await this.milestoneRepository.saveWork(id, data)
             if (result) {
                 return {
@@ -85,7 +86,7 @@ export class MilestoneUseCase {
                 }
             } return {
                 status: STATUS_CODES.BAD_REQUEST,
-                message: "success",
+                message: "failed",
                 success: false
             }
         } catch (err) {

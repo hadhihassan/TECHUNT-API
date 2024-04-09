@@ -50,5 +50,6 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
 
     .post("/send-Invitation/", checkToken, (req, res) => Ccontroller.senInvitation(req, res))
     .get("/get-wallet-amount/", checkToken, (req, res) => Ccontroller.getWalletAmount(req, res))
+    .get("/contract/get-contract/:id/", checkToken, (req, res) => contractController.getContract(req, res))
 
 export default client_Routes;

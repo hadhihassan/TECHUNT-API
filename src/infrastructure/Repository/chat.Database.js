@@ -36,11 +36,11 @@ export class ChatRepository {
             }
         }
         await Promise.all([conversation.save(), newMessage.save()])
-        if (receiver.online) {
-            console.log(receiver?.online," this is the status")
-            const id = await Message.updateMany({ senderId: senderId, receiverId: receiverId }, { $set: { read: true } })
-            console.log(id)
-        }
+        // if (receiver.online) {
+        //     console.log(receiver?.online," this is the status")
+        //     const id = await Message.updateMany({ senderId: senderId, receiverId: receiverId }, { $set: { read: true } })
+        //     console.log(id)
+        // }
         io.emit("newMessage", newMessage);
 
         return true
@@ -54,7 +54,7 @@ export class ChatRepository {
             model: 'Message',
             select: '-password'
         }).exec();
-        await Message.updateMany({ senderId: userToChatId, receiverId: senderId }, { $set: { read: true } })
+        // await Message.updateMany({ senderId: userToChatId, receiverId: senderId }, { $set: { read: true } })
         return conversation.messages
     }
 

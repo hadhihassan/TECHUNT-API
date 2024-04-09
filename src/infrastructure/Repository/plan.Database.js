@@ -3,6 +3,7 @@ import Plan from "../../entites/models/plan.Schema.js";
     
 export class PlanRepository {
     async createNewPlan(data) {
+        console.log("sdfds")
         return await Plan.create(data)
     }
     async getAllPalans() {

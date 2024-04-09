@@ -7,5 +7,4 @@ class OTPGenerator {
         return otp;
     }
 }
-
 export default OTPGenerator;

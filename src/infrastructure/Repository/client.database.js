@@ -192,6 +192,7 @@ export class ClientRepository {
                 path: "Wallet",
                 select: "balance"
             });
+            console.log(clientWithWallet)
             return clientWithWallet.Wallet.balance;
         } catch (error) {
             throw error;

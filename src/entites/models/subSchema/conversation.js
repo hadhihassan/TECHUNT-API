@@ -12,9 +12,14 @@ const conversationSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             red: "Message",
-            default:[]
+            default: []
         },
     ],
+    isInConversation: [
+        {
+            type: Schema.Types.ObjectId,
+        },
+    ]
 }, { timestamps: true })
 
 const Conversation = mongoose.model("Conversation", conversationSchema);

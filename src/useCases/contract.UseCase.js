@@ -147,10 +147,10 @@ export class ContractUseCase {
         try {
             const result = await this.contractRepository.updateContract(contractId, status)
             if (result) {
-                    return {
-                        status: STATUS_CODES.OK,
-                        success: true,
-                    }
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                }
             }
             return {
                 status: STATUS_CODES.BAD_REQUEST,
@@ -164,11 +164,11 @@ export class ContractUseCase {
         try {
             const result = await this.contractRepository.findCompletedContracts(id, role)
             if (result) {
-                    return {
-                        status: STATUS_CODES.OK,
-                        success: true,
-                        data: result
-                    }
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: result
+                }
             }
             return {
                 status: STATUS_CODES.BAD_REQUEST,
@@ -182,11 +182,11 @@ export class ContractUseCase {
         try {
             const result = await this.contractRepository.getCancelledContract(id, role)
             if (result) {
-                    return {
-                        status: STATUS_CODES.OK,
-                        success: true,
-                        data: result
-                    }
+                return {
+                    status: STATUS_CODES.OK,
+                    success: true,
+                    data: result
+                }
             }
             return {
                 status: STATUS_CODES.BAD_REQUEST,
@@ -196,5 +196,22 @@ export class ContractUseCase {
             console.log(err)
         }
     }
-
+    async getContract(id) {
+        try {
+            const getData = await this.contractRepository.findContracts(id);
+            if (getData) {
+                return {
+                    status: 200,
+                    success: true,
+                    data: getData,
+                }
+            }
+            return {
+                status: 400,
+                success: false,
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }

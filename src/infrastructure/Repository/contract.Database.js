@@ -28,7 +28,7 @@ export class ContractRepository {
     async updateContractStatus(id, status, actualStatus) {
         return await Contract.findByIdAndUpdate(id, { $set: { isAccepted: status }, status: actualStatus })
     }
-    
+
     async updateContract(contractId, status) {
         return await Contract.findByIdAndUpdate(contractId, {
             $set: { status: status }
@@ -38,7 +38,6 @@ export class ContractRepository {
         const query = {};
         query[role.toLowerCase()] = id;
         query['status'] = 'completed';
-        console.log(query)
         return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
     }
     async getCancelledContract(id, role) {
@@ -46,7 +45,9 @@ export class ContractRepository {
         const query = {};
         query[role.toLowerCase()] = id;
         query['status'] = 'cancelled';
-        console.log(query)
         return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
+    }
+    async findContracts(id) {
+        return await Contract.findById(id).populate(["client", "talent", "work", "milestones"]);
     }
 }

@@ -8,13 +8,12 @@ export class CheckJobExisiting {
     }
     async checkJobCategoryIsExsiting(req, res, next) {
         try {
-            console.log("ahi here")
             const { data } = req.body;
             const isExisting = await this.jobCategoryRepository.findByName(data.name)
             if (isExisting) {
                 return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "The job category name already existing", success: false })
             }
-            next(); // Call next to pass control to the next middleware or route handler
+            next(); 
         } catch (error) {
             return get500Response(error)
         }

@@ -4,6 +4,7 @@ import Token from "../../entites/models/token.js";
 import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import BankAccount from "../../entites/models/subSchema/bankDetails.js";
 import Wallet from "../../entites/models/base/wallectSchema.js";
+import Education from "../../entites/models/subSchema/education.schem.js";
 
 export class TalentRepository {
     async findByEmail(email) {
@@ -14,7 +15,7 @@ export class TalentRepository {
         return { status: true, data: user }
     }
     async findById(id) {
-        return await talent.findById(id).populate(["subscription", "bankDetails", "Wallet"])
+        return await talent.findById(id).populate(["subscription", "bankDetails", "Wallet","educations"])
     }
     async findByToken(token) {
         const findToken = await Token.findOne({ token });
@@ -313,9 +314,26 @@ export class TalentRepository {
     }
     async updatedNewPassword(email, password) {
         return await talent.findOneAndUpdate(
-            { Email: email }, 
+            { Email: email },
             { $set: { Password: password } },
-            { new: true } 
+            { new: true }
         );
+    }
+    async saveEducationToUser(id, educationId) {
+        return await talent.findByIdAndUpdate(
+            id,
+            { $push: { educations: educationId } },
+            { new: true }
+        );
+    }
+    async saveEducation(data, id) {
+        try {
+            const savedEducation = await Education.create(
+                data
+            );
+            return this.saveEducationToUser(id, savedEducation._id);
+        } catch (error) {
+            console.log(error)
+        }
     }
 }

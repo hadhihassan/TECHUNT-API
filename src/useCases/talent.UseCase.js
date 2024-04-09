@@ -149,9 +149,9 @@ export class TalentUseCase {
             console.log(err)
         }
     }
-    async saveResume(id,s3Link) {
+    async saveResume(id, s3Link) {
         try {
-            const result = await this.talentRepository.saveResume(id,s3Link)
+            const result = await this.talentRepository.saveResume(id, s3Link)
             if (result) {
                 return get200Response(result)
             }
@@ -171,9 +171,20 @@ export class TalentUseCase {
             get500Response(err)
         }
     }
-    async updateBankDetail(id,data) {
+    async updateBankDetail(id, data) {
         try {
-            const result = await this.talentRepository.updateBankDetail(id,s3Link)
+            const result = await this.talentRepository.updateBankDetail(id, s3Link)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
+    async saveEducation(data, id) {
+        try {
+            const result = await this.talentRepository.saveEducation(data, id)
             if (result) {
                 return get200Response(result)
             }

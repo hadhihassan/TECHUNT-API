@@ -6,6 +6,7 @@ import { JwtToken } from '../providers/jwtToken.js';
 import { StripPayment } from '../providers/paymentService.js';
 import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
 import invitationTemplate from '../infrastructure/templates/mail/invitation.js'
+import { get200Response, get400Response, get500Response } from '../infrastructure/helperFunctions/response.js';
 
 
 export class ClientUseCase {
@@ -147,6 +148,7 @@ export class ClientUseCase {
     }
 
     async sendInvitation(getSender, getReceiver, getJobPost) {
+        console.log(getJobPost)
         try {
             const result = await this.mailer.sendEmailTransporter(getReceiver.Email, "Invitation to Collaborate on a Project", invitationTemplate(getSender.First_name, getJobPost.Title, getJobPost.Description, await this.getJobLink(getJobPost._id)))
             if (result) {

@@ -27,9 +27,8 @@ const TalentSchema = new Schema({
     isNumberVerify: { type: Boolean, default: false },
     bankDetails: { type: Schema.Types.ObjectId, ref: "BankAccount" },
     Wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
-    subscription: { type: Schema.Types.ObjectId, ref: "Subscription" }
-
-
+    subscription: { type: Schema.Types.ObjectId, ref: "Subscription" },
+    educations: { type: [Schema.Types.ObjectId], ref: "Education" }
 }, {
     timestamps: true
 });
