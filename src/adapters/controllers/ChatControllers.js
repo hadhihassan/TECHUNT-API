@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import { ChatUseCase } from "../../useCases/chat.UseCase.js";
-
+import { ChatRepository } from "../../infrastructure/repository/chat.Database.js";
 export class ChatController {
     constructor() {
         this.chatUseCase = new ChatUseCase()
+        this.chatRepository = new ChatRepository()
     }
 
     async sendMessage(req, res) {
@@ -35,5 +36,11 @@ export class ChatController {
         const senderId = req.clientId;
         const result = await this.chatUseCase.createNewConversation(senderId, receiverId)
         return res.status(200).json(result)
+    }
+    async removeFromChat(req, res) {
+        const senderId = req.clientId;
+        console.log("here")
+        const result = await this.chatRepository.removeUserFormConversation(senderId)
+        return res.status(200)
     }
 }

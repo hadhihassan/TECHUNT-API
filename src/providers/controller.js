@@ -9,6 +9,7 @@ import { ProposalController } from "../adapters/controllers/proposalControllers.
 import { ChatController } from "../adapters/controllers/ChatControllers.js";
 import { ContractController } from '../adapters/controllers/contractControllers.js'
 import { PlanController } from '../adapters/controllers/planControllers.js'
+import { ReviewController } from "../adapters/controllers/reviewControllers.js";
 
 //UseCases
 import { TalentUseCase } from "../useCases/talent.UseCase.js";
@@ -22,6 +23,7 @@ import { ChatUseCase } from "../useCases/chat.UseCase.js";
 import { ContractUseCase } from "../useCases/contract.UseCase.js";
 import { MilestoneUseCase } from "../useCases/milestone.UseCase.js";
 import { PlanUesCase } from "../useCases/plan.UseCase.js";
+import { ReviewUseCase } from "../useCases/review.UseCase.js";
 
 
 //Repository database
@@ -35,6 +37,10 @@ import { ContractRepository } from "../infrastructure/repository/contract.Databa
 import { MilestoneRepository } from "../infrastructure/repository/milestone.Database.js";
 import { PlanRepository } from "../infrastructure/repository/plan.Database.js";
 import { SubscriptionRepository } from "../infrastructure/repository/subscription.js";
+import { ReviewRepository } from "../infrastructure/repository/review.Database.js";
+
+
+
 
 
 
@@ -88,8 +94,14 @@ const chatRepository = new ChatRepository()
 const chatUseCase = new ChatUseCase(chatRepository)
 export const chatController = new ChatController(chatUseCase)
 
+const reviewRepository = new ReviewRepository()
+const reviewUseCase = new ReviewUseCase(reviewRepository)
+export const reviewController = new ReviewController(reviewUseCase)
+
+
 // middlewares
 import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.validation/jobCategory.middleware.js";
 import { ProposalRepository } from "../infrastructure/Repository/proposal.Database.js";
+
 export const checkJobExisiting = new CheckJobExisiting(jobCategoryRepository)
 

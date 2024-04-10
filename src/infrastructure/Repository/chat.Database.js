@@ -40,10 +40,8 @@ export class ChatRepository {
             await Promise.all([conversation.save(), newMessage.save()])
             if (conversation.isInConversation.includes(receiverId)) {
                 const a = await Message.updateMany({ senderId: senderId, receiverId: receiverId, read: false }, { $set: { read: true } })
-                console.log(a)
             }
             io.emit("newMessage", newMessage);
-            console.log(conversation.isInConversation.includes(receiverId))
             return true
         } catch (err) {
             console.log(err)
@@ -65,7 +63,12 @@ export class ChatRepository {
             }).exec();
             if (!conversation.isInConversation.includes(senderId)) {
                 await Conversation.updateMany({ isInConversation: senderId }, { $pull: { isInConversation: senderId } })
-                conversation.isInConversation.push(senderId)
+                const updatedConversation = await Conversation.findOneAndUpdate(
+                    { participants: { $all: [senderId, userToChatId] } }, // Use $all to match documents where both senderId and userToChatId are present
+                    { $addToSet: { isInConversation: senderId } }, // Add senderId to isInConversation array if it's not already there
+                    { new: true } // Return the updated document
+                );
+
                 await conversation.save()
             }
             return conversation.messages
@@ -107,5 +110,12 @@ export class ChatRepository {
         }
         return true
     }
-
+    async removeUserFormConversation(userId) {
+        const result = await Conversation.updateMany(
+            { participants: { $in: [userId] } },
+            { $pull: { isInConversation: userId } }
+        );
+        console.log(result, "this is the operation to remove the chat conversation ")
+        return result
+    }
 } 

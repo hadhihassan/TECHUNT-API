@@ -6,7 +6,8 @@ import {
     Tcontroller,
     contractController,
     planControllers,
-    jobPostControllers
+    jobPostControllers,
+    reviewController
 } from '../../providers/controller.js';
 import { checkToken } from '../middlewares/clientAuth.js';
 import { upload } from '../config/multer.js';
@@ -46,10 +47,12 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .post("/plan/purchase-plan/", checkToken, (req, res) => planControllers.purchasePlan(req, res))
     .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
 
-
-
     .post("/send-Invitation/", checkToken, (req, res) => Ccontroller.senInvitation(req, res))
     .get("/get-wallet-amount/", checkToken, (req, res) => Ccontroller.getWalletAmount(req, res))
     .get("/contract/get-contract/:id/", checkToken, (req, res) => contractController.getContract(req, res))
+    // Reviews
+    .post("/review/save-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
+    .get("/review/get-reviews/", checkToken, (req, res) => reviewController.getReviews(req, res))
+
 
 export default client_Routes;

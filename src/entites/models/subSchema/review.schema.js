@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const ReviewModel = new Schema({
-    reviewer: {
+    to: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    reviewedUser: {
+    from: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
