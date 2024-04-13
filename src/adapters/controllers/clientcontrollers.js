@@ -90,11 +90,17 @@ export class ClientController {
         return res.status(getResult.status).json(getResult)
     }
     async senInvitation(req, res) {
-        const { WorkId, talentId } = req.body
-        const getSender = await this.clientUseCase.getProfilelData(req.clientId)
-        const getReceiver = await this.talentUseCase.getProfilelData(talentId)
-        const result = await this.clientUseCase.sendInvitation(getSender, getReceiver, WorkId[0])
-        return res.status(result.status).json(result)
+        try {
+            const { WorkId, talentId } = req.body
+            console.log(req.body," the body")
+            const getSender = await this.clientUseCase.getProfilelData(req.clientId)
+            const getReceiver = await this.talentUseCase.getProfilelData(talentId)
+            console.log(getSender, getReceiver, WorkId[0])
+            const result = await this.clientUseCase.sendInvitation(getSender, getReceiver, WorkId[0])
+            return res.status(result.status).json(result)
+        } catch (err) {
+            console.log(err)
+        }
     }
     async getWalletAmount(req, res) {
         const getResult = await this.clientUseCase.getWalletAmount(req.clientId)
