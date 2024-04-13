@@ -3,7 +3,7 @@ name: Deploy Node Application
 on:
   push:
     branches:
-      - "hosting"
+      - "master"
 
 jobs:
   build:

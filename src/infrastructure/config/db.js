@@ -1,5 +1,4 @@
 import mongoose from "mongoose"
-const URL = process.env.DATABASE_URL;
 const password = process.env.AlTAS_PASSWORD;
 const connectionString = `mongodb+srv://HADHI:<${password}>@devcluster.u8o7ney.mongodb.net/?retryWrites=true&w=majority&appName=DevCluster`
 const connectDb = async () => {
