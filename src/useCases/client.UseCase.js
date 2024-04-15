@@ -1,10 +1,10 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { ClientRepository } from '../infrastructure/repository/client.database.js';
+import { ClientRepository } from '../infrastructure/repository/clientDatabase.js';
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 import { StripPayment } from '../providers/paymentService.js';
-import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
+import { TransactionRepository } from '../infrastructure/repository/transactionDatabase.js'
 import invitationTemplate from '../infrastructure/templates/mail/invitation.js'
 import { get200Response, get400Response, get500Response } from '../infrastructure/helperFunctions/response.js';
 

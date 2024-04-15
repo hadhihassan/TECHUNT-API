@@ -1,9 +1,9 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
+import { TalentRepository } from '../infrastructure/repository/talentDatabase.js';
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
-import { TransactionRepository } from '../infrastructure/repository/transaction.Database.js'
+import { TransactionRepository } from '../infrastructure/repository/transactionDatabase.js'
 import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
 
 export class TalentUseCase {

@@ -1,9 +1,9 @@
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
-import { ContractRepository } from "../infrastructure/repository/contract.Database.js"
+import { ContractRepository } from "../infrastructure/repository/contractDatabase.js"
 import { StripPayment } from '../providers/paymentService.js'
-import { TalentRepository } from '../infrastructure/repository/talent.Database.js'
-import { MilestoneRepository } from '../infrastructure/repository/milestone.Database.js'
+import { TalentRepository } from '../infrastructure/repository/talentDatabase.js'
+import { MilestoneRepository } from '../infrastructure/repository/milestoneDatabase.js'
 export class ContractUseCase {
     constructor() {
         this.contractRepository = new ContractRepository()

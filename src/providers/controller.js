@@ -25,19 +25,18 @@ import { MilestoneUseCase } from "../useCases/milestone.UseCase.js";
 import { PlanUesCase } from "../useCases/plan.UseCase.js";
 import { ReviewUseCase } from "../useCases/review.UseCase.js";
 
-
 //Repository database
-import { TalentRepository } from "../infrastructure/Repository/talent.Database.js";
-import { AdminRepository } from "../infrastructure/Repository/admin.Database.js";
-import { JobCategoryRepository } from "../infrastructure/Repository/jobCategory.Database.js";
-import { ClientRepository } from "../infrastructure/Repository/client.Database.js";
-import { JobPostRepository } from "../infrastructure/Repository/jobPost.Database.js";
-import { ChatRepository } from "../infrastructure/repository/chat.Database.js";
-import { ContractRepository } from "../infrastructure/repository/contract.Database.js";
-import { MilestoneRepository } from "../infrastructure/repository/milestone.Database.js";
-import { PlanRepository } from "../infrastructure/repository/plan.Database.js";
-import { SubscriptionRepository } from "../infrastructure/repository/subscription.js";
-import { ReviewRepository } from "../infrastructure/repository/review.Database.js";
+import { TalentRepository } from "../infrastructure/repository/talentDatabase.js";
+import { AdminRepository } from "../infrastructure/repository/adminDatabase.js";
+import { JobCategoryRepository } from "../infrastructure/repository/jobCategoryDatabase.js";
+import { ClientRepository } from "../infrastructure/repository/clientDatabase.js";
+import { JobPostRepository } from "../infrastructure/repository/jobPostDatabase.js";
+import { ChatRepository } from "../infrastructure/repository/chatDatabase.js";
+import { ContractRepository } from "../infrastructure/repository/contractDatabase.js";
+import { MilestoneRepository } from "../infrastructure/repository/milestoneDatabase.js";
+import { PlanRepository } from "../infrastructure/repository/planDatabase.js";
+import { SubscriptionRepository } from "../infrastructure/repository/subscriptionDatabase.js";
+import { ReviewRepository } from "../infrastructure/repository/reviewDatabase.js";
 
 
 
@@ -101,7 +100,7 @@ export const reviewController = new ReviewController(reviewUseCase)
 
 // middlewares
 import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.validation/jobCategory.middleware.js";
-import { ProposalRepository } from "../infrastructure/Repository/proposal.Database.js";
+import { ProposalRepository } from "../infrastructure/repository/proposalDatabase.js";
 
 export const checkJobExisiting = new CheckJobExisiting(jobCategoryRepository)
 

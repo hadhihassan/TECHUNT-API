@@ -1,6 +1,6 @@
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
-import { ChatRepository } from "../infrastructure/repository/chat.Database.js";
+import { ChatRepository } from "../infrastructure/repository/chatDatabase.js";
 
 export class ChatUseCase {
     constructor() {

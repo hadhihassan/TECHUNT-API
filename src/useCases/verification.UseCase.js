@@ -1,10 +1,10 @@
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
-import { TalentRepository } from '../infrastructure/Repository/talent.Database.js';
-import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
+import { TalentRepository } from '../infrastructure/repository/talentDatabase.js';
+import { ClientRepository } from '../infrastructure/repository/clientDatabase.js';
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
-import { OtpRepository } from '../infrastructure/repository/opt.Database.js';
+import { get500Response, get200Response } from '../infrastructure/helperFunctions/response.js';
+import { OtpRepository } from '../infrastructure/repository/otpDatabase.js';
 import { Mailer } from '../providers/EmailService.js';
 import forgetPasswordTemplate from '../infrastructure/templates/mail/forgetPasswordEmail.js';
 

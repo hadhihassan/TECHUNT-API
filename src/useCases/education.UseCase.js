@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { EducationRepository } from '../infrastructure/repository/education.Database.js';
+import { EducationRepository } from '../infrastructure/repository/educationDatabase.js';
 
 export class EducationUseCase {
     constructor() {

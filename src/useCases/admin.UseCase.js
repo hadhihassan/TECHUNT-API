@@ -1,4 +1,4 @@
-import { AdminRepository } from "../infrastructure/Repository/admin.Database.js";
+import { AdminRepository } from "../infrastructure/repository/adminDatabase.js";
 import { JwtToken } from '../providers/jwtToken.js';
 import { Encrypt } from "../providers/bcryptPassword.js";
 import { STATUS_CODES } from "../constants/httpStatusCode.js";

@@ -1,4 +1,4 @@
-import { TransactionRepository } from "../infrastructure/repository/transaction.Database.js";
+import { TransactionRepository } from "../infrastructure/repository/transactionDatabase.js";
 
 
 export class TransactionUseCase {

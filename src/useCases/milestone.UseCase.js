@@ -1,6 +1,6 @@
 import { STATUS_CODES } from "../constants/httpStatusCode.js";
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
-import { MilestoneRepository } from '../infrastructure/repository/milestone.Database.js'
+import { MilestoneRepository } from '../infrastructure/repository/milestoneDatabase.js'
 
 export class MilestoneUseCase {
     constructor() {

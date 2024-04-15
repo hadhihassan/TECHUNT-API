@@ -1,7 +1,7 @@
 import { STATUS_CODES } from "http";
 import { get200Response, get500Response, get400Response } from "../infrastructure/helperFunctions/response.js";
 import { StripPayment } from '../providers/paymentService.js'
-import { SubscriptionRepository } from "../infrastructure/repository/subscription.js";
+import { SubscriptionRepository } from "../infrastructure/repository/subscriptionDatabase.js";
 
 export class PlanUesCase {
     constructor(planRepository) {

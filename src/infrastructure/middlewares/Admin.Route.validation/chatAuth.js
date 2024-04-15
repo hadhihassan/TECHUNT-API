@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import { TalentRepository } from '../../Repository/talent.Database.js';
-import { ClientRepository } from '../../Repository/client.database.js';
+import { TalentRepository } from '../../repository/talentDatabase.js';
+import { ClientRepository } from '../../repository/clientDatabase.js';
 import { STATUS_CODES } from '../../../constants/httpStatusCode.js';
 const talentRepository = new TalentRepository();
 const clientRepository = new ClientRepository();

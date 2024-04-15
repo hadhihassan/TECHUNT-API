@@ -1,7 +1,7 @@
 import { Server as SocketIO } from 'socket.io';
 import NotificationModel from '../../entites/models/subSchema/notification.schema.js';
-import { TalentRepository } from '../../../src/infrastructure/repository/talent.Database.js'
-import { ClientRepository } from '../repository/client.database.js'
+import { TalentRepository } from '../../../src/infrastructure/repository/talentDatabase.js'
+import { ClientRepository } from '../repository/clientDatabase.js'
 
 const talentRepository = new TalentRepository()
 const clientRepository = new ClientRepository()

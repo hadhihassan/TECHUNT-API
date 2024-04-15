@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 const { JWT_SECRET_KEY } = process.env;
 import { STATUS_CODES } from '../../constants/httpStatusCode.js'
-import { TalentRepository } from '../Repository/talent.Database.js';
+import { TalentRepository } from '../repository/talentDatabase.js';
 import mongoose from 'mongoose';
 import { getAllRoles } from '../../constants/role.js';
 

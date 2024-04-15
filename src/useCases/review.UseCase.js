@@ -1,4 +1,4 @@
-import { ReviewRepository } from "../infrastructure/repository/review.Database.js";
+import { ReviewRepository } from "../infrastructure/repository/reviewDatabase.js";
 import { get200Response, get400Response, get500Response } from '../infrastructure/helperFunctions/response.js';
 
 export class ReviewUseCase {

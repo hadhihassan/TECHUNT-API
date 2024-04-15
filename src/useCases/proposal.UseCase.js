@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { ProposalRepository } from '../infrastructure/Repository/proposal.Database.js';
+import { ProposalRepository } from '../infrastructure/repository/proposalDatabase.js';
 import { get500Response } from "../infrastructure/helperFunctions/response.js";
 import { S3Service } from '../providers/S3.js';
 import { StripPayment } from '../providers/paymentService.js'

@@ -1,5 +1,5 @@
 import { STATUS_CODES,ERR_MESSAGE } from "../../../constants/httpStatusCode.js";
-import { JobCategoryRepository } from "../../Repository/jobCategory.Database.js";
+import { JobCategoryRepository } from "../../repository/jobCategoryDatabase.js";
 import { get500Response } from "../../helperFunctions/response.js";
 
 export class CheckJobExisiting {

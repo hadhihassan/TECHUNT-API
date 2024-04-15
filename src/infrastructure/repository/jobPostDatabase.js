@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import JobPostModel, { searchJobs } from '../../entites/models/jobPost.model.js'
 
 export class JobPostRepository {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ChatUseCase } from "../../useCases/chat.UseCase.js";
-import { ChatRepository } from "../../infrastructure/repository/chat.Database.js";
+import { ChatRepository } from "../../infrastructure/repository/chatDatabase.js";
 export class ChatController {
     constructor() {
         this.chatUseCase = new ChatUseCase()
