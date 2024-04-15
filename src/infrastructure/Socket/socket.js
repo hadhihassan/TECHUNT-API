@@ -1,10 +1,8 @@
 import { Server as SocketIO } from 'socket.io';
-import NotificationModel from '../entites/models/subSchema/notification.schema.js';
-import jwt from 'jsonwebtoken'
-import { TalentRepository } from '../infrastructure/repository/talent.Database.js'
-import { ClientRepository } from '../infrastructure/repository/client.database.js'
-import { JwtToken } from './jwtToken.js';
-const jwtToken = new JwtToken()
+import NotificationModel from '../../entites/models/subSchema/notification.schema.js';
+import { TalentRepository } from '../repository/talent.Database.js'
+import { ClientRepository } from '../repository/client.database.js'
+
 const talentRepository = new TalentRepository()
 const clientRepository = new ClientRepository()
 
@@ -21,7 +19,7 @@ const initializeSocket = (server) => {
         const userId = socket.handshake.query.userId;
         if (userId != "undefined") userSocketMap[userId] = socket.id;
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
-        console.log("user connected", socket.id)
+        console.log("user connected", socket.id)    
         socket.on('disconnect', () => {
             console.log('User disconnected');
             delete userSocketMap[userId];

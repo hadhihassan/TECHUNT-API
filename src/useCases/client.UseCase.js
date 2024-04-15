@@ -1,5 +1,5 @@
 import { STATUS_CODES } from '../constants/httpStatusCode.js';
-import { ClientRepository } from '../infrastructure/Repository/client.Database.js';
+import { ClientRepository } from '../infrastructure/repository/client.database.js';
 import { Mailer } from '../providers/EmailService.js';
 import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';

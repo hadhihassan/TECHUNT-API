@@ -2,7 +2,7 @@ import Client from "../../entites/models/Client.schema.js";
 import Conversation from "../../entites/models/subSchema/conversation.js";
 import Message from "../../entites/models/subSchema/message.js";
 import Talent from "../../entites/models/talen.model.js";
-import { io } from '../../providers/socket.js'
+import { io } from '../../infrastructure/Socket/socket.js'
 import { ClientRepository } from "./client.database.js";
 import { TalentRepository } from "./talent.Database.js";
 

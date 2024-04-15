@@ -3,10 +3,7 @@ import http from 'http';
 import createServer from './src/infrastructure/config/app.js';
 import dbConnect from './src/infrastructure/config/db.js';
 import 'dotenv/config';
-import { Server as socket } from 'socket.io';
-import notificaitonModel from './src/entites/models/subSchema/notification.schema.js'
-import { WebSocketServer } from 'ws';
-import { initializeSocket } from './src/providers/socket.js';
+import { initializeSocket } from './src/infrastructure/Socket/socket.js';
 
 const PORT = process.env.PORT || 3000;
 const app = createServer();
