@@ -47,7 +47,11 @@ const contractSchema = new Schema({
     isAccepted: {
         type: Boolean,
         default: false
-    }
+    },
+    resheduleWork:{
+        type: Boolean,
+        default: false
+    },
     
 }, { timestamps: true });
 const Contract = mongoose.model('Contract', contractSchema);

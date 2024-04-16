@@ -16,6 +16,5 @@ export class Encrypt {
             console.error(error);
             throw error; 
         }
-    }
-    
+    }   
 }

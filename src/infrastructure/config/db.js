@@ -1,16 +1,21 @@
-import mongoose from "mongoose"
-const password = process.env.AlTAS_PASSWORD;
-const URL = process.env.DATABASE_URL
-// const connectionString = `mongodb+srv://HADHI:<${password}>@devcluster.u8o7ney.mongodb.net/?retryWrites=true&w=majority&appName=DevCluster`
-const connectDb = async () => {
-    try {
-        mongoose
-            .connect(URL)
-            .then(() => console.log('DATABASE CONNECTED'))
-            .catch(error => console.error('Error connecting to the database:', error));
-    } catch (error) {
-        console.error("Error in database connection", error);
-    }
-};
+import { MongoClient } from 'mongodb'
 
-export default connectDb;
+const username = process.env.ATLAS_USERNMAE; 
+const password = process.env.ATLES_PASSWORD; 
+const dbName = process.env.ATLAS_DATABASE_NAME;
+const clusterUrl = process.env.ATLAS_clusterUrl;
+const uri = `mongodb+srv://${username}:${password}@${clusterUrl}/${dbName}?retryWrites=true&w=majority&appName=${dbName}`;
+
+const client = new MongoClient(uri);
+
+async function dbConnect() {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB Atlas");
+        await client.db(dbName).command({ ping: 1 });
+        console.log("Ping successful");
+    } catch (error) {
+        console.error("Error connecting to MongoDB Atlas:", error);
+    }
+}
+export default dbConnect;
