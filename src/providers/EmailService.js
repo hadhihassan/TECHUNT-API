@@ -6,7 +6,7 @@ export class Mailer {
         const token = await new Token({
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
-        const url = `${process.env.BASE_URL}client/verify/${token.token}`;
+        const url = `${process.env.BASE_URL}/client/verify/${token.token}`;
         return this.sendEmailTransporter(email, "Verify Email", url)
     }
     async sendEmailTransporter(email, subject, html) {

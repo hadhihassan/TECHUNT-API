@@ -8,9 +8,11 @@ export class VerificationController {
     }
     async login(req, res) {
         try {
+            console.log("hai", req.body)
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
-            const progress = getProfileProggressBarPercentage(result.data, result.role)
+            console.log("hai", result)
+            const progress = getProfileProggressBarPercentage(result?.data, result?.role)
             result.progress = progress;
             return res.status(result.status).json(result)
         } catch (error) {

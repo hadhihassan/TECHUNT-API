@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  # MongoDB server
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+  # Node.js service
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "mongodb://mongo_db:27017/TECHUNT"
+    depends_on:
+      - mongo_db
+volumes:
+  mongo_data: {}

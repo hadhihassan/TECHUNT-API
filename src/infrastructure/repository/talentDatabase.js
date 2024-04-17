@@ -8,11 +8,15 @@ import Education from "../../entites/models/subSchema/education.schema.js";
 
 export class TalentRepository {
     async findByEmail(email) {
-        const user = await talent.findOne({ Email: email });
-        if (user === null) {
-            return { status: false, data: user }
+        try {
+            const user = await talent.findOne({ Email: email });
+            if (user === null) {
+                return { status: false, data: user }
+            }
+            return { status: true, data: user }
+        } catch (err) {
+            console.log(err)
         }
-        return { status: true, data: user }
     }
     async findById(id) {
         return await talent.findById(id).populate(["subscription", "bankDetails", "Wallet", "educations"])

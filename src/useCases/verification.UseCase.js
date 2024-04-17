@@ -18,11 +18,13 @@ export class VerificationUseCase {
         this.mailer = new Mailer()
     }
     async verifyLogin(email, password) {
+        console.log("data base reached", email,password)
         try {
             const talentData = await this.talentRepository.findByEmail(email);
             if (talentData.status) {
                 return this.authenticateUser(talentData, password, 'TALENT',);
             }
+            console.log(talentData)
             const clientData = await this.clientRepository.findByEmail(email);
             if (clientData.status) {
                 return this.authenticateUser(clientData, password, 'CLIENT',);
@@ -38,20 +40,20 @@ export class VerificationUseCase {
     }
     async authenticateUser(userData, password, role) {
         try {
-            if (userData.data.isBlock) {
+            if (userData?.data.isBlock) {
                 return {
                     status: STATUS_CODES.UNAUTHORIZED,
                     message: "Sorry your blocked",
                     isBlocked: true
                 };
             }
-            const passwordMatch = await this.encrypt.comparePasswords(password, userData.data.Password);
+            const passwordMatch = await this.encrypt.comparePasswords(password, userData?.data?.Password);
             if (passwordMatch) {
-                const token = await this.jwtToken.generateJwtToken(userData.data._id, role)
+                const token = await this.jwtToken.generateJwtToken(userData?.data?._id, role)
                 return {
                     status: STATUS_CODES.OK,
                     message: "Successfully logged in.",
-                    data: userData.data,
+                    data: userData?.data,
                     role: role,
                     token
                 };

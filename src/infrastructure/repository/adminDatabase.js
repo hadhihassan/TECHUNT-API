@@ -7,6 +7,15 @@ import Proposal from "../../entites/models/subSchema/proposal.schema.js";
 import Transaction from "../../entites/models/transations.Schema.js";
 
 export class AdminRepository {
+
+    async createNewAdmin(userName, password) {
+        const newAdmin = new admin({
+            userName,
+            Password: password
+        })
+        await newAdmin.save()
+        return newAdmin
+    }
     async findByUserName(userName) {
         const result = await admin.findOne({ userName })
         if (result) {
@@ -121,7 +130,7 @@ export class AdminRepository {
             {
                 $match: {
                     createdAt: { $gte: startOfYear, $lte: endOfYear },
-                    to:"Application"
+                    to: "Application"
                 }
             },
             {

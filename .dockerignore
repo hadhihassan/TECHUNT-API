@@ -1,2 +1,4 @@
-node_modules
+./node_modules
 images
+Dockerfile
+docker-compose.yml

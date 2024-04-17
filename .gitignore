@@ -1,4 +1,6 @@
-# Ignore .env files
-.env
-# Ignore .dockerignore files
-.dockerignore
+./env
+./dockerignore
+./node_modules
+./images
+./Dockerfile
+./docker-compose.yml

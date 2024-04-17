@@ -49,7 +49,7 @@ import { Mailer } from "./EmailService.js";
 import { S3Service } from "./S3.js";
 
 const mailSend = new Mailer();
-const encrypt = new Encrypt()
+export const encrypt = new Encrypt()
 const s3Service = new S3Service()
 
 const planRepository = new PlanRepository()

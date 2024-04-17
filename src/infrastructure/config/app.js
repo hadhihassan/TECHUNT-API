@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import session from 'express-session';
 import path from 'path';
-import passport from 'passport';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
