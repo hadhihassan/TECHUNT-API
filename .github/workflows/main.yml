@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: hadhi/second-project:latest
+          tags: hadhi/second-project:1.5
       - name: SSH and deploy to AWS EC2
         uses: appleboy/ssh-action@master
         with:
@@ -30,6 +30,6 @@ jobs:
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
           script: |
-            docker pull hadhi/second-project:latest
+            docker pull hadhi/second-project:1.5
             docker-compose -f ./docker-compose.yml down
             docker-compose -f ./docker-compose.yml up -d
