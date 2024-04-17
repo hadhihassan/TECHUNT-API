@@ -18,11 +18,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: akoskm/my-image:latest
+          tags: hadhi/second-project:latest
       - name: SSH and deploy to AWS EC2
         uses: appleboy/ssh-action@master
         with:
@@ -31,6 +31,5 @@ jobs:
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
           script: |
             docker pull hadhi/second-project:latest
-            docker stop my-container
-            docker rm my-container
-            docker run -d --name my-container --env-file .env -p 3000:3000 hadhi/second-project:latest
+            docker-compose -f ./docker-compose.yml down
+            docker-compose -f ./docker-compose.yml up -d
