@@ -2,7 +2,7 @@ name: Deploy to Aws Ec2
 on:
   push:
     branches:
-      - "hosting"
+      - "production"
 
 jobs:
   deploy:
