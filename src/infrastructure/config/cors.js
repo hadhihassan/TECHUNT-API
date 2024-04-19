@@ -7,6 +7,7 @@ const corsOptions = {
     optionsSuccessStatus: 204,
 };
 
+
 const corsConfig = () => cors(corsOptions);
 
 export default corsConfig;
