@@ -14,7 +14,32 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "mongodb://mongo_db:27017/TECHUNT"
+      PORT: 3000
+      MONGO_DB_UERNAME: "siteUserAdmin"
+      MONGO_DB_PASSWORD: "password"
+      ATLES_PASSWORD: "KCv3WzklCckxhEB8"
+      DATABASE_URL: 'mongodb://127.0.0.1:27017/TECHUNT'
+      ATLAS_USERNMAE: "HADHI"
+      ATLAS_DATABASE_NAME: "DevCluster"
+      ATLAS_clusterUrl: "devcluster.u8o7ney.mongodb.net"
+      DATABASE_NAME: "TECHUNT"
+      BASE_URL: "https://techunt.vercel.app/"
+      HOST: smtp.gmail.com
+      SERVICE: gmail
+      EMAIL_PORT: 587
+      USER: 'timezoneweb@gmail.com'
+      PASS: 'tufb stzw ccwq qhmt'
+      JWT_SECRET_KEY: "a425ed3a4a9e1f3521eb92643988829a33aedd2bbe3061d3878789787374aec3"
+      GOOGLE_CLIENT_ID: "789696358541-g2m8o8ik8de7j8f662n3281rtbcec9uc.apps.googleusercontent.com"
+      GOOGLE_CLIENT_SECRET: "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"
+      CALLBACK_URL: "http://localhost:3000/auth/google/callback"
+      S3_AWS_ACCESS_KEY_ID: "AKIAQHXCGNF4ULPWUZ34"
+      S3_AWS_SECRET_KEY: "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"
+      AWS_S3_BUCKET_NAME: "techunt-s3"
+      STRIP_SECRET_KEY: "sk_test_51OoPKwSErGknJRsEF7aahmWAgwzqLq5ayHbMXVgeWmgsRkS9yX2WMOe4oksQkBfvMu5IIjcchgj2yUdZrAiAw1uy00iazWefF5"
+      CLIENT_ORIGIN: 'https://techunt.vercel.app/'
+      ADMIN_USER_NAME: "admin"
+      ADMIN_PASSWORD: "hadhi@2006"
     depends_on:
       - mongo_db
 volumes:

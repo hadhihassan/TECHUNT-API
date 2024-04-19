@@ -15,7 +15,7 @@ export class Mailer {
                 host: process.env.HOST,
                 service: process.env.SERVICE,
                 port: Number(process.env.EMAIL_PORT),
-                secure: Boolean(process.env.SECURE),
+                secure: Boolean(true),
                 auth: {
                     user: process.env.USER,
                     pass: process.env.PASS
