@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { ContractUseCase } from "../../useCases/contract.UseCase.js";
 import { MilestoneUseCase } from "../../useCases/milestone.UseCase.js";
 import { TransactionUseCase } from "../../useCases/transactionUseCase.js";
+import Reason from "../../entites/models/subSchema/reason.Schema.js";
+
 export class ContractController {
     constructor() {
         this.contractUseCase = new ContractUseCase()
@@ -82,7 +84,6 @@ export class ContractController {
     }
     async updateStatus(req, res) {
         const { contractId, status } = req.body;
-        console.log(contractId, status)
         const result = await this.contractUseCase.updateStatus(contractId, status)
         return res.status(result.status).json(result)
     }
@@ -100,5 +101,23 @@ export class ContractController {
         const result = await this.contractUseCase.getContract(objectId);
         return res.status(result.status).json(result);
     }
-
+    async reSheduleWork(req, res) {
+        const { reasonData, workId, isMilestone, milestoneId } = req.body;
+        const result = await this.contractUseCase.reSheduleWork(reasonData, workId, isMilestone, milestoneId)
+        return res.status(result.status).json(result);
+    }
+    async updateReasonUpdate(req, res) {
+        const { id, status } = req.body;
+        const data = await Reason.findByIdAndUpdate(id, {
+            $set: {
+                accept: status
+            }
+        })
+        return res.status(200).json(data)
+    }
+    async updateMilestone(req, res) {
+        const { id, data } = req.body;
+        const result = await this.milestoneUseCase.updateMilestone(id, data)
+        return res.status(result.status).json(result);
+    }
 }

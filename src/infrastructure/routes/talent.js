@@ -42,14 +42,14 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .get("/contract/get-submitted-work/:id/", checkToken, (req, res) => contractController.getWork(req, res))
     .post("/contract/update-status/", checkToken, (req, res) => contractController.updateStatus(req, res))
     .get("/contract/get-completed-contracts/", checkToken, (req, res) => contractController.getCompletedContract(req, res))
-
     .get("/contract/get-cancelled-contract/", checkToken, (req, res) => contractController.getCancelledContract(req, res))
+    .patch("/contract/reShedule/", checkToken, (req, res) => contractController.reSheduleWork(req, res))
+
 
     .get("/get-transaction-history/", checkToken, (req, res) => Tcontroller.getTalentTransactionHistory(req, res))
     .get("/plan/getAll/", checkToken, (req, res) => planControllers.getPlanForUsers(req, res))
     .post("/plan/purchase-plan/", checkToken, (req, res) => planControllers.purchasePlan(req, res))
     .post("/plan/plan/purchase-payment/", checkToken, (req, res) => planControllers.makePaymentForSubscrition(req, res))
-
     .post("/search/find-job/", (req, res) => jobPostControllers.findJobPost(req, res))
     .get("/get-wallet-amount/", checkToken, (req, res) => Tcontroller.getWalletAmount(req, res))
     .get("/contract/get-contract/:id/", checkToken, (req, res) => contractController.getContract(req, res))
@@ -57,8 +57,8 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     .delete("/profile/delete-education/:id", checkToken, (req, res) => Tcontroller.deleteEducation(req, res))
     .patch("/profile/edit-education/", checkToken, (req, res) => Tcontroller.editEducation(req, res))
     // Reviews
-    .post("/review/save-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
-    .get("/review/get-reviews/", checkToken, (req, res) => reviewController.getReviews(req, res))
+    .post("/review/add-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
+    .get("/review/get-review/:id", checkToken, (req, res) => reviewController.getReviews(req, res))
 
 
 export default talent_Routes;

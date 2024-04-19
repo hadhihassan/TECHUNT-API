@@ -17,7 +17,7 @@ export function get400Response (){
 export function get500Response(error) {
     return {
         status: STATUS_CODES.INTERNAL_SERVER_ERROR,
-        message: error.message,
+        message: error?.message,
         data: null
     };
 }

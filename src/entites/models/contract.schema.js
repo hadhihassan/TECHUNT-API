@@ -48,11 +48,23 @@ const contractSchema = new Schema({
         type: Boolean,
         default: false
     },
-    resheduleWork:{
+    isResheduleWork: {
         type: Boolean,
         default: false
     },
-    
+    resheduleReason: {
+        type: Schema.Types.ObjectId,
+        ref: "Reason"
+    },
+    TALENTreview:{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    },
+    CLIENTreview:{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    }
+
 }, { timestamps: true });
 const Contract = mongoose.model('Contract', contractSchema);
 export default Contract;

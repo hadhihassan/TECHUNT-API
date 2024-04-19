@@ -131,4 +131,23 @@ export class MilestoneUseCase {
             get500Response(err)
         }
     }
+    async updateMilestone(id, data) {
+        try {
+            const result = await this.milestoneRepository.findAndUpdate(id, data)
+            if(result){
+                return{
+                    message : "success",
+                    status : STATUS_CODES.OK,
+                    success : true,
+                    data:result
+                }
+            }return{
+                message : "failed",
+                status : STATUS_CODES.BAD_REQUEST,
+                success : false
+            }
+        } catch (err) {
+            get500Response(err)
+        }
+    }
 }

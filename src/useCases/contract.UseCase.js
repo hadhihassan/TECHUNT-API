@@ -4,12 +4,16 @@ import { ContractRepository } from "../infrastructure/repository/contractDatabas
 import { StripPayment } from '../providers/paymentService.js'
 import { TalentRepository } from '../infrastructure/repository/talentDatabase.js'
 import { MilestoneRepository } from '../infrastructure/repository/milestoneDatabase.js'
+import { ReasonResitory } from '../infrastructure/repository/reasonDatabase.js'
+
+
 export class ContractUseCase {
     constructor() {
         this.contractRepository = new ContractRepository()
         this.stripPayment = new StripPayment()
         this.talentRepository = new TalentRepository()
         this.milestoneRepository = new MilestoneRepository()
+        this.reasonResitory = new ReasonResitory()
     }
 
     async storeContract(contractDetails, milestoneId, isMilestone) {
@@ -212,6 +216,13 @@ export class ContractUseCase {
             }
         } catch (err) {
             console.log(err)
+        }
+    }
+    async saveToContract(workId, reviewId, role) {
+        try {
+            return await this.contractRepository.saveReview(workId, reviewId, role)
+        } catch (err) {
+            consnole.log(err)
         }
     }
 }

@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: akoskm/my-image:latest
+          tags: hadhi/my-image:latest
       - name: SSH and deploy to AWS EC2
         uses: appleboy/ssh-action@master
         with:

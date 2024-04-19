@@ -38,15 +38,23 @@ const milestoneSchema = new Schema({
         type: Boolean,
         default: false
     },
-    work:{
-        type : Schema.Types.ObjectId,
+    work: {
+        type: Schema.Types.ObjectId,
         ref: 'Work'
     },
-    payment:{
+    payment: {
         type: String,
         enum: ["Pending", "failed", "Completed"],
         default: "Pending"
-    }
+    },
+    isResheduleMilestone: {
+        type: Boolean,
+        default: false
+    },
+    resheduleReason: {
+        type: Schema.Types.ObjectId,
+        ref: "Reason"
+    },
 }, { timestamps: true });
 
 const Milestone = mongoose.model('Milestone', milestoneSchema);

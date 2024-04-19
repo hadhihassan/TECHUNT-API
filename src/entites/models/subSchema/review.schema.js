@@ -4,13 +4,9 @@ const { Schema } = mongoose;
 const ReviewModel = new Schema({
     to: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
     },
     from: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
     },
     rating: {
         type: Number,

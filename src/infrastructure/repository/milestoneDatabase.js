@@ -1,13 +1,13 @@
+import Contract from "../../entites/models/contract.schema.js"
 import Milestone from "../../entites/models/subSchema/milestone.schema.js"
 import Work from '../../entites/models/subSchema/work.schema.js'
-    
+
 export class MilestoneRepository {
 
     async createMilestone(milestone) {
         return await Milestone.create(milestone)
     }
     async sendMilesApproval(id, approval) {
-        console.log(id, approval)
         return await Milestone.findByIdAndUpdate(id, {
             $set: { approval }
         });
@@ -25,7 +25,6 @@ export class MilestoneRepository {
     async saveWork(id, data) {
         const saveWork = await Work.create(data)
         if (saveWork) {
-            console.log(saveWork, "here to submit the  work")
             return await Milestone.findByIdAndUpdate(id, {
                 $set: { work: saveWork._id }
             })
@@ -39,5 +38,8 @@ export class MilestoneRepository {
     }
     async updatePaymentUpdate(id) {
         return await Milestone.findByIdAndUpdate(id, { $set: { payed: true } }, { new: true })
+    }
+    async findAndUpdate(id, data) {
+        return await Milestone.findByIdAndUpdate(id, data, { new: true })
     }
 }

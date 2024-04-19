@@ -51,8 +51,10 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .get("/get-wallet-amount/", checkToken, (req, res) => Ccontroller.getWalletAmount(req, res))
     .get("/contract/get-contract/:id/", checkToken, (req, res) => contractController.getContract(req, res))
     // Reviews
-    .post("/review/save-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
-    .get("/review/get-reviews/", checkToken, (req, res) => reviewController.getReviews(req, res))
+    .post("/review/add-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
+    .get("/review/get-review/:id", checkToken, (req, res) => reviewController.getReviews(req, res))
+    .patch("/contrat/update-reason-status/", checkToken, (req, res) => contractController.updateReasonUpdate(req, res))
+    .patch("/contrat/milestone/update//", checkToken, (req, res) => contractController.updateMilestone(req, res))
 
 
 export default client_Routes;

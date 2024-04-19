@@ -48,6 +48,31 @@ export class ContractRepository {
         return await Contract.find(query).populate(["client", "talent", "work", "milestones"]);
     }
     async findContracts(id) {
-        return await Contract.findById(id).populate(["client", "talent", "work", "milestones"]);
+        return await Contract.findById(id).populate({
+            path: "milestones",
+            populate: { path: "resheduleReason" }
+        }).populate(["client", "talent", "work"]);
+    }
+    async reShedule(data, milestoneId, reasonId) {
+        try {
+            return await Contract.findByIdAndUpdate(
+                milestoneId,
+                { $set: { dueDate: data.nextDeadline, isResheduleMilestone: true, resheduleReason: reasonId } },
+                { new: true }
+            )
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    async saveReview(workId, reviewId, role) {
+        try {
+            const fieldName = role === 'TALENT' ? 'TALENTreview' : 'CLIENTreview';
+            return await Contract.findByIdAndUpdate(
+                workId,
+                { $set: { [fieldName]: reviewId } }
+            );
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 }
