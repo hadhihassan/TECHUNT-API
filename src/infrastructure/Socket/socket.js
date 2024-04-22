@@ -40,7 +40,6 @@ const initializeSocket = (server) => {
                 console.log('Error saving notification:', error.message)
             }
         })
-        // save the subscribed users
         socket.on('newJobPost', async (jobPost) => {
             const { userData, formData } = jobPost;
             let user;
@@ -89,5 +88,4 @@ const initializeSocket = (server) => {
         })
     })
 };
-
 export { initializeSocket, userSocketMap, io };
