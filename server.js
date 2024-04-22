@@ -1,4 +1,3 @@
-// server.js
 import http from 'http';
 import createServer from './src/infrastructure/config/app.js';
 import dbConnect from './src/infrastructure/config/db.js';

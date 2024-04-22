@@ -19,6 +19,7 @@ const seedAdmin = async () => {
             }
             const hashedPassword = await encrypt.encryptPassword(password);
             await adminRepository.createNewAdmin(username, hashedPassword);
+            console.log("admin created ")
         }
     } catch (error) {
         console.log("Error seeding admin:", error)
