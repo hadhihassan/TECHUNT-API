@@ -18,7 +18,7 @@ services:
       MONGO_DB_UERNAME: "siteUserAdmin"
       MONGO_DB_PASSWORD: "password"
       ATLES_PASSWORD: "KCv3WzklCckxhEB8"
-      DATABASE_URL: 'mongodb://127.0.0.1:27017/TECHUNT'
+      DATABASE_URL: 'mongodb://mongo_db:27017/TECHUNT'
       ATLAS_USERNMAE: "HADHI"
       ATLAS_DATABASE_NAME: "DevCluster"
       ATLAS_clusterUrl: "devcluster.u8o7ney.mongodb.net"
