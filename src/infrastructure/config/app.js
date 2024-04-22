@@ -6,12 +6,13 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import cors from 'cors'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import '../config/googleAuth2.js'
-import corsConfig from './cors.js';
+// import corsConfig from './cors.js';
 
 import verification from '../routes/verification.js';
 import admin_Router from '../routes/admin.js';
@@ -22,11 +23,26 @@ import talent_Routes from '../routes/talent.js';
 const createServer = () => {
   const app = express();
   // app.use(morgan())
+  app.use(
+    cors({
+      origin: process.env.CLIENT_ORIGIN,
+      methods: ["POST", "GET", "DELETE", "PATCH"],
+      credentials: true,
+    })
+  );
+
+  app.options(
+    "*",
+    cors({
+      origin: process.env.CLIENT_ORIGIN,
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
   app.use(cookieParser());
-  app.use(corsConfig());
+  // app.use(corsConfig());
   app.use(
     session({
       secret: 'your_secret_key',
