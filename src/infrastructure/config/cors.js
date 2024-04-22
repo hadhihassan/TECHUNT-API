@@ -6,8 +6,6 @@ const corsOptions = {
     credentials: true,
     optionsSuccessStatus: 204,
 };
-
-
 const corsConfig = () => cors(corsOptions);
 
 export default corsConfig;
