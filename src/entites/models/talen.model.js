@@ -36,5 +36,4 @@ const TalentSchema = new Schema({
 TalentSchema.add(ResumeSchema);
 
 const Talent = mongoose.model('Talent', TalentSchema);
-
 export default Talent;

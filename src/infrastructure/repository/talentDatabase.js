@@ -301,7 +301,7 @@ export class TalentRepository {
             throw error;
         }
     }
-    async updateBankDetail(id, data) {
+    async updateBankDetail( data) {
         try {
             const updatedBankAccount = await BankAccount.findByIdAndUpdate(data._id, {
                 $set: data

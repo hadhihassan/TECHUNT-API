@@ -15,7 +15,6 @@ export class ContractUseCase {
         this.milestoneRepository = new MilestoneRepository()
         this.reasonResitory = new ReasonResitory()
     }
-
     async storeContract(contractDetails, milestoneId, isMilestone) {
         try {
             const result = await this.contractRepository.createContract(contractDetails, milestoneId, isMilestone)

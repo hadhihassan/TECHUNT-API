@@ -54,7 +54,8 @@ client_Routes.post("/signup/", (req, res) => Ccontroller.verifyEmail(req, res))
     .post("/review/add-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
     .get("/review/get-review/:id", checkToken, (req, res) => reviewController.getReviews(req, res))
     .patch("/contrat/update-reason-status/", checkToken, (req, res) => contractController.updateReasonUpdate(req, res))
-    .patch("/contrat/milestone/update//", checkToken, (req, res) => contractController.updateMilestone(req, res))
+    .patch("/contrat/milestone/update/", checkToken, (req, res) => contractController.updateMilestone(req, res))
+    .post("/educations/get-educations", checkToken, (req, res) => Ccontroller.getEducations(req, res))
 
 
 export default client_Routes;

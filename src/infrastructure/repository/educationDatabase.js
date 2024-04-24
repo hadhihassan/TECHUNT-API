@@ -12,4 +12,19 @@ export class EducationRepository {
             console.log(err)
         }
     }
+    async findEducations(ids) {
+        try {
+            const educations = [];
+            for (const id of ids) {
+                const education = await Education.findById(id);
+                if (education) {
+                    educations.push(education);
+                }
+            }
+            console.log(educations)
+            return educations;
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }

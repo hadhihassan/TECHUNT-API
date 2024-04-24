@@ -5,7 +5,6 @@ import { STATUS_CODES } from "../../constants/httpStatusCode.js";
 import BankAccount from "../../entites/models/subSchema/bankDetails.js";
 
 export class ClientRepository {
-
     async findByEmail(email) {
         const user = await client.findOne({ Email: email });
         if (user === null) {
@@ -176,15 +175,9 @@ export class ClientRepository {
         );
     }
     async updateUserState(id, state) {
-        return await client.findByIdAndUpdate(id, {
-            $set: { online: state }
-        })
-    }
-    async updateBankDetail(id, data) {
-        const getClient = await this.findById(id)
-        return await BankAccount.findByIdAndUpdate(getClient.bankDetails._id, {
-            data
-        });
+        return await BankAccount.findByIdAndUpdate(state._id, {
+            $set: state
+        }, { new: true });
     }
     async findWalletAmount(id) {
         try {
@@ -204,9 +197,9 @@ export class ClientRepository {
     }
     async updatedNewPassword(email, password) {
         return await client.findOneAndUpdate(
-            { Email: email }, 
+            { Email: email },
             { $set: { Password: password } },
-            { new: true } 
+            { new: true }
         );
     }
 }

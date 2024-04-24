@@ -103,7 +103,7 @@ export class ContractController {
     }
     async reSheduleWork(req, res) {
         const { reasonData, workId, isMilestone, milestoneId } = req.body;
-        const result = await this.contractUseCase.reSheduleWork(reasonData, workId, isMilestone, milestoneId)
+        const result = await this.milestoneUseCase.updateMilestone(reasonData, workId, isMilestone, milestoneId)
         return res.status(result.status).json(result);
     }
     async updateReasonUpdate(req, res) {

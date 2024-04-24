@@ -36,7 +36,6 @@ export class ProposalController {
         const id = req.body.id
         const talentId = req.clientId
         const result = await this.proposalUseCase.callPayment(talentId, id)
-        console.log("===============",result)
         return res.status(result.status).json(result)
     }
     async updatePaymentStatus(req, res) {

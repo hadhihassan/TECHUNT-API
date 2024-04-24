@@ -6,7 +6,14 @@ export class ProposalRepository {
         return await newProposal.save()
     }
     async findManyProposals(id) {
-        return await proposal.find({ Client_id: id }).populate(["jobId", "talentId"]).exec();
+        try {
+            return await proposal.find({ Client_id: id }).populate([
+                { path: "jobId" },
+                { path: "talentId", populate: { path: "educations" } }
+            ]).exec();
+        } catch (err) {
+            console.log(err)
+        }
     }
     async upadteAccept(id) {
         return await proposal.findByIdAndUpdate(id, {
@@ -19,13 +26,16 @@ export class ProposalRepository {
         }, { new: true })
     }
     async updatePaymentStatus(status, id) {
-            const idString = id.path.replace(/"/g, ''); 
-            const _id = new mongoose.Types.ObjectId(idString);
-            return await proposal.findByIdAndUpdate(_id,{
-                paymentStatus : status
-            } );
+        const idString = id.path.replace(/"/g, '');
+        const _id = new mongoose.Types.ObjectId(idString);
+        return await proposal.findByIdAndUpdate(_id, {
+            paymentStatus: status
+        });
     }
     async getAllConnectedTalents(id) {
-        return await proposal.find({ isAccept: true, Client_id: id }).populate(["jobId", "talentId"]).exec()
+        return await proposal.find({ isAccept: true, Client_id: id }).populate([
+            { path: "jobId" },
+            { path: "talentId", populate: { path: "educations" } }
+        ]).exec()
     }
 }

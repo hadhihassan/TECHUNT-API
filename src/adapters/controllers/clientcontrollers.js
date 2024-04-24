@@ -4,6 +4,7 @@ import { Encrypt } from '../../providers/bcryptPassword.js';
 import { JobPostUseCase } from '../../useCases/jobPost.UseCase.js';
 import { TalentUseCase } from '../../useCases/talent.UseCase.js';
 
+
 export class ClientController {
     constructor(clientUseCase, encrypt) {
         this.clientUseCase = new ClientUseCase();
@@ -13,7 +14,6 @@ export class ClientController {
     }
     async verifyEmail(req, res) {
         try {
-            const { type } = req.body
             const { email } = req.body
             const { password } = req.body
             const isExist = await this.clientUseCase.isEmailExist(email);
@@ -92,10 +92,8 @@ export class ClientController {
     async senInvitation(req, res) {
         try {
             const { WorkId, talentId } = req.body
-            console.log(req.body," the body")
             const getSender = await this.clientUseCase.getProfilelData(req.clientId)
             const getReceiver = await this.talentUseCase.getProfilelData(talentId)
-            console.log(getSender, getReceiver, WorkId[0])
             const result = await this.clientUseCase.sendInvitation(getSender, getReceiver, WorkId[0])
             return res.status(result.status).json(result)
         } catch (err) {
@@ -105,5 +103,11 @@ export class ClientController {
     async getWalletAmount(req, res) {
         const getResult = await this.clientUseCase.getWalletAmount(req.clientId)
         return res.status(getResult.status).json(getResult);
+    }
+    async getEducations(req, res) {
+        const { educations } = req.body;
+        console.log(req.body,"cotroller reached")
+        const result = await this.talentUseCase.getEducations(educations)
+        return res.status(result.status).json(result)
     }
 } 

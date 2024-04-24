@@ -42,7 +42,7 @@ export class StripPayment {
                     payment_method_types: ["card"],
                     line_items: lineItems,
                     mode: "payment",
-                    success_url: `http://localhost:5173/payment-success/${id}`,
+                    success_url: `http://localhost:5173/payment-success/${id}z`,
                     cancel_url: "http://localhost:5173/",
                     customer: customerId
                 });

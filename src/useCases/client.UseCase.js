@@ -188,6 +188,5 @@ export class ClientUseCase {
             get500Response(err)
         }
     }
-
 }
 

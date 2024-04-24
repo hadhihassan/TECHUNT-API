@@ -4,6 +4,8 @@ import { TalentUseCase } from "../../useCases/talent.UseCase.js";
 import { ClientUseCase } from "../../useCases/client.UseCase.js";
 import { JobPostUseCase } from "../../useCases/jobPost.UseCase.js";
 import { EducationUseCase } from "../../useCases/education.UseCase.js";
+import talent from "../../entites/models/talen.model.js";
+
 export class TalentController {
     constructor() {
         this.talentUseCase = new TalentUseCase();
@@ -143,5 +145,10 @@ export class TalentController {
         const { id, data } = req.body;
         const editData = await this.educationUseCase.editEducation(id, data)
         return res.status(editData.status).json(editData);
+    }
+    async getDataForTalent(req, res) {
+        const { id } = req.params
+        const talentData =  await talent.findById(id).populate(["subscription", "bankDetails", "Wallet", "educations"])
+        return res.status(200).json(talentData)
     }
 }

@@ -59,6 +59,9 @@ talent_Routes.post("/signup/", (req, res) => Tcontroller.verifyEmail(req, res))
     // Reviews
     .post("/review/add-review/", checkToken, (req, res) => reviewController.saveNewReview(req, res))
     .get("/review/get-review/:id", checkToken, (req, res) => reviewController.getReviews(req, res))
+    .get("/get-all-talent-data/:id", (req, res) => Tcontroller.getDataForTalent(req, res))
+
+    .get("/educations/get-educations", (req, res) => Tcontroller.getEducations(req, res))
 
 
 export default talent_Routes;

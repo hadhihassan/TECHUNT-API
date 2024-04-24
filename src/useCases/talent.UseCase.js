@@ -5,11 +5,13 @@ import { Encrypt } from '../providers/bcryptPassword.js';
 import { JwtToken } from '../providers/jwtToken.js';
 import { TransactionRepository } from '../infrastructure/repository/transactionDatabase.js'
 import { get500Response, get200Response, get400Response } from '../infrastructure/helperFunctions/response.js';
+import { EducationRepository } from '../infrastructure/repository/educationDatabase.js';
 
 export class TalentUseCase {
     constructor() {
         this.talentRepository = new TalentRepository();
         this.transactionRepository = new TransactionRepository();
+        this.educationRepository = new EducationRepository();
         this.mailer = new Mailer();
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypt()
@@ -196,6 +198,17 @@ export class TalentUseCase {
     async deleteEducation(id, talentId) {
         try {
             const result = await this.talentRepository.deleteEducation(id, talentId)
+            if (result) {
+                return get200Response(result)
+            }
+            return get400Response()
+        } catch (err) {
+            get500Response(err)
+        }
+    }
+    async getEducations(educationsId) {
+        try {
+            const result = await this.educationRepository.findEducations(educationsId)
             if (result) {
                 return get200Response(result)
             }

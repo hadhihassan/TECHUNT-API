@@ -11,29 +11,28 @@ import forgetPasswordTemplate from '../infrastructure/templates/mail/forgetPassw
 export class VerificationUseCase {
     constructor() {
         this.talentRepository = new TalentRepository();
-        this.clientRepository = new ClientRepository();// Assuming UserRepository is a class that needs to be instantiated
+        this.clientRepository = new ClientRepository();
         this.otpRepository = new OtpRepository()
         this.jwtToken = new JwtToken();
         this.encrypt = new Encrypt()
         this.mailer = new Mailer()
     }
     async verifyLogin(email, password) {
-        console.log("data base reached", email,password)
+
         try {
             const talentData = await this.talentRepository.findByEmail(email);
             if (talentData.status) {
                 return this.authenticateUser(talentData, password, 'TALENT',);
             }
-            console.log(talentData)
             const clientData = await this.clientRepository.findByEmail(email);
             if (clientData.status) {
                 return this.authenticateUser(clientData, password, 'CLIENT',);
             }
             return {
                 status: STATUS_CODES.UNAUTHORIZED,
-                message: "Invalid email or password.",
+                message: "Invalid email sigup you account.",
                 data: null
-            };
+            }
         } catch (error) {
             get500Response(error)
         }
@@ -118,7 +117,6 @@ export class VerificationUseCase {
                 success: true
             };
         } catch (error) {
-            console.error("Error updating number verification status:", error.message);
             get500Response(error);
         }
     }
@@ -149,7 +147,7 @@ export class VerificationUseCase {
         try {
             let result
             if (role === "CLIENT") {
-                result = await this.clientRepository.updateBankDetail(userId, data);
+                result = await this.clientRepository.updateUserState(userId, data);
             } else if (role === "TALENT") {
                 result = await this.talentRepository.updateBankDetail(userId, data);
             }
@@ -168,7 +166,7 @@ export class VerificationUseCase {
                 if (isValid) {
                     const newOtp = await this.otpRepository.createNewOtp(email)
                     if (newOtp) {
-                        const sendEmail = await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isTalent.data.First_name, newOtp.otpValue))
+                        await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isTalent.data.First_name, newOtp.otpValue))
                         return {
                             status: STATUS_CODES.OK,
                             message: "Otp sended your email .",
@@ -184,7 +182,7 @@ export class VerificationUseCase {
                     if (isValid) {
                         const newOtp = await this.otpRepository.createNewOtp(email)
                         if (newOtp) {
-                            const sendEmail = await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isClient.data.First_name, newOtp.otpValue))
+                            await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isClient.data.First_name, newOtp.otpValue))
                             return {
                                 status: STATUS_CODES.OK,
                                 message: "Otp sended your email .",
@@ -197,7 +195,6 @@ export class VerificationUseCase {
             }
             return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note existing." }
         } catch (error) {
-            console.log(error.message)
             get500Response(error)
         }
     }
@@ -260,8 +257,9 @@ export class VerificationUseCase {
                 success: false
             };
         } catch (err) {
-            get500Response
+            console.log(err)
+            get500Response(err)
         }
     }
-    
+
 }
