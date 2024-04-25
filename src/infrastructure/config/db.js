@@ -1,19 +1,17 @@
 import mongoose from "mongoose"
-const URL = process.env.DATABASE_URL;
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    user: process.env.MONGO_DB_UERNAME,
-    pass: process.env.MONGO_DB_PASSWORD
-}
+
 const connectDb = async () => {
     try {
-        mongoose
-            .connect(URL)
-            .then(() => console.log('DATABASE CONNECTED'))
-            .catch(error => console.error('Error connecting to the database:', error));
+        const uri = `mongodb+srv://${process.env.ATLAS_USERNMAE}:${process.env.ATLES_PASSWORD}@${process.env.ATLAS_clusterUrl}/?retryWrites=true&w=majority`;
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        };
+
+        await mongoose.connect(uri, options);
+        console.log('DATABASE CONNECTED');
     } catch (error) {
-        console.error("Error in database connection", error);
+        console.error('Error connecting to the database:', error);
     }
 };
 
