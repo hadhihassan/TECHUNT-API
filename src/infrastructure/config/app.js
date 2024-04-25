@@ -30,7 +30,7 @@ const createServer = () => {
   app.use(morgan());
   const corsOptions = {
     origin: 'https://techunt.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], 
   };
 
   app.use(cors(corsOptions));
