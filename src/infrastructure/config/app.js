@@ -1,11 +1,12 @@
 import express from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
 import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import morgan from 'morgan';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,21 +27,13 @@ const createServer = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
   app.use(cookieParser());
-  app.use(
-    cors({
-      origin: process.env.CLIENT_ORIGIN,
-      methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-      credentials: true,
-    })
-  );
+  app.use(morgan());
+  const corsOptions = {
+    origin: 'https://techunt.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  };
 
-  app.options(
-    "*",
-    cors({
-      origin: process.env.CLIENT_ORIGIN,
-      credentials: true,
-    })
-  );
+  app.use(cors(corsOptions));
   app.use(
     session({
       secret: 'your_secret_key',
