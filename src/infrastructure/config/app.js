@@ -22,18 +22,26 @@ import talent_Routes from '../routes/talent.js';
 
 const createServer = () => {
   const app = express();
+  app.use(
+    cors({
+      origin: process.env.CLIENT_ORIGIN,
+      methods: ["POST", "GET", "DELETE", "PATCH", "PATCH"],
+      credentials: true,
+    })
+  );
 
+  app.options(
+    "*",
+    cors({
+      origin: process.env.CLIENT_ORIGIN,
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
   app.use(cookieParser());
   app.use(morgan());
-  const corsOptions = {
-    origin: 'https://techunt.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], 
-  };
-
-  app.use(cors(corsOptions));
   app.use(
     session({
       secret: 'your_secret_key',
