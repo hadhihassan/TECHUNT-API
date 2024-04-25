@@ -62,7 +62,7 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/second-project:1.1.0
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/second-project:1.1.1
 
       - name: Build and push Nginx
         uses: docker/build-push-action@v3
@@ -70,4 +70,4 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/second-project:1.1.0
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/second-project:1.1.1
