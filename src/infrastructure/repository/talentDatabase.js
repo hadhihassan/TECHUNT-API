@@ -46,7 +46,7 @@ export class TalentRepository {
     }
     async addConatctDeatils(formData, id) {
         try {
-            const wallet = await this.Wallet.create()
+            const wallet = await Wallet.create()
             const objectId = new mongoose.Types.ObjectId(id);
             return await talent.findByIdAndUpdate(objectId, {
                 Last_name: formData.lName,

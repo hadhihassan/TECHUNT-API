@@ -15,8 +15,9 @@ export default function getProfileProggressBarPercentage(talent, role) {
         if (talent.Country) filledFields++;
         if (talent.bankDetails) filledFields++;
         if (talent.isNumberVerify) filledFields++;
+        if (talent.educations) filledFields++;
         const progress = (filledFields / totalFields) * 100;
-        return totalFields === 12 ? 100 : progress;
+        return filledFields === 13 ? 100 : progress;
     } else {
         const totalFields = 8;
         let filledFields = 0;
@@ -29,6 +30,6 @@ export default function getProfileProggressBarPercentage(talent, role) {
         if (talent.bankDetails) filledFields++;
         if (talent.isNumberVerify) filledFields++;
         const progress = (filledFields / totalFields) * 100;
-        return totalFields === 8 ? 100 : progress;
+        return filledFields === 8 ? 100 : progress;
     }
 }

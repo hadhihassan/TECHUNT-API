@@ -11,6 +11,7 @@ export class VerificationController {
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
             const progress =  getProfileProggressBarPercentage(result?.data, result?.role)
+            console.log(progress)
             result.progress = progress;
             return res.status(result.status).json(result)
         } catch (error) {

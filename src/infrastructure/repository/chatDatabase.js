@@ -114,7 +114,6 @@ export class ChatRepository {
             { participants: { $in: [userId] } },
             { $pull: { isInConversation: userId } }
         );
-        console.log(result, "this is the operation to remove the chat conversation ")
         return result
     }
 } 

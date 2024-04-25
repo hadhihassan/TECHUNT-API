@@ -1,4 +1,5 @@
 import Contract from "../../entites/models/contract.schema.js";
+import Milestone from "../../entites/models/subSchema/milestone.schema.js";
 
 export class ContractRepository {
 
@@ -55,7 +56,7 @@ export class ContractRepository {
     }
     async reShedule(data, milestoneId, reasonId) {
         try {
-            return await Contract.findByIdAndUpdate(
+            return await Milestone.findByIdAndUpdate(
                 milestoneId,
                 { $set: { dueDate: data.nextDeadline, isResheduleMilestone: true, resheduleReason: reasonId } },
                 { new: true }

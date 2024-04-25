@@ -76,7 +76,6 @@ export class MilestoneUseCase {
     }
     async saveWork(id, data) {
         try {
-            console.log(id, data)
             const result = await this.milestoneRepository.saveWork(id, data)
             if (result) {
                 return {

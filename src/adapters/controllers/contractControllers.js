@@ -3,12 +3,16 @@ import { ContractUseCase } from "../../useCases/contract.UseCase.js";
 import { MilestoneUseCase } from "../../useCases/milestone.UseCase.js";
 import { TransactionUseCase } from "../../useCases/transactionUseCase.js";
 import Reason from "../../entites/models/subSchema/reason.Schema.js";
+import { ContractRepository } from "../../infrastructure/repository/contractDatabase.js";
+import { ReasonResitory } from "../../infrastructure/repository/reasonDatabase.js";
 
 export class ContractController {
     constructor() {
         this.contractUseCase = new ContractUseCase()
+        this.contractRepository = new ContractRepository()
         this.milestoneUseCase = new MilestoneUseCase()
         this.transactionUseCase = new TransactionUseCase()
+        this.reasonResitory = new ReasonResitory()
     }
     async saveNewContract(req, res) {
         const { contract, milestone, isMilestone } = req.body;
@@ -102,9 +106,16 @@ export class ContractController {
         return res.status(result.status).json(result);
     }
     async reSheduleWork(req, res) {
-        const { reasonData, workId, isMilestone, milestoneId } = req.body;
-        const result = await this.milestoneUseCase.updateMilestone(reasonData, workId, isMilestone, milestoneId)
-        return res.status(result.status).json(result);
+        try {
+            const { reasonData, workId, isMilestone, milestoneId } = req.body;
+            console.log(req.body)
+            const reason = await this.reasonResitory.saveReason(reasonData)
+            const result = await this.contractRepository.reShedule(reasonData, milestoneId, reason._id)
+            console.log(result)
+            return res.status(200).json(result);
+        } catch (err) {
+            console.log(err)
+        }
     }
     async updateReasonUpdate(req, res) {
         const { id, status } = req.body;

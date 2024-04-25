@@ -39,7 +39,6 @@ export class ChatController {
     }
     async removeFromChat(req, res) {
         const senderId = req.clientId;
-        console.log("here")
         const result = await this.chatRepository.removeUserFormConversation(senderId)
         return res.status(200)
     }

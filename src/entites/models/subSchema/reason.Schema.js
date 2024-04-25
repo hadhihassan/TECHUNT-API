@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const ReasonSchema = new Schema({
     newDeadline: {
-        type: Date,
+        type: Number,
         required: true
     },
     reason: {

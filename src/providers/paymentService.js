@@ -33,8 +33,8 @@ export class StripPayment {
                     payment_method_types: ["card"],
                     line_items: lineItems,
                     mode: "payment",
-                    success_url: `http://localhost:5173/payment-success/s23432`,
-                    cancel_url: "http://localhost:5173/",
+                    success_url: `https://techunt.vercel.app/payment-success/s23432`,
+                    cancel_url: "https://techunt.vercel.app/",
                     customer: customerId
                 });
             } else {
@@ -42,8 +42,8 @@ export class StripPayment {
                     payment_method_types: ["card"],
                     line_items: lineItems,
                     mode: "payment",
-                    success_url: `http://localhost:5173/payment-success/${id}z`,
-                    cancel_url: "http://localhost:5173/",
+                    success_url: `https://techunt.vercel.app/payment-success/${id}z`,
+                    cancel_url: "https://techunt.vercel.app/",
                     customer: customerId
                 });
             }
@@ -63,8 +63,8 @@ export class StripPayment {
                 payment_method_types: ["card"],
                 line_items: lineItems,
                 mode: "payment",
-                success_url: `http://localhost:5173/payment-success/success`,
-                cancel_url: "http://localhost:5173/plan",
+                success_url: `https://techunt.vercel.app/payment-success/success`,
+                cancel_url: "https://techunt.vercel.app/plan",
                 customer: customerId
             });
             if (session) {

@@ -4,7 +4,7 @@ import notificaitonModel from '../../entites/models/subSchema/notification.schem
 const initializeSocket = (server) => {
     const io = new socket(server, {
         cors: {
-            origin: 'http://localhost:5173'
+            origin: 'https://techunt.vercel.app'
         }
     });
 
