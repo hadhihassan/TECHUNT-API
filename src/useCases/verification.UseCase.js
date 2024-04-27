@@ -7,6 +7,7 @@ import { get500Response, get200Response } from '../infrastructure/helperFunction
 import { OtpRepository } from '../infrastructure/repository/otpDatabase.js';
 import { Mailer } from '../providers/EmailService.js';
 import forgetPasswordTemplate from '../infrastructure/templates/mail/forgetPasswordEmail.js';
+import getProfileProggressBarPercentage from '../infrastructure/helperFunctions/calculateProfileCompletion.js';
 
 export class VerificationUseCase {
     constructor() {
@@ -18,7 +19,6 @@ export class VerificationUseCase {
         this.mailer = new Mailer()
     }
     async verifyLogin(email, password) {
-
         try {
             const talentData = await this.talentRepository.findByEmail(email);
             if (talentData.status) {
@@ -151,10 +151,8 @@ export class VerificationUseCase {
             } else if (role === "TALENT") {
                 result = await this.talentRepository.updateBankDetail(userId, data);
             }
-            console.log(result)
             return get200Response(result)
         } catch (err) {
-            console.log(err)
             return get500Response
         }
     }
@@ -259,6 +257,21 @@ export class VerificationUseCase {
         } catch (err) {
             console.log(err)
             get500Response(err)
+        }
+    }
+    async calculate(userId, role) {
+        try {
+            let result
+            if (role === "CLIENT") {
+                result = await this.clientRepository.findById(userId);
+            } else if (role === "TALENT") {
+                result = await this.talentRepository.findById(userId);
+            }
+            const progress = getProfileProggressBarPercentage(result, role)
+            return get200Response(progress)
+        } catch (err) {
+            console.log(err)
+            return get500Response
         }
     }
 

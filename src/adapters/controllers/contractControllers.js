@@ -60,7 +60,6 @@ export class ContractController {
     }
     async saveWork(req, res) {
         const { id, data } = req.body
-        console.log(req.body, " this is the data")
         const result = await this.milestoneUseCase.saveWork(id, data)
         return res.status(result.status).json(result)
     }
@@ -108,10 +107,8 @@ export class ContractController {
     async reSheduleWork(req, res) {
         try {
             const { reasonData, workId, isMilestone, milestoneId } = req.body;
-            console.log(req.body)
             const reason = await this.reasonResitory.saveReason(reasonData)
             const result = await this.contractRepository.reShedule(reasonData, milestoneId, reason._id)
-            console.log(result)
             return res.status(200).json(result);
         } catch (err) {
             console.log(err)

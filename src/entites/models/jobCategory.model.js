@@ -13,10 +13,10 @@ const JobCategorySchema = new Schema({
         minlength: 10,
         maxlength: 100,
     },
-    image: {
-        type: String, 
-        required: true
-    },
+    // image: {
+    //     type: String, 
+    //     required: true
+    // },
     workingBelow: {
         type: Number, 
         default: 0

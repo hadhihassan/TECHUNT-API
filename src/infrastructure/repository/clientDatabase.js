@@ -50,13 +50,13 @@ export class ClientRepository {
                 City: formData.city,
                 Number: formData.number,
                 Country: formData.country,
-                'Profile.Description': formData.description
+                'Profile.Description': formData.description,
+                'Profile.profile_Dp': formData.photo
             },
                 { new: true }
             )
         } catch (error) {
             console.log(error.message);
-            // throw new error.message
         }
     }
     async saveProfilePic(fileName, id) {
@@ -77,7 +77,8 @@ export class ClientRepository {
                 "Profile.Title": data.title,
                 "Last_name": data.last_name,
                 "First_name": data.first_name,
-            })
+                'Profile.profile_Dp': data.photo
+            }, { new: true })
             if (result) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,

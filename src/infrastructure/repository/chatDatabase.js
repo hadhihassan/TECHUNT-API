@@ -63,11 +63,10 @@ export class ChatRepository {
             if (!conversation.isInConversation.includes(senderId)) {
                 await Conversation.updateMany({ isInConversation: senderId }, { $pull: { isInConversation: senderId } })
                 const updatedConversation = await Conversation.findOneAndUpdate(
-                    { participants: { $all: [senderId, userToChatId] } }, // Use $all to match documents where both senderId and userToChatId are present
-                    { $addToSet: { isInConversation: senderId } }, // Add senderId to isInConversation array if it's not already there
-                    { new: true } // Return the updated document
+                    { participants: { $all: [senderId, userToChatId] } }, 
+                    { $addToSet: { isInConversation: senderId } }, 
+                    { new: true } 
                 );
-
                 await conversation.save()
             }
             return conversation.messages

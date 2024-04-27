@@ -16,7 +16,7 @@ export class TalentController {
     }
     async verifyEmail(req, res) {
         try {
-            const { email, type } = req.body
+            const { email } = req.body
             const { password } = req.body
             const isExist = await this.talentUseCase.isEmailExist(email);
             if (!isExist.status) {
@@ -141,7 +141,6 @@ export class TalentController {
         return res.status(result.status).json(result);
     }
     async editEducation(req, res) {
-        console.log("request is here", req.body)
         const { id, data } = req.body;
         const editData = await this.educationUseCase.editEducation(id, data)
         return res.status(editData.status).json(editData);

@@ -34,7 +34,6 @@ export class AdminContollers {
             this.adminUseCase.getMostFreelancer()
         ])
         .then(([monthlyTalent, monthlyClient, overalRevenuse, mostWorkignFreelancer]) => {
-            console.log(overalRevenuse, "this is monly data ");
             res.status(STATUS_CODES.OK).json({ monthlyTalent, monthlyClient, mostWorkignFreelancer, overalRevenuse });
         })
         .catch(error => {

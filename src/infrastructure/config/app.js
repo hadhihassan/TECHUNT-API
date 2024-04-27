@@ -5,7 +5,6 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import morgan from 'morgan';
 import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,8 +23,8 @@ const createServer = () => {
   const app = express();
   app.use(
     cors({
-      origin: "*",
-      methods: ["POST", "GET", "DELETE", "PATCH", "PATCH"],
+      origin: process.env.CLIENT_ORIGIN,
+      methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
       credentials: true,
     })
   );
@@ -33,7 +32,7 @@ const createServer = () => {
   app.options(
     "*",
     cors({
-      origin: "*",
+      origin: process.env.CLIENT_ORIGIN,
       credentials: true,
     })
   );
@@ -41,7 +40,6 @@ const createServer = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use('/images', express.static(path.join(__dirname, '../../../images')));
   app.use(cookieParser());
-  app.use(morgan());
   app.use(
     session({
       secret: 'your_secret_key',

@@ -41,6 +41,7 @@ export class ProposalController {
     async updatePaymentStatus(req, res) {
         const { status, proposalId } = req.body;
         const { clientId } = req
+        console.log("poposal status update ", req.body)
         const result = await this.proposalUseCase.updatePayment(status, proposalId)
         if (result){ await this.transactionUseCase.saveNewTransaction(PROPOSAL_CHARGE, PROPOSAL_CHARGE_TRANSACTION_TO, clientId, "Proposal Charge")}
     }

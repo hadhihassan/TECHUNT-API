@@ -26,9 +26,10 @@ export class ProposalRepository {
         }, { new: true })
     }
     async updatePaymentStatus(status, id) {
-        const idString = id.path.replace(/"/g, '');
-        const _id = new mongoose.Types.ObjectId(idString);
-        return await proposal.findByIdAndUpdate(_id, {
+        const idString = id.replace(/"/g, '');
+        const idp = new mongoose.Types.ObjectId(idString);
+        console.log(idString, idp)
+        return await proposal.findByIdAndUpdate(idp, {
             paymentStatus: status
         });
     }

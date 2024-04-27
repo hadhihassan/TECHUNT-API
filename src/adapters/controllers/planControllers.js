@@ -11,12 +11,10 @@ export class PlanController {
     }
     createNewPlan = async (req, res) => {
         const data = req.body.data;
-        console.log(req.body)
         const result = await this.planUesCase.createNewPlan(req.body);
         return res.status(result.status).json(result);
     }
     async getAllPlans(req, res) {
-        console.log("am here")
         const result = await this.planUesCase.getAllPlan();
         return res.status(result.status).json(result);
     }
@@ -27,7 +25,6 @@ export class PlanController {
     }
     async getPlan(req, res) {
         const { id } = req.params;
-        console.log("am reached here", id)
         const result = await this.planUesCase.getPlan(id);
         return res.status(result.status).json(result);
     }
@@ -48,16 +45,13 @@ export class PlanController {
         return res.status(result.status).json(result)
     }
     async purchasePlan(req, res) {
-        console.log("purchasing the plan as well ", req.body, req.clientId)
         const { planId } = req.body
         const userId = req.clientId
         const result = await this.planUesCase.purchasePlan(planId, userId)
         if (result && req.role === "CLIENT") {
             const data = await this.clientUseCase.saveSuscription(userId, result?.data?._id)
-            console.log(data)
         } else if (result) {
             const data = await this.talentUseCase.saveSuscription(userId, result?.data?._id)
-            console.log(data)
         }
         return res.status(result.status).json(result)
     }

@@ -10,7 +10,7 @@ export class VerificationController {
         try {
             const { email, password } = req.body
             const result = await this.verificationUseCase.verifyLogin(email, password)
-            const progress =  getProfileProggressBarPercentage(result?.data, result?.role)
+            const progress = getProfileProggressBarPercentage(result?.data, result?.role)
             console.log(progress)
             result.progress = progress;
             return res.status(result.status).json(result)
@@ -50,13 +50,18 @@ export class VerificationController {
         return res.status(result.status).json(result)
     }
     async checkOtpIsValid(req, res) {
-        const { email , otp} = req.body
+        const { email, otp } = req.body
         const result = await this.verificationUseCase.isOtpIsValid(email, otp)
         return res.status(result.status).json(result)
     }
     async updatedPassword(req, res) {
-        const { email , password} = req.body
-        const result = await this.verificationUseCase.setNewPassword(email , password)
+        const { email, password } = req.body
+        const result = await this.verificationUseCase.setNewPassword(email, password)
+        return res.status(result.status).json(result)
+    }
+    async progressCaluculate(req, res) {
+        const { id, role } = req.body
+        const result = await this.verificationUseCase.calculate(id, role)
         return res.status(result.status).json(result)
     }
 }

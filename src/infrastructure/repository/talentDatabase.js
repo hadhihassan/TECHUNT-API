@@ -13,6 +13,7 @@ export class TalentRepository {
             if (user === null) {
                 return { status: false, data: user }
             }
+            console.log(user)
             return { status: true, data: user }
         } catch (err) {
             console.log(err)
@@ -46,7 +47,13 @@ export class TalentRepository {
     }
     async addConatctDeatils(formData, id) {
         try {
-            const wallet = await Wallet.create()
+            const walletData = {
+                balance: 0,
+                history: []
+            };
+
+            const wallet = await Wallet.create(walletData);
+            console.log("wallet created", wallet)
             const objectId = new mongoose.Types.ObjectId(id);
             return await talent.findByIdAndUpdate(objectId, {
                 Last_name: formData.lName,
@@ -57,6 +64,7 @@ export class TalentRepository {
                 Number: formData.number,
                 Country: formData.country,
                 'Profile.Description': formData.description,
+                'Profile.profile_Dp': formData.photo,
                 Wallet: wallet._id
             },
                 { new: true }
@@ -106,7 +114,8 @@ export class TalentRepository {
                 "Profile.Title": data.title,
                 "Last_name": data.last_name,
                 "First_name": data.first_name,
-            })
+                "Profile.profile_Dp": data.photo
+            }, { new: true })
             if (result) {
                 return {
                     status: STATUS_CODES.BAD_REQUEST,
@@ -301,7 +310,7 @@ export class TalentRepository {
             throw error;
         }
     }
-    async updateBankDetail( data) {
+    async updateBankDetail(data) {
         try {
             const updatedBankAccount = await BankAccount.findByIdAndUpdate(data._id, {
                 $set: data

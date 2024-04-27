@@ -13,4 +13,5 @@ verification.post("/forget-password/email/", (req, res) => Vcontoller.forGetPass
 verification.post("/forget-password/otp/resend/", (req, res) => Vcontoller.forGetPasswordEmail(req, res))
 verification.post("/forget-password/otp/send/", (req, res) => Vcontoller.checkOtpIsValid(req, res))
 verification.post("/forget-password/set-new-Password/", (req, res) => Vcontoller.updatedPassword(req, res))
+verification.post("/calculate-progress/", (req, res) => Vcontoller.progressCaluculate(req, res))
 export default verification;

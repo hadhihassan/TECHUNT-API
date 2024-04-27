@@ -6,7 +6,6 @@ export class ChatController {
         this.chatUseCase = new ChatUseCase()
         this.chatRepository = new ChatRepository()
     }
-
     async sendMessage(req, res) {
         const { message } = req.body
         const { id } = req.params;
@@ -16,15 +15,11 @@ export class ChatController {
         return res.status(result.status).json(result)
     }
     async getMessage(req, res) {
-        try {   
-            const { id } = req.params;
-            const userToChatId = new mongoose.Types.ObjectId(id);
-            const senderId = new mongoose.Types.ObjectId(req.clientId);
-            const result = await this.chatUseCase.getUserConversation(senderId, userToChatId)
-            return res.status(result.status).json(result)
-        } catch (error) {
-            console.log(error.message)
-        }
+        const { id } = req.params;
+        const userToChatId = new mongoose.Types.ObjectId(id);
+        const senderId = new mongoose.Types.ObjectId(req.clientId);
+        const result = await this.chatUseCase.getUserConversation(senderId, userToChatId)
+        return res.status(result.status).json(result)
     }
     async getMessagedUser(req, res) {
         const currentUser = req.clientId
