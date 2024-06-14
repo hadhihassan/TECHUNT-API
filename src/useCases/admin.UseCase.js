@@ -7,15 +7,15 @@ import { TalentUseCase } from "./talent.UseCase.js";
 
 export class AdminUseCase {
     constructor() {
-        this.jwtToken = new JwtToken()
-        this.adminRepository = new AdminRepository()
-        this.clientUseCase = new ClientUseCase()
-        this.talentUseCase = new TalentUseCase()
-        this.encrypt = new Encrypt()
+        this._jwtToken = new JwtToken()
+        this._adminRepository = new AdminRepository()
+        this._clientUseCase = new ClientUseCase()
+        this._talentUseCase = new TalentUseCase()
+        this._encrypt = new Encrypt()
     }
     async adminLogin(password, userName) {
         try {
-            const result = await this.adminRepository.findByUserName(userName);
+            const result = await this._adminRepository.findByUserName(userName);
             if (!result.status) {
                 return {
                     status: STATUS_CODES.FORBIDDEN,
@@ -23,7 +23,7 @@ export class AdminUseCase {
                     token: ""
                 };
             }
-            const isPasswordCorrect = await this.encrypt.comparePasswords(password, result.data.Password);
+            const isPasswordCorrect = await this._encrypt.comparePasswords(password, result.data.Password);
             if (!isPasswordCorrect) {
                 return {
                     status: STATUS_CODES.FORBIDDEN,
@@ -31,7 +31,7 @@ export class AdminUseCase {
                     token: ""
                 };
             }
-            const token = await this.jwtToken.generateJwtToken(result.data._id,"ADMIN");
+            const token = await this._jwtToken.generateJwtToken(result.data._id,"ADMIN");
             return {
                 status: STATUS_CODES.OK,
                 message: "Admin login success",
@@ -47,8 +47,8 @@ export class AdminUseCase {
         }
     }
     async collectAllUserData() {
-        const talent = await this.talentUseCase.getAllTalent()
-        const client = await this.clientUseCase.getAllClient()
+        const talent = await this._talentUseCase.getAllTalent()
+        const client = await this._clientUseCase.getAllClient()
         if (talent && client) {
             return {
                 status: STATUS_CODES.OK,
@@ -65,29 +65,29 @@ export class AdminUseCase {
     }
     async blockUesr(email, block, role) {
         if (role === "CLIENT") {
-            const forClient = await this.clientUseCase.blockClient(email, block)
+            const forClient = await this._clientUseCase.blockClient(email, block)
             if (forClient) {
                 return forClient
             }
         }else if(role === "TALENT"){
-            const forTalent = await this.talentUseCase.blockTalent(email, block)
+            const forTalent = await this._talentUseCase.blockTalent(email, block)
             return forTalent
         }
     }
     async getRevenue() {
-        const talentCount = await this.adminRepository.getYearlyRevenue()
+        const talentCount = await this._adminRepository.getYearlyRevenue()
         return talentCount
     }
     async getMonthlyTalent(){
-        const monthlyTalent =  await this.adminRepository.monthlyTalent()
+        const monthlyTalent =  await this._adminRepository.monthlyTalent()
         return monthlyTalent
     } 
     async getMonthlyClient(){
-        const monthlyTalent =  await this.adminRepository.monthlyClient()
+        const monthlyTalent =  await this._adminRepository.monthlyClient()
         return monthlyTalent
     } 
     async getMostFreelancer(){
-        const mostFreelancer =  await this.adminRepository.mostFreelancer()
+        const mostFreelancer =  await this._adminRepository.mostFreelancer()
         return mostFreelancer
     }
 }

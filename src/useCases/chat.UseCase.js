@@ -4,11 +4,11 @@ import { ChatRepository } from "../infrastructure/repository/chatDatabase.js";
 
 export class ChatUseCase {
     constructor() {
-        this.chatRepository = new ChatRepository()
+        this._chatRepository = new ChatRepository()
     }
     async createNewMessage(senderId, receiverId, message) {
         try {
-            const newMessage = await this.chatRepository.createMessage(senderId, receiverId, message)
+            const newMessage = await this._chatRepository.createMessage(senderId, receiverId, message)
             if (newMessage) {
                 return {
                     status: STATUS_CODES.OK,
@@ -27,7 +27,7 @@ export class ChatUseCase {
     }
     async getUserConversation(senderId, userToChatId) {
         try {
-            const messages = await this.chatRepository.getUserConversation(senderId, userToChatId)
+            const messages = await this._chatRepository.getUserConversation(senderId, userToChatId)
             if (messages) {
                 return {
                     status: STATUS_CODES.OK,
@@ -45,10 +45,10 @@ export class ChatUseCase {
         }
     }
     async gteAll(id, role){
-        return await this.chatRepository.findMessagedUsers(id, role)
+        return await this._chatRepository.findMessagedUsers(id, role)
     }
     async createNewConversation(senderId, receiverId){
-        return await this.chatRepository.createNewConversation(senderId, receiverId)
+        return await this._chatRepository.createNewConversation(senderId, receiverId)
     }
     
 

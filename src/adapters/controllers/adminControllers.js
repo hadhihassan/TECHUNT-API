@@ -3,35 +3,35 @@ import { AdminUseCase } from '../../useCases/admin.UseCase.js';
 
 export class AdminContollers {
     constructor() {
-        this.adminUseCase = new AdminUseCase()
+        this._adminUseCase = new AdminUseCase()
     }
     async verifyLogin(req, res) {
         const { password, userName } = req.body
-        const result = await this.adminUseCase.adminLogin(password, userName)
+        const result = await this._adminUseCase.adminLogin(password, userName)
         return res.status(result.status).json(result)
     }
     async getAllUsers(req, res) {
-        let users = await this.adminUseCase.collectAllUserData()
+        let users = await this._adminUseCase.collectAllUserData()
         return res.status(users.status).json(users.users)
     }
     async blockUser(req, res) {
         const { email, block, role } = req.body
-        let result = await this.adminUseCase.blockUesr(email, block, role)
+        let result = await this._adminUseCase.blockUesr(email, block, role)
         if (result) {
             return res.status(STATUS_CODES.OK).json(result)
         }
         return res.status(STATUS_CODES.NO_CONTENT).json(result)
     }
     async getMonthlydata() {
-        const monthData = await this.adminUseCase.getMonthlyRevenue()
+        const monthData = await this._adminUseCase.getMonthlyRevenue()
         return res.status(monthData.status).json(month)
     }
     async getDashboard(req, res) {
         Promise.all([
-            this.adminUseCase.getMonthlyTalent(),
-            this.adminUseCase.getMonthlyClient(),
-            this.adminUseCase.getRevenue(),
-            this.adminUseCase.getMostFreelancer()
+            this._adminUseCase.getMonthlyTalent(),
+            this._adminUseCase.getMonthlyClient(),
+            this._adminUseCase.getRevenue(),
+            this._adminUseCase.getMostFreelancer()
         ])
         .then(([monthlyTalent, monthlyClient, overalRevenuse, mostWorkignFreelancer]) => {
             res.status(STATUS_CODES.OK).json({ monthlyTalent, monthlyClient, mostWorkignFreelancer, overalRevenuse });
