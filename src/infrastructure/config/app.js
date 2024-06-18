@@ -59,6 +59,10 @@ const createServer = () => {
       message: "Something went wrong!"
     });
   });
+  app.get("/test",(req,res)=>{
+    cosnole.log("working")
+    res.status(200).send("sucess")
+  })
   app.post('/webhook', async (req, res) => {
     const event = req.body;
     console.log(event)

@@ -1,4 +1,6 @@
+# .gitignore
 .env
+
 .dockerignore
 node_modules
 images
