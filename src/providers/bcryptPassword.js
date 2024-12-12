@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { SALT_ROUND } from '../constants/constant.js'
 
 export class Encrypt {
