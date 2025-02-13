@@ -1,6 +1,6 @@
 // controllers
 import { TalentController } from "../adapters/controllers/talentControllers.js";
-import { ClientController } from "../adapters/controllers/clientcontrollers.js";
+import { ClientController } from "../adapters/controllers/clientCntrollers.js";
 import { AdminContollers } from "../adapters/controllers/adminControllers.js";
 import { VerificationController } from "../adapters/controllers/verificationContoller.js"
 import { JobCategoryControllers } from "../adapters/controllers/jobCategoryControllers.js";

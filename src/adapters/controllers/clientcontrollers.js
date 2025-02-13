@@ -106,7 +106,6 @@ export class ClientController {
     }
     async getEducations(req, res) {
         const { educations } = req.body;
-        console.log(req.body,"cotroller reached")
         const result = await this.talentUseCase.getEducations(educations)
         return res.status(result.status).json(result)
     }

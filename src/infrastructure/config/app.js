@@ -12,7 +12,6 @@ const __dirname = dirname(__filename);
 
 import '../config/googleAuth2.js'
 
-
 import verification from '../routes/verification.js';
 import admin_Router from '../routes/admin.js';
 import chatRouter from '../routes/chat.js';
