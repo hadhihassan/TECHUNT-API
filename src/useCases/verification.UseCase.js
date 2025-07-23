@@ -177,7 +177,6 @@ export class VerificationUseCase {
                 const isClient = await this.clientRepository.findByEmail(email)
                 if (isClient.status) {
                     const isValid = await this.clientRepository.checkForgetEmail(email)
-                    if (isValid) {
                         const newOtp = await this.otpRepository.createNewOtp(email)
                         if (newOtp) {
                             await this.mailer.sendEmailTransporter(email, "Forget Password OTP Email", forgetPasswordTemplate(isClient.data.First_name, newOtp.otpValue))
@@ -187,7 +186,6 @@ export class VerificationUseCase {
                                 success: true
                             }
                         }
-                    }
                     return { status: STATUS_CODES.BAD_REQUEST, success: false, message: "Email note valid." }
                 }
             }

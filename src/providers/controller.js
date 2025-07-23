@@ -1,6 +1,6 @@
 // controllers
 import { TalentController } from "../adapters/controllers/talentControllers.js";
-import { ClientController } from "../adapters/controllers/clientCntrollers.js";
+import { ClientController } from "../adapters/controllers/clientControllers.js";
 import { AdminContollers } from "../adapters/controllers/adminControllers.js";
 import { VerificationController } from "../adapters/controllers/verificationContoller.js"
 import { JobCategoryControllers } from "../adapters/controllers/jobCategoryControllers.js";
@@ -103,4 +103,3 @@ import { CheckJobExisiting } from "../infrastructure/middlewares/Admin.Route.val
 import { ProposalRepository } from "../infrastructure/repository/proposalDatabase.js";
 
 export const checkJobExisiting = new CheckJobExisiting(jobCategoryRepository)
-
