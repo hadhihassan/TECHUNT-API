@@ -1,7 +1,9 @@
 .env
 .dockerignore
-.node_modules
+node_modules
 .images
-.Dockerfile
-.docker-compose.yml
-.images
+Dockerfile
+docker-compose.yml
+images
+packge-lock.json
+combined.log
